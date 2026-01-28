@@ -15,11 +15,19 @@
         * { margin: 0; padding: 0; box-sizing: border-box; border: none !important; outline: none !important; }
         body { background-color: var(--black); color: var(--white); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
         #canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; opacity: 0.3; }
+        
+        /* UPDATED: Added align-items to center content vertically/horizontally */
         section { position: relative; z-index: 2; min-height: 100vh; padding: 10vh 8vw; display: flex; flex-direction: column; justify-content: center; }
+        
+        /* NEW: Specific rule to center the Hero Text */
+        .hero { text-align: center; align-items: center; }
+
         .specs { font-family: 'Courier New', monospace; color: var(--red); font-size: 0.9rem; letter-spacing: 6px; text-transform: uppercase; font-weight: bold; margin-bottom: 10px; }
         h1 { font-family: 'Oswald', sans-serif; font-size: clamp(4rem, 15vw, 11rem); font-weight: 700; line-height: 0.8; letter-spacing: -4px; text-transform: uppercase; color: var(--white); }
         h1 span { color: var(--red); }
-        .hero-sub { font-size: 1.3rem; max-width: 500px; margin-top: 30px; font-weight: 500; color: var(--white); text-shadow: 2px 2px 15px rgba(0,0,0,1); }
+        
+        /* UPDATED: Added 'margin: 30px auto' to center the paragraph block */
+        .hero-sub { font-size: 1.3rem; max-width: 500px; margin: 30px auto 0 auto; font-weight: 500; color: var(--white); text-shadow: 2px 2px 15px rgba(0,0,0,1); }
         
         .viewer-box { 
             width: 100%; max-width: 900px; margin: 40px auto; 
@@ -77,10 +85,10 @@
         const totalFrames = 30; 
         const images = [];
         
-        // --- 1. PRELOADER (Looks inside 360object folder) ---
+        // --- 1. PRELOADER ---
         for (let i = 1; i <= totalFrames; i++) {
             const img = new Image();
-            // FIXED: Added space: frame ${i}.png
+            // Includes space in filename
             img.src = `360object/frame ${i}.png`; 
             images.push(img);
         }
@@ -110,7 +118,6 @@
             if (!isDragging) return;
             
             const dragDistance = x - startX;
-            // Sensitivity 12 is better for 30 frames
             const sensitivity = 12; 
             
             if (Math.abs(dragDistance) > sensitivity) {
@@ -119,7 +126,7 @@
                 } else {
                     currentFrame = currentFrame <= 1 ? totalFrames : currentFrame - 1;
                 }
-                // FIXED: Added space here too: frame ${currentFrame}.png
+                // Includes space in filename
                 mainImg.src = `360object/frame ${currentFrame}.png`;
                 startX = x;
             }
