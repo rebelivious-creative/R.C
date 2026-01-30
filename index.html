@@ -50,12 +50,8 @@
 
         .bento-box:hover { border-color: var(--accent); }
 
-        .box-hero { grid-column: span 12; text-align: center; padding: 80px 40px; }
-        .box-model { grid-column: span 6; min-height: 500px; position: relative; }
-        .box-title { grid-column: span 12; padding: 20px; text-align: left; background: none; border: none; backdrop-filter: none; }
-        .box-footer { grid-column: span 12; text-align: center; padding: 60px; }
-
-        /* --- GALLERY FOLDER LOGIC --- */
+        /* GRID SECTIONS */
+        .box-hero { grid-column: span 12; text-align: center; padding: 100px 40px; }
         .box-marquee {
             grid-column: span 12;
             padding: 20px 0;
@@ -66,14 +62,17 @@
             border: 1px solid var(--border);
             border-radius: 24px;
         }
-        
+        .box-title { grid-column: span 12; padding: 20px; text-align: left; background: none; border: none; backdrop-filter: none; }
+        .box-model { grid-column: span 6; min-height: 500px; position: relative; }
+        .box-footer { grid-column: span 12; text-align: center; padding: 60px; }
+
+        /* MARQUEE ANIMATION */
         .marquee-track {
             display: flex;
             width: max-content;
             gap: 20px;
-            animation: scroll 30s linear infinite; /* Slowed down to 30s for smoother view */
+            animation: scroll 30s linear infinite;
         }
-
         .marquee-track:hover { animation-play-state: paused; }
 
         .art-item {
@@ -85,7 +84,6 @@
             transition: 0.5s ease;
             flex-shrink: 0;
         }
-
         .art-item:hover {
             filter: grayscale(0%);
             transform: scale(1.05);
@@ -97,18 +95,25 @@
             100% { transform: translateX(-50%); } 
         }
 
+        /* TYPOGRAPHY */
         .specs { font-family: 'Courier New', monospace; color: var(--accent); font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: bold; margin-bottom: 15px; display: block; }
         h1 { font-family: 'Oswald', sans-serif; font-size: clamp(3rem, 8vw, 8rem); font-weight: 700; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px; }
         h1 span { color: var(--accent); }
         h3 { font-family: 'Oswald', sans-serif; font-size: 2.2rem; margin-bottom: 15px; }
-        .hero-sub { font-size: 1.1rem; max-width: 600px; margin: 20px auto 0; color: #aaa; }
+        .hero-sub { font-size: 1.1rem; max-width: 600px; margin: 20px 0 30px 0; color: #aaa; }
 
+        /* INTERACTIVE VIEWER */
         .viewer-box { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: ew-resize; }
         .product-img { width: 100%; height: auto; max-height: 350px; object-fit: contain; pointer-events: none; }
         .drag-hint { margin-top: auto; color: var(--accent); font-family: 'Courier New'; font-size: 0.7rem; border: 1px solid var(--accent); padding: 5px 15px; border-radius: 50px; }
 
-        .btn { margin-top: 30px; padding: 15px 50px; background: var(--accent); color: white; text-decoration: none; font-family: 'Oswald'; font-size: 1.2rem; letter-spacing: 2px; border-radius: 50px; transition: 0.3s; display: inline-block; border: none !important; }
-        .btn:hover { background: white; color: black; }
+        /* BUTTONS & LINKS */
+        .btn { padding: 18px 60px; background: var(--accent); color: white; text-decoration: none; font-family: 'Oswald'; font-size: 1.2rem; letter-spacing: 2px; border-radius: 50px; transition: 0.3s; display: inline-block; border: none !important; }
+        .btn:hover { background: white; color: black; box-shadow: 0 0 25px rgba(255, 0, 60, 0.6); transform: scale(1.05); }
+
+        .social-links { display: flex; gap: 30px; margin-bottom: 20px; justify-content: center; }
+        .social-links a { font-family: 'Oswald'; color: white; font-size: 1.5rem; text-decoration: none; transition: 0.3s; }
+        .social-links a:hover { color: var(--accent); }
 
         @media (max-width: 900px) {
             .wrapper { grid-template-columns: 1fr; }
@@ -127,6 +132,35 @@
             <span class="specs">BOUND TO NONE // JB.MY</span>
             <h1>THE TABLE<br>IS <span>R.C.</span></h1>
             <p class="hero-sub">REBELIVIOUS CREATIVE. RAW STREET AESTHETICS X HIGH-PERFORMANCE 3D DESIGN.</p>
+            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%203D%2FInteractive%20design%20services.%20Can%20we%20talk%20about%20a%20custom%20project%3F" class="btn">INITIATE PROJECT</a>
+        </div>
+
+        <div class="bento-box box-title">
+            <span class="specs">VISUAL ARCHIVE</span>
+            <h2 style="font-family: 'Oswald'; font-size: 2.5rem; text-transform: uppercase;">ARTWORK & DESIGNS</h2>
+        </div>
+
+        <div class="box-marquee">
+            <div class="marquee-track">
+                <img src="gallery/art1.png" class="art-item" alt="Art 1">
+                <img src="gallery/art2.png" class="art-item" alt="Art 2">
+                <img src="gallery/art3.png" class="art-item" alt="Art 3">
+                <img src="gallery/art4.png" class="art-item" alt="Art 4">
+                <img src="gallery/art5.png" class="art-item" alt="Art 5">
+                <img src="gallery/art6.png" class="art-item" alt="Art 6">
+
+                <img src="gallery/art1.png" class="art-item" alt="Art 1">
+                <img src="gallery/art2.png" class="art-item" alt="Art 2">
+                <img src="gallery/art3.png" class="art-item" alt="Art 3">
+                <img src="gallery/art4.png" class="art-item" alt="Art 4">
+                <img src="gallery/art5.png" class="art-item" alt="Art 5">
+                <img src="gallery/art6.png" class="art-item" alt="Art 6">
+            </div>
+        </div>
+
+        <div class="bento-box box-title">
+            <span class="specs">360 PRECISION</span>
+            <h2 style="font-family: 'Oswald'; font-size: 2.5rem; text-transform: uppercase;">INTERACTIVE RENDERS</h2>
         </div>
 
         <div class="bento-box box-model">
@@ -145,35 +179,12 @@
             <div class="drag-hint"><i class="fas fa-arrows-alt-h"></i> DRAG TO ROTATE</div>
         </div>
 
-        <div class="bento-box box-title">
-            <span class="specs">VISUAL ARCHIVE</span>
-            <h2 style="font-family: 'Oswald'; font-size: 3rem; text-transform: uppercase;">ARTWORK & DESIGNS</h2>
-        </div>
-
-        <div class="box-marquee">
-            <div class="marquee-track">
-                
-                <img src="gallery/art1.jpg" class="art-item" alt="Art 1">
-                <img src="gallery/art2.jpg" class="art-item" alt="Art 2">
-                <img src="gallery/art3.jpg" class="art-item" alt="Art 3">
-                <img src="gallery/art4.jpg" class="art-item" alt="Art 4">
-                <img src="gallery/art5.jpg" class="art-item" alt="Art 5">
-                <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
-
-                <img src="gallery/art1.jpg" class="art-item" alt="Art 1">
-                <img src="gallery/art2.jpg" class="art-item" alt="Art 2">
-                <img src="gallery/art3.jpg" class="art-item" alt="Art 3">
-                <img src="gallery/art4.jpg" class="art-item" alt="Art 4">
-                <img src="gallery/art1.jpg" class="art-item" alt="Art 5">
-                <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
-                
-            </div>
-        </div>
-
         <div class="bento-box box-footer">
-            <span class="specs">READY TO DEPLOY?</span>
-            <a href="https://www.instagram.com/rebelivious.c" target="_blank" style="font-family:'Oswald'; color:white; font-size:2rem; text-decoration:none; margin-bottom: 20px; display:block;">@REBELIVIOUS.C</a>
-            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%203D%2FInteractive%20design%20services.%20Can%20we%20talk%20about%20a%20custom%20project%3F" class="btn">WHATSAPP ME</a>
+            <div class="social-links">
+                <a href="https://www.instagram.com/rebelivious.c" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+                <a href="PASTE_YOUR_BEHANCE_LINK_HERE" target="_blank"><i class="fab fa-behance"></i> BEHANCE</a>
+            </div>
+            <span class="specs">REBELIVIOUS CREATIVE // 2026</span>
         </div>
 
     </div>
@@ -243,4 +254,3 @@
     </script>
 </body>
 </html>
-
