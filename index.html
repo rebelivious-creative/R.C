@@ -25,7 +25,7 @@
         /* --- 3D BACKGROUND --- */
         #canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-        /* --- MAIN GRID WRAPPER --- */
+        /* --- MAIN GRID WRAPPER (DESKTOP) --- */
         .wrapper {
             position: relative; z-index: 2;
             max-width: 1400px;
@@ -52,14 +52,9 @@
         }
         .bento-box:hover { border-color: var(--accent); }
 
-        /* --- LAYOUT POSITIONS --- */
+        /* --- DESKTOP LAYOUT --- */
         .box-hero { grid-column: span 12; text-align: center; padding: 100px 20px; }
-        
-        .box-title { 
-            grid-column: span 12; padding: 20px; text-align: left; 
-            background: none; border: none; backdrop-filter: none; 
-        }
-
+        .box-title { grid-column: span 12; padding: 20px; text-align: left; background: none; border: none; backdrop-filter: none; }
         .box-marquee {
             grid-column: span 12;
             padding: 20px 0;
@@ -70,7 +65,6 @@
             border: 1px solid var(--border);
             border-radius: 24px;
         }
-
         .box-model { grid-column: span 6; min-height: 500px; position: relative; }
         .box-footer { grid-column: span 12; text-align: center; padding: 60px; }
 
@@ -80,7 +74,7 @@
             width: max-content;
             gap: 20px;
             animation: scroll 30s linear infinite;
-            padding-left: 20px; /* Slight buffer start */
+            padding-left: 20px;
         }
         .marquee-track:hover { animation-play-state: paused; }
 
@@ -113,7 +107,7 @@
         .product-img { width: 100%; height: auto; max-height: 350px; object-fit: contain; pointer-events: none; user-select: none; }
         .drag-hint { margin-top: auto; color: var(--accent); font-family: 'Courier New'; font-size: 0.7rem; border: 1px solid var(--accent); padding: 5px 15px; border-radius: 50px; }
 
-        /* --- BUTTONS & LINKS --- */
+        /* --- BUTTONS --- */
         .btn { padding: 18px 50px; background: var(--accent); color: white; text-decoration: none; font-family: 'Oswald'; font-size: 1.2rem; letter-spacing: 2px; border-radius: 50px; transition: 0.3s; display: inline-block; border: none !important; white-space: nowrap; }
         .btn:hover { background: white; color: black; box-shadow: 0 0 25px rgba(255, 0, 60, 0.6); transform: scale(1.05); }
 
@@ -121,171 +115,7 @@
         .social-links a { font-family: 'Oswald'; color: white; font-size: 1.5rem; text-decoration: none; transition: 0.3s; }
         .social-links a:hover { color: var(--accent); }
 
-        /* --- RESPONSIVE MOBILE FIXES --- */
+        /* --- MOBILE FIXES (THE NUCLEAR OPTION) --- */
         @media (max-width: 900px) {
-            .wrapper { grid-template-columns: 1fr; padding: 20px 10px; }
-            .box-hero, .box-model, .box-footer, .box-marquee { grid-column: span 1; }
-            .bento-box { padding: 30px 20px; }
-            .art-item { height: 250px; width: 250px; } /* Smaller images on mobile */
-            .box-model { min-height: 450px; }
-            .box-hero { padding: 60px 20px; }
-        }
-    </style>
-</head>
-<body>
-
-    <div id="canvas-container"></div>
-    
-    <div class="wrapper">
-        
-        <div class="bento-box box-hero">
-            <span class="specs">BOUND TO NONE // JB.MY</span>
-            <h1>THE TABLE<br>IS <span>R.C.</span></h1>
-            <p class="hero-sub">REBELIVIOUS CREATIVE. RAW STREET AESTHETICS X HIGH-PERFORMANCE 3D DESIGN.</p>
-            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%203D%2FInteractive%20design%20services.%20Can%20we%20talk%20about%20a%20custom%20project%3F" class="btn">INITIATE PROJECT</a>
-        </div>
-
-        <div class="bento-box box-title">
-            <span class="specs">VISUAL ARCHIVE</span>
-            <h2>ARTWORK & DESIGNS</h2>
-        </div>
-
-        <div class="box-marquee">
-            <div class="marquee-track">
-                <img src="gallery/art1.jpg" class="art-item" alt="Art 1">
-                <img src="gallery/art2.jpg" class="art-item" alt="Art 2">
-                <img src="gallery/art3.jpg" class="art-item" alt="Art 3">
-                <img src="gallery/art4.jpg" class="art-item" alt="Art 4">
-                <img src="gallery/art5.jpg" class="art-item" alt="Art 5">
-                <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
-
-                <img src="gallery/art1.jpg" class="art-item" alt="Art 1">
-                <img src="gallery/art2.jpg" class="art-item" alt="Art 2">
-                <img src="gallery/art3.jpg" class="art-item" alt="Art 3">
-                <img src="gallery/art4.jpg" class="art-item" alt="Art 4">
-                <img src="gallery/art5.jpg" class="art-item" alt="Art 5">
-                <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
-            </div>
-        </div>
-
-        <div class="bento-box box-title">
-            <span class="specs">360 PRECISION</span>
-            <h2>INTERACTIVE RENDERS</h2>
-        </div>
-
-        <div class="bento-box box-model">
-            <h3>MODEL 01</h3>
-            <div class="viewer-box" id="viewer-1">
-                <img id="img-1" class="product-img" src="360object/frame 1.png" alt="Model 1">
-            </div>
-            <div class="drag-hint"><i class="fas fa-arrows-alt-h"></i> DRAG TO ROTATE</div>
-        </div>
-
-        <div class="bento-box box-model">
-            <h3>MODEL 02</h3>
-            <div class="viewer-box" id="viewer-2">
-                <img id="img-2" class="product-img" src="360object2/frame 1.png" alt="Model 2">
-            </div>
-            <div class="drag-hint"><i class="fas fa-arrows-alt-h"></i> DRAG TO ROTATE</div>
-        </div>
-
-        <div class="bento-box box-footer">
-            <div class="social-links">
-                <a href="https://www.instagram.com/rebelivious.c" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a>
-                <a href="PASTE_YOUR_BEHANCE_LINK_HERE" target="_blank"><i class="fab fa-behance"></i> BEHANCE</a>
-            </div>
-            <span class="specs">REBELIVIOUS CREATIVE // 2026</span>
-        </div>
-
-    </div>
-
-    <script>
-        /* --- 1. 360 VIEWER ENGINE --- */
-        function init360Viewer(viewerId, imgId, folderPath, totalFrames) {
-            const viewer = document.getElementById(viewerId);
-            const mainImg = document.getElementById(imgId);
-            let isDragging = false, startX = 0, currentFrame = 1;
-            const sensitivity = 12;
-
-            // Preload Images
-            for (let i = 1; i <= totalFrames; i++) {
-                const img = new Image();
-                img.src = `${folderPath}frame ${i}.png`; 
-            }
-
-            const updateImage = (x) => {
-                if (!isDragging) return;
-                const dragDistance = x - startX;
-                if (Math.abs(dragDistance) > sensitivity) {
-                    if (dragDistance > 0) currentFrame = currentFrame >= totalFrames ? 1 : currentFrame + 1;
-                    else currentFrame = currentFrame <= 1 ? totalFrames : currentFrame - 1;
-                    mainImg.src = `${folderPath}frame ${currentFrame}.png`;
-                    startX = x;
-                }
-            };
-
-            // Mouse Events
-            viewer.onmousedown = (e) => { isDragging = true; startX = e.pageX; };
-            window.addEventListener('mouseup', () => { isDragging = false; });
-            window.addEventListener('mousemove', (e) => updateImage(e.pageX));
-            
-            // Touch Events (Mobile)
-            viewer.ontouchstart = (e) => { isDragging = true; startX = e.touches[0].pageX; };
-            viewer.addEventListener('touchend', () => { isDragging = false; });
-            viewer.addEventListener('touchmove', (e) => { updateImage(e.touches[0].pageX); });
-        }
-
-        init360Viewer('viewer-1', 'img-1', '360object/', 30);
-        init360Viewer('viewer-2', 'img-2', '360object2/', 30);
-
-        /* --- 2. 3D BACKGROUND ENGINE --- */
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        
-        // Initial Size
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.3)); 
-
-        // Load Tagging OBJ
-        let myTag;
-        new THREE.OBJLoader().load('TAGGING.obj', (obj) => {
-            myTag = obj;
-            obj.traverse(c => { 
-                if (c.isMesh) {
-                    c.material = new THREE.MeshStandardMaterial({ color: 0x222222, wireframe: true, transparent: true, opacity: 0.15 }); 
-                }
-            });
-            myTag.scale.set(0.7, 0.7, 0.7); 
-            scene.add(myTag);
-        });
-        camera.position.z = 5;
-
-        // Mouse Parallax Effect
-        let mX = 0, mY = 0;
-        document.onmousemove = (e) => { 
-            mX = (e.clientX - window.innerWidth/2) * 0.0006; 
-            mY = (e.clientY - window.innerHeight/2) * 0.0006; 
-        };
-
-        // Resize Handler (Responsive Fix)
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Animation Loop
-        function animate() {
-            requestAnimationFrame(animate);
-            if (myTag) { 
-                myTag.rotation.x += 0.05 * (mY - myTag.rotation.x); 
-                myTag.rotation.y += 0.05 * (mX - myTag.rotation.y); 
-            }
-            renderer.render(scene, camera);
-        }
-        animate();
-    </script>
-</body>
-</html>
+            /* This forces everything into a single column stack */
+            .wrapper
