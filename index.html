@@ -118,4 +118,169 @@
         /* --- MOBILE FIXES (THE NUCLEAR OPTION) --- */
         @media (max-width: 900px) {
             /* This forces everything into a single column stack */
-            .wrapper
+            .wrapper { 
+                display: flex; 
+                flex-direction: column; 
+                gap: 20px;
+                padding: 20px 10px;
+            }
+            
+            /* Reset all boxes to full width */
+            .box-hero, .box-model, .box-footer, .box-marquee, .box-title { 
+                width: 100%; 
+                grid-column: auto; /* Remove grid logic */
+            }
+
+            .bento-box { padding: 40px 20px; }
+            
+            /* Fix Marquee Images on Mobile */
+            .art-item { height: 220px; width: 220px; } 
+
+            /* Ensure 3D Viewer has space */
+            .box-model { min-height: 450px; }
+            
+            .box-hero { padding: 60px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    
+    <div class="wrapper">
+        
+        <div class="bento-box box-hero">
+            <span class="specs">BOUND TO NONE // JB.MY</span>
+            <h1>THE TABLE<br>IS <span>R.C.</span></h1>
+            <p class="hero-sub">REBELIVIOUS CREATIVE. RAW STREET AESTHETICS X HIGH-PERFORMANCE 3D DESIGN.</p>
+            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%203D%2FInteractive%20design%20services.%20Can%20we%20talk%20about%20a%20custom%20project%3F" class="btn">INITIATE PROJECT</a>
+        </div>
+
+        <div class="bento-box box-title">
+            <span class="specs">VISUAL ARCHIVE</span>
+            <h2>ARTWORK & DESIGNS</h2>
+        </div>
+
+        <div class="box-marquee">
+            <div class="marquee-track">
+                <img src="gallery/art1.jpg" class="art-item" alt="Art 1">
+                <img src="gallery/art2.jpg" class="art-item" alt="Art 2">
+                <img src="gallery/art3.jpg" class="art-item" alt="Art 3">
+                <img src="gallery/art4.jpg" class="art-item" alt="Art 4">
+                <img src="gallery/art5.jpg" class="art-item" alt="Art 5">
+                <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
+
+                <img src="gallery/art1.jpg" class="art-item" alt="Art 1">
+                <img src="gallery/art2.jpg" class="art-item" alt="Art 2">
+                <img src="gallery/art3.jpg" class="art-item" alt="Art 3">
+                <img src="gallery/art4.jpg" class="art-item" alt="Art 4">
+                <img src="gallery/art5.jpg" class="art-item" alt="Art 5">
+                <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
+            </div>
+        </div>
+
+        <div class="bento-box box-title">
+            <span class="specs">360 PRECISION</span>
+            <h2>INTERACTIVE RENDERS</h2>
+        </div>
+
+        <div class="bento-box box-model">
+            <h3>MODEL 01</h3>
+            <div class="viewer-box" id="viewer-1">
+                <img id="img-1" class="product-img" src="360object/frame 1.png" alt="Model 1">
+            </div>
+            <div class="drag-hint"><i class="fas fa-arrows-alt-h"></i> DRAG TO ROTATE</div>
+        </div>
+
+        <div class="bento-box box-model">
+            <h3>MODEL 02</h3>
+            <div class="viewer-box" id="viewer-2">
+                <img id="img-2" class="product-img" src="360object2/frame 1.png" alt="Model 2">
+            </div>
+            <div class="drag-hint"><i class="fas fa-arrows-alt-h"></i> DRAG TO ROTATE</div>
+        </div>
+
+        <div class="bento-box box-footer">
+            <div class="social-links">
+                <a href="https://www.instagram.com/rebelivious.c" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+                <a href="PASTE_YOUR_BEHANCE_LINK_HERE" target="_blank"><i class="fab fa-behance"></i> BEHANCE</a>
+            </div>
+            <span class="specs">REBELIVIOUS CREATIVE // 2026</span>
+        </div>
+
+    </div>
+
+    <script>
+        function init360Viewer(viewerId, imgId, folderPath, totalFrames) {
+            const viewer = document.getElementById(viewerId);
+            const mainImg = document.getElementById(imgId);
+            let isDragging = false, startX = 0, currentFrame = 1;
+            const sensitivity = 12;
+
+            for (let i = 1; i <= totalFrames; i++) {
+                const img = new Image();
+                img.src = `${folderPath}frame ${i}.png`; 
+            }
+
+            const updateImage = (x) => {
+                if (!isDragging) return;
+                const dragDistance = x - startX;
+                if (Math.abs(dragDistance) > sensitivity) {
+                    if (dragDistance > 0) currentFrame = currentFrame >= totalFrames ? 1 : currentFrame + 1;
+                    else currentFrame = currentFrame <= 1 ? totalFrames : currentFrame - 1;
+                    mainImg.src = `${folderPath}frame ${currentFrame}.png`;
+                    startX = x;
+                }
+            };
+
+            viewer.onmousedown = (e) => { isDragging = true; startX = e.pageX; };
+            window.addEventListener('mouseup', () => { isDragging = false; });
+            window.addEventListener('mousemove', (e) => updateImage(e.pageX));
+            viewer.ontouchstart = (e) => { isDragging = true; startX = e.touches[0].pageX; };
+            viewer.addEventListener('touchend', () => { isDragging = false; });
+            viewer.addEventListener('touchmove', (e) => { updateImage(e.touches[0].pageX); });
+        }
+
+        init360Viewer('viewer-1', 'img-1', '360object/', 30);
+        init360Viewer('viewer-2', 'img-2', '360object2/', 30);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.3)); 
+
+        let myTag;
+        new THREE.OBJLoader().load('TAGGING.obj', (obj) => {
+            myTag = obj;
+            obj.traverse(c => { 
+                if (c.isMesh) {
+                    c.material = new THREE.MeshStandardMaterial({ color: 0x222222, wireframe: true, transparent: true, opacity: 0.15 }); 
+                }
+            });
+            myTag.scale.set(0.7, 0.7, 0.7); 
+            scene.add(myTag);
+        });
+        camera.position.z = 5;
+
+        // Mouse & Responsive Logic
+        let mX = 0, mY = 0;
+        document.onmousemove = (e) => { mX = (e.clientX - window.innerWidth/2)*0.0006; mY = (e.clientY - window.innerHeight/2)*0.0006; };
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (myTag) { myTag.rotation.x += 0.05*(mY-myTag.rotation.x); myTag.rotation.y += 0.05*(mX-myTag.rotation.y); }
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
