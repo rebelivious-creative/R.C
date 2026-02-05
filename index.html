@@ -17,15 +17,14 @@
             --glass: rgba(20, 20, 20, 0.7); 
             --border: rgba(255, 255, 255, 0.1);
             --text-main: #EAEAEA;
+            --gold: #FFD700;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none !important; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
 
-        /* --- 3D BACKGROUND --- */
         #canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-        /* --- MAIN GRID WRAPPER (DESKTOP) --- */
         .wrapper {
             position: relative; z-index: 2;
             max-width: 1400px;
@@ -36,7 +35,6 @@
             gap: 20px;
         }
 
-        /* --- BENTO BOX STYLE --- */
         .bento-box {
             background: var(--glass);
             backdrop-filter: blur(15px);
@@ -52,47 +50,50 @@
         }
         .bento-box:hover { border-color: var(--accent); }
 
-        /* --- DESKTOP LAYOUT --- */
         .box-hero { grid-column: span 12; text-align: center; padding: 100px 20px; }
         .box-title { grid-column: span 12; padding: 20px; text-align: left; background: none; border: none; backdrop-filter: none; }
-        .box-marquee {
-            grid-column: span 12;
-            padding: 20px 0;
-            overflow: hidden;
-            position: relative;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-        }
+        .box-marquee { grid-column: span 12; padding: 20px 0; overflow: hidden; position: relative; background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--border); border-radius: 24px; }
         .box-model { grid-column: span 6; min-height: 500px; position: relative; }
         .box-footer { grid-column: span 12; text-align: center; padding: 60px; }
 
-        /* --- INFINITE SCROLL GALLERY --- */
-        .marquee-track {
+        /* --- NEW: INTERACTIVE RATING BOX --- */
+        .box-rating {
+            grid-column: span 12; /* Full width */
+            text-align: center;
+            padding: 60px;
+        }
+
+        .star-container {
             display: flex;
-            width: max-content;
-            gap: 20px;
-            animation: scroll 30s linear infinite;
-            padding-left: 20px;
+            gap: 15px;
+            font-size: 3rem; /* Big stars */
+            margin: 20px 0;
+            cursor: pointer;
         }
+
+        .star-btn {
+            color: #444; /* Dark grey by default */
+            transition: 0.2s;
+        }
+
+        /* Hover effect: Gold */
+        .star-btn:hover, .star-btn.hovered { color: var(--gold); transform: scale(1.2); }
+
+        .rating-text {
+            font-family: 'Oswald';
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+
+        /* --- GALLERY --- */
+        .marquee-track { display: flex; width: max-content; gap: 20px; animation: scroll 30s linear infinite; padding-left: 20px; }
         .marquee-track:hover { animation-play-state: paused; }
-
-        .art-item {
-            height: 350px;
-            width: 350px;
-            border-radius: 16px;
-            object-fit: cover;
-            filter: grayscale(100%);
-            transition: 0.5s ease;
-            flex-shrink: 0;
-        }
+        .art-item { height: 350px; width: 350px; border-radius: 16px; object-fit: cover; filter: grayscale(100%); transition: 0.5s ease; flex-shrink: 0; }
         .art-item:hover { filter: grayscale(0%); transform: scale(1.02); border: 1px solid var(--accent); }
-
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } 
-        }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- TYPOGRAPHY --- */
         .specs { font-family: 'Courier New', monospace; color: var(--accent); font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: bold; margin-bottom: 15px; display: block; }
@@ -115,31 +116,14 @@
         .social-links a { font-family: 'Oswald'; color: white; font-size: 1.5rem; text-decoration: none; transition: 0.3s; }
         .social-links a:hover { color: var(--accent); }
 
-        /* --- MOBILE FIXES (THE NUCLEAR OPTION) --- */
         @media (max-width: 900px) {
-            /* This forces everything into a single column stack */
-            .wrapper { 
-                display: flex; 
-                flex-direction: column; 
-                gap: 20px;
-                padding: 20px 10px;
-            }
-            
-            /* Reset all boxes to full width */
-            .box-hero, .box-model, .box-footer, .box-marquee, .box-title { 
-                width: 100%; 
-                grid-column: auto; /* Remove grid logic */
-            }
-
+            .wrapper { display: flex; flex-direction: column; gap: 20px; padding: 20px 10px; }
+            .box-hero, .box-model, .box-footer, .box-marquee, .box-title, .box-rating { width: 100%; grid-column: auto; }
             .bento-box { padding: 40px 20px; }
-            
-            /* Fix Marquee Images on Mobile */
             .art-item { height: 220px; width: 220px; } 
-
-            /* Ensure 3D Viewer has space */
             .box-model { min-height: 450px; }
-            
             .box-hero { padding: 60px 15px; }
+            .star-container { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -169,7 +153,7 @@
                 <img src="gallery/art4.jpg" class="art-item" alt="Art 4">
                 <img src="gallery/art5.jpg" class="art-item" alt="Art 5">
                 <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
-
+                
                 <img src="gallery/art1.jpg" class="art-item" alt="Art 1">
                 <img src="gallery/art2.jpg" class="art-item" alt="Art 2">
                 <img src="gallery/art3.jpg" class="art-item" alt="Art 3">
@@ -177,6 +161,21 @@
                 <img src="gallery/art5.jpg" class="art-item" alt="Art 5">
                 <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
             </div>
+        </div>
+
+        <div class="bento-box box-rating">
+            <span class="specs">CLIENT FEEDBACK TERMINAL</span>
+            <h2 style="margin-bottom: 20px;">RATE YOUR EXPERIENCE</h2>
+            
+            <div class="star-container" id="star-box">
+                <i class="fas fa-star star-btn" data-value="1"></i>
+                <i class="fas fa-star star-btn" data-value="2"></i>
+                <i class="fas fa-star star-btn" data-value="3"></i>
+                <i class="fas fa-star star-btn" data-value="4"></i>
+                <i class="fas fa-star star-btn" data-value="5"></i>
+            </div>
+            
+            <p class="rating-text">CLICK A STAR TO SEND FEEDBACK</p>
         </div>
 
         <div class="bento-box box-title">
@@ -211,6 +210,40 @@
     </div>
 
     <script>
+        /* --- 1. STAR RATING LOGIC --- */
+        const stars = document.querySelectorAll('.star-btn');
+        
+        stars.forEach(star => {
+            // Hover Effect
+            star.addEventListener('mouseover', () => {
+                const value = star.getAttribute('data-value');
+                highlightStars(value);
+            });
+
+            // Click Effect (Send to WhatsApp)
+            star.addEventListener('click', () => {
+                const value = star.getAttribute('data-value');
+                const whatsappMsg = `Yo%20R.C.%21%20I%20wanna%20rate%20your%20design%20services%20${value}%20Stars.%20Here%20is%20my%20feedback%3A`;
+                window.open(`https://wa.me/60169429370?text=${whatsappMsg}`, '_blank');
+            });
+        });
+
+        // Reset stars when mouse leaves
+        document.getElementById('star-box').addEventListener('mouseleave', () => {
+            highlightStars(0);
+        });
+
+        function highlightStars(count) {
+            stars.forEach(star => {
+                if (star.getAttribute('data-value') <= count) {
+                    star.style.color = 'var(--gold)';
+                } else {
+                    star.style.color = '#444';
+                }
+            });
+        }
+
+        /* --- 2. 360 VIEWER & 3D BG (UNCHANGED) --- */
         function init360Viewer(viewerId, imgId, folderPath, totalFrames) {
             const viewer = document.getElementById(viewerId);
             const mainImg = document.getElementById(imgId);
@@ -265,7 +298,6 @@
         });
         camera.position.z = 5;
 
-        // Mouse & Responsive Logic
         let mX = 0, mY = 0;
         document.onmousemove = (e) => { mX = (e.clientX - window.innerWidth/2)*0.0006; mY = (e.clientY - window.innerHeight/2)*0.0006; };
         
