@@ -39,6 +39,7 @@
             gap: 20px;
         }
 
+        /* --- BENTO BOXES WITH HOVER PHYSICS --- */
         .bento-box {
             background: var(--glass);
             backdrop-filter: blur(15px);
@@ -50,53 +51,42 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0; /* Hidden for scroll animation */
+            transform: translateY(30px);
         }
-        .bento-box:hover { border-color: var(--accent); }
+        
+        .bento-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .bento-box:hover { 
+            border-color: var(--accent); 
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(255, 0, 60, 0.1);
+        }
 
         .box-hero { grid-column: span 12; text-align: center; padding: 100px 20px; }
-        .box-title { grid-column: span 12; padding: 20px; text-align: left; background: none; border: none; backdrop-filter: none; }
-        .box-marquee { grid-column: span 12; padding: 20px 0; overflow: hidden; position: relative; background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--border); border-radius: 24px; }
+        .box-title { grid-column: span 12; padding: 20px; text-align: left; background: none; border: none; backdrop-filter: none; opacity: 1; transform: none; box-shadow: none;}
+        .box-title:hover { transform: none; box-shadow: none; border-color: transparent; }
+        .box-marquee { grid-column: span 12; padding: 20px 0; overflow: hidden; position: relative; background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--border); border-radius: 24px; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .box-marquee.visible { opacity: 1; transform: translateY(0); }
         .box-model { grid-column: span 6; min-height: 500px; position: relative; }
         .box-footer { grid-column: span 12; text-align: center; padding: 60px; }
 
-        /* --- NEW: INTERACTIVE RATING BOX --- */
-        .box-rating {
-            grid-column: span 12; /* Full width */
-            text-align: center;
-            padding: 60px;
-        }
-
-        .star-container {
-            display: flex;
-            gap: 15px;
-            font-size: 3rem; /* Big stars */
-            margin: 20px 0;
-            cursor: pointer;
-        }
-
-        .star-btn {
-            color: #444; /* Dark grey by default */
-            transition: 0.2s;
-        }
-
-        /* Hover effect: Gold */
-        .star-btn:hover, .star-btn.hovered { color: var(--gold); transform: scale(1.2); }
-
-        .rating-text {
-            font-family: 'Oswald';
-            font-size: 1.2rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 10px;
-        }
+        /* --- INTERACTIVE RATING BOX --- */
+        .box-rating { grid-column: span 12; text-align: center; padding: 60px; }
+        .star-container { display: flex; gap: 15px; font-size: 3rem; margin: 20px 0; cursor: pointer; }
+        .star-btn { color: #444; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .star-btn:hover { transform: scale(1.2); }
+        .rating-text { font-family: 'Oswald'; font-size: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-top: 10px; transition: 0.3s; }
 
         /* --- GALLERY --- */
         .marquee-track { display: flex; width: max-content; gap: 20px; animation: scroll 30s linear infinite; padding-left: 20px; }
         .marquee-track:hover { animation-play-state: paused; }
         .art-item { height: 350px; width: 350px; border-radius: 16px; object-fit: cover; filter: grayscale(100%); transition: 0.5s ease; flex-shrink: 0; }
-        .art-item:hover { filter: grayscale(0%); transform: scale(1.02); border: 1px solid var(--accent); }
+        .art-item:hover { filter: grayscale(0%); transform: scale(1.02); border: 1px solid var(--accent); box-shadow: 0 0 20px rgba(255, 0, 60, 0.3); }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- TYPOGRAPHY --- */
@@ -108,8 +98,8 @@
         .hero-sub { font-size: 1.1rem; max-width: 600px; margin: 20px 0 30px 0; color: #aaa; }
 
         /* --- 360 VIEWER --- */
-        .viewer-box { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: ew-resize; }
-        .product-img { width: 100%; height: auto; max-height: 350px; object-fit: contain; pointer-events: none; user-select: none; }
+        .viewer-box { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: ew-resize; user-select: none; }
+        .product-img { width: 100%; height: auto; max-height: 350px; object-fit: contain; pointer-events: none; }
         .drag-hint { margin-top: auto; color: var(--accent); font-family: 'Courier New'; font-size: 0.7rem; border: 1px solid var(--accent); padding: 5px 15px; border-radius: 50px; }
 
         /* --- BUTTONS --- */
@@ -118,7 +108,7 @@
 
         .social-links { display: flex; gap: 30px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
         .social-links a { font-family: 'Oswald'; color: white; font-size: 1.5rem; text-decoration: none; transition: 0.3s; }
-        .social-links a:hover { color: var(--accent); }
+        .social-links a:hover { color: var(--accent); transform: translateY(-3px); }
 
         @media (max-width: 900px) {
             .wrapper { display: flex; flex-direction: column; gap: 20px; padding: 20px 10px; }
@@ -179,7 +169,7 @@
                 <i class="fas fa-star star-btn" data-value="5"></i>
             </div>
             
-            <p class="rating-text">CLICK A STAR TO SEND FEEDBACK</p>
+            <p class="rating-text" id="rating-text">CLICK A STAR TO SEND FEEDBACK</p>
         </div>
 
         <div class="bento-box box-title">
@@ -206,7 +196,7 @@
         <div class="bento-box box-footer">
             <div class="social-links">
                 <a href="https://www.instagram.com/rebelivious.c" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a>
-                <a href="PASTE_YOUR_BEHANCE_LINK_HERE" target="_blank"><i class="fab fa-behance"></i> BEHANCE</a>
+                <a href="https://www.behance.net/x6irdm-4k" target="_blank"><i class="fab fa-behance"></i> BEHANCE</a>
             </div>
             <span class="specs">REBELIVIOUS CREATIVE // 2026</span>
         </div>
@@ -214,45 +204,50 @@
     </div>
 
     <script>
-        /* --- 1. STAR RATING LOGIC --- */
+        /* --- 0. SCROLL ANIMATION (NEW) --- */
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.bento-box, .box-marquee').forEach(el => observer.observe(el));
+
+        /* --- 1. STAR RATING LOGIC (FIXED) --- */
         const stars = document.querySelectorAll('.star-btn');
+        let currentRating = 0;
         
         stars.forEach(star => {
-            // Hover Effect
-            star.addEventListener('mouseover', () => {
-                const value = star.getAttribute('data-value');
-                highlightStars(value);
-            });
-
-            // Click Effect (Send to WhatsApp)
+            star.addEventListener('mouseover', () => highlightStars(star.getAttribute('data-value')));
+            
             star.addEventListener('click', () => {
-                const value = star.getAttribute('data-value');
-                const whatsappMsg = `Yo%20R.C.%21%20I%20wanna%20rate%20your%20design%20services%20${value}%20Stars.%20Here%20is%20my%20feedback%3A`;
-                window.open(`https://wa.me/60169429370?text=${whatsappMsg}`, '_blank');
+                currentRating = star.getAttribute('data-value');
+                highlightStars(currentRating);
+                document.getElementById('rating-text').innerText = `SAVED ${currentRating} STAR RATING`;
+                
+                const whatsappMsg = `Yo%20R.C.%21%20I%20wanna%20rate%20your%20design%20services%20${currentRating}%20Stars.%20Here%20is%20my%20feedback%3A`;
+                setTimeout(() => window.open(`https://wa.me/60169429370?text=${whatsappMsg}`, '_blank'), 300);
             });
         });
 
-        // Reset stars when mouse leaves
-        document.getElementById('star-box').addEventListener('mouseleave', () => {
-            highlightStars(0);
-        });
+        document.getElementById('star-box').addEventListener('mouseleave', () => highlightStars(currentRating));
 
         function highlightStars(count) {
             stars.forEach(star => {
-                if (star.getAttribute('data-value') <= count) {
-                    star.style.color = 'var(--gold)';
-                } else {
-                    star.style.color = '#444';
-                }
+                star.style.color = star.getAttribute('data-value') <= count ? 'var(--gold)' : '#444';
             });
         }
 
-        /* --- 2. 360 VIEWER & 3D BG (UNCHANGED) --- */
+        /* --- 2. 360 VIEWER --- */
         function init360Viewer(viewerId, imgId, folderPath, totalFrames) {
             const viewer = document.getElementById(viewerId);
             const mainImg = document.getElementById(imgId);
             let isDragging = false, startX = 0, currentFrame = 1;
-            const sensitivity = 12;
+            const sensitivity = 10; // Made slightly more sensitive for smoother turning
 
             for (let i = 1; i <= totalFrames; i++) {
                 const img = new Image();
@@ -270,31 +265,34 @@
                 }
             };
 
-            viewer.onmousedown = (e) => { isDragging = true; startX = e.pageX; };
-            window.addEventListener('mouseup', () => { isDragging = false; });
+            viewer.onmousedown = (e) => { isDragging = true; startX = e.pageX; viewer.style.cursor = 'grabbing'; };
+            window.addEventListener('mouseup', () => { isDragging = false; viewer.style.cursor = 'ew-resize'; });
             window.addEventListener('mousemove', (e) => updateImage(e.pageX));
+            
             viewer.ontouchstart = (e) => { isDragging = true; startX = e.touches[0].pageX; };
-            viewer.addEventListener('touchend', () => { isDragging = false; });
-            viewer.addEventListener('touchmove', (e) => { updateImage(e.touches[0].pageX); });
+            window.addEventListener('touchend', () => { isDragging = false; });
+            window.addEventListener('touchmove', (e) => { updateImage(e.touches[0].pageX); });
         }
 
         init360Viewer('viewer-1', 'img-1', '360object/', 30);
         init360Viewer('viewer-2', 'img-2', '360object2/', 30);
 
+        /* --- 3. THREE.JS BACKGROUND --- */
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         
+        renderer.setPixelRatio(window.devicePixelRatio); // Makes 3D much sharper on mobile/Mac
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.3)); 
+        scene.add(new THREE.AmbientLight(0xffffff, 0.4)); 
 
         let myTag;
         new THREE.OBJLoader().load('TAGGING.obj', (obj) => {
             myTag = obj;
             obj.traverse(c => { 
                 if (c.isMesh) {
-                    c.material = new THREE.MeshStandardMaterial({ color: 0x222222, wireframe: true, transparent: true, opacity: 0.15 }); 
+                    c.material = new THREE.MeshStandardMaterial({ color: 0x222222, wireframe: true, transparent: true, opacity: 0.2 }); 
                 }
             });
             myTag.scale.set(0.7, 0.7, 0.7); 
@@ -313,7 +311,11 @@
 
         function animate() {
             requestAnimationFrame(animate);
-            if (myTag) { myTag.rotation.x += 0.05*(mY-myTag.rotation.x); myTag.rotation.y += 0.05*(mX-myTag.rotation.y); }
+            if (myTag) { 
+                // Adds a constant slow rotation + mouse interaction
+                myTag.rotation.x += 0.05 * (mY - myTag.rotation.x) + 0.001; 
+                myTag.rotation.y += 0.05 * (mX - myTag.rotation.y) + 0.002; 
+            }
             renderer.render(scene, camera);
         }
         animate();
