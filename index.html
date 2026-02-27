@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="p:domain_verify" content="936234a4d1a996f2d5e459d4156a4650"/>
     <title>R.C. | REBELIVIOUS CREATIVE</title>
 
     <link rel="icon" type="image/png" href="logo.png">
@@ -21,7 +20,6 @@
             --glass: rgba(20, 20, 20, 0.7); 
             --border: rgba(255, 255, 255, 0.1);
             --text-main: #EAEAEA;
-            --gold: #FFD700;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none !important; -webkit-tap-highlight-color: transparent; }
@@ -56,16 +54,8 @@
             transform: translateY(30px);
         }
         
-        .bento-box.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .bento-box:hover { 
-            border-color: var(--accent); 
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(255, 0, 60, 0.1);
-        }
+        .bento-box.visible { opacity: 1; transform: translateY(0); }
+        .bento-box:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 10px 30px rgba(255, 0, 60, 0.1); }
 
         .box-hero { grid-column: span 12; text-align: center; padding: 100px 20px; }
         .box-title { grid-column: span 12; padding: 20px; text-align: left; background: none; border: none; backdrop-filter: none; opacity: 1; transform: none; box-shadow: none;}
@@ -92,36 +82,17 @@
             align-items: center;
         }
 
-        .product-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(255, 0, 60, 0.15);
-        }
-
+        .product-card:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 15px 40px rgba(255, 0, 60, 0.15); }
         .merch-img { width: 100%; height: 250px; object-fit: contain; margin-bottom: 20px; transition: 0.5s; }
         .product-card:hover .merch-img { transform: scale(1.1); }
-
         .price { font-family: 'Oswald'; font-size: 1.5rem; color: var(--accent); margin: 10px 0; }
+        
         .buy-btn { 
-            width: 100%; 
-            padding: 12px; 
-            background: transparent; 
-            border: 1px solid var(--accent); 
-            color: white; 
-            font-family: 'Oswald'; 
-            text-transform: uppercase; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            transition: 0.3s; 
+            width: 100%; padding: 12px; background: transparent; border: 1px solid var(--accent); 
+            color: white; font-family: 'Oswald'; text-transform: uppercase; border-radius: 50px; 
+            cursor: pointer; transition: 0.3s; 
         }
         .buy-btn:hover { background: var(--accent); color: white; }
-
-        /* --- INTERACTIVE RATING BOX --- */
-        .box-rating { grid-column: span 12; text-align: center; padding: 60px; }
-        .star-container { display: flex; gap: 15px; font-size: 3rem; margin: 20px 0; cursor: pointer; }
-        .star-btn { color: #444; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .star-btn:hover { transform: scale(1.2); }
-        .rating-text { font-family: 'Oswald'; font-size: 1.2rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-top: 10px; transition: 0.3s; }
 
         /* --- GALLERY --- */
         .marquee-track { display: flex; width: max-content; gap: 20px; animation: scroll 30s linear infinite; padding-left: 20px; }
@@ -153,12 +124,11 @@
 
         @media (max-width: 900px) {
             .wrapper { display: flex; flex-direction: column; gap: 20px; padding: 20px 10px; }
-            .box-hero, .box-model, .box-footer, .box-marquee, .box-title, .box-rating, .box-shop { width: 100%; grid-column: auto; }
+            .box-hero, .box-model, .box-footer, .box-marquee, .box-title, .box-shop { width: 100%; grid-column: auto; }
             .bento-box { padding: 40px 20px; }
             .art-item { height: 220px; width: 220px; } 
             .box-model { min-height: 450px; }
             .box-hero { padding: 60px 15px; }
-            .star-container { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -169,10 +139,10 @@
     <div class="wrapper">
         
         <div class="bento-box box-hero">
-            <span class="specs">BOUND TO NONE // JB.MY</span>
+            <span class="specs">WORK IN PROGRESS // JB.MY</span>
             <h1>THE TABLE<br>IS <span>R.C.</span></h1>
-            <p class="hero-sub">REBELIVIOUS CREATIVE. RAW STREET AESTHETICS X HIGH-PERFORMANCE 3D DESIGN.</p>
-            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%203D%2FInteractive%20design%20services.%20Can%20we%20talk%20about%20a%20custom%20project%3F" class="btn">INITIATE PROJECT</a>
+            <p class="hero-sub">REBELIVIOUS CREATIVE . MAKE IT OBVIOUS . MAKE IT CREATIVE</p>
+            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%203D%2FInteractive%20design%20services.%20Can%20we%20talk%20about%20a%20custom%20project%3F" class="btn">START A PROJECT?</a>
         </div>
 
         <div class="bento-box box-title">
@@ -208,7 +178,7 @@
                 <span class="specs">ACCESSORY</span>
                 <img src="merch/nfc-card.png" class="merch-img" alt="R.C NFC Card">
                 <h3>SMART NFC CARD</h3>
-                <p class="price">RM 89.00</p>
+                <p class="price">RM 140.00</p>
                 <button class="buy-btn" onclick="buyItem('Smart NFC Card')">SECURE DROP</button>
             </div>
 
@@ -216,7 +186,7 @@
                 <span class="specs">HARDWARE</span>
                 <img src="merch/keychain.png" class="merch-img" alt="R.C Keychain">
                 <h3>TACTICAL KEYCHAIN</h3>
-                <p class="price">RM 45.00</p>
+                <p class="price">RM 60.00</p>
                 <button class="buy-btn" onclick="buyItem('Tactical Keychain')">SECURE DROP</button>
             </div>
 
@@ -224,23 +194,9 @@
                 <span class="specs">LIFESTYLE</span>
                 <img src="merch/mug.png" class="merch-img" alt="R.C Mug">
                 <h3>DESIGNER MUG</h3>
-                <p class="price">RM 55.00</p>
+                <p class="price">RM 80.00</p>
                 <button class="buy-btn" onclick="buyItem('Designer Mug')">SECURE DROP</button>
             </div>
-        </div>
-        <div class="bento-box box-rating">
-            <span class="specs">CLIENT FEEDBACK TERMINAL</span>
-            <h2 style="margin-bottom: 20px;">RATE YOUR EXPERIENCE</h2>
-            
-            <div class="star-container" id="star-box">
-                <i class="fas fa-star star-btn" data-value="1"></i>
-                <i class="fas fa-star star-btn" data-value="2"></i>
-                <i class="fas fa-star star-btn" data-value="3"></i>
-                <i class="fas fa-star star-btn" data-value="4"></i>
-                <i class="fas fa-star star-btn" data-value="5"></i>
-            </div>
-            
-            <p class="rating-text" id="rating-text">CLICK A STAR TO SEND FEEDBACK</p>
         </div>
 
         <div class="bento-box box-title">
@@ -288,32 +244,7 @@
 
         document.querySelectorAll('.bento-box, .box-marquee').forEach(el => observer.observe(el));
 
-        /* --- 1. STAR RATING LOGIC --- */
-        const stars = document.querySelectorAll('.star-btn');
-        let currentRating = 0;
-        
-        stars.forEach(star => {
-            star.addEventListener('mouseover', () => highlightStars(star.getAttribute('data-value')));
-            
-            star.addEventListener('click', () => {
-                currentRating = star.getAttribute('data-value');
-                highlightStars(currentRating);
-                document.getElementById('rating-text').innerText = `SAVED ${currentRating} STAR RATING`;
-                
-                const whatsappMsg = `Yo%20R.C.%21%20I%20wanna%20rate%20your%20design%20services%20${currentRating}%20Stars.%20Here%20is%20my%20feedback%3A`;
-                setTimeout(() => window.open(`https://wa.me/60169429370?text=${whatsappMsg}`, '_blank'), 300);
-            });
-        });
-
-        document.getElementById('star-box').addEventListener('mouseleave', () => highlightStars(currentRating));
-
-        function highlightStars(count) {
-            stars.forEach(star => {
-                star.style.color = star.getAttribute('data-value') <= count ? 'var(--gold)' : '#444';
-            });
-        }
-
-        /* --- 2. 360 VIEWER --- */
+        /* --- 1. 360 VIEWER --- */
         function init360Viewer(viewerId, imgId, folderPath, totalFrames) {
             const viewer = document.getElementById(viewerId);
             const mainImg = document.getElementById(imgId);
@@ -348,13 +279,13 @@
         init360Viewer('viewer-1', 'img-1', '360object/', 30);
         init360Viewer('viewer-2', 'img-2', '360object2/', 30);
 
-        /* --- 3. SHOP BUY LOGIC --- */
+        /* --- 2. SHOP BUY LOGIC --- */
         function buyItem(itemName) {
             const message = `Yo%20R.C.%21%20I%20want%20to%20secure%20the%20[${itemName}]%20from%20the%20merch%20shop.`;
             window.open(`https://wa.me/60169429370?text=${message}`, '_blank');
         }
 
-        /* --- 4. THREE.JS BACKGROUND --- */
+        /* --- 3. THREE.JS BACKGROUND --- */
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
