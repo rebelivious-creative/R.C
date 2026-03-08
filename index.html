@@ -27,24 +27,6 @@
 
         #canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
-        /* --- OPTICAL ILLUSION BOX --- */
-        #illusion-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 85vw;
-            height: 85vh;
-            background: linear-gradient(135deg, rgba(255,0,60,0.05), transparent);
-            border: 1px solid var(--accent);
-            border-radius: 40px;
-            z-index: 1; 
-            pointer-events: none;
-            box-shadow: 0 0 60px rgba(255,0,60,0.1);
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
-            will-change: transform;
-        }
-
         .wrapper {
             position: relative; z-index: 2;
             max-width: 1400px;
@@ -153,7 +135,6 @@
 <body>
 
     <div id="canvas-container"></div>
-    <div id="illusion-box"></div>
 
     <div id="ios-motion-wrapper" style="display: none; position: fixed; bottom: 30px; right: 30px; z-index: 999;">
         <button id="ios-motion-btn" class="buy-btn" style="background: var(--bg-dark); padding: 10px 20px; font-size: 1rem; box-shadow: 0 0 15px rgba(255,0,60,0.3);">ENABLE 3D TILT</button>
@@ -308,7 +289,7 @@
             window.open(`https://wa.me/60169429370?text=${message}`, '_blank');
         }
 
-        /* --- 3. THREE.JS BACKGROUND --- */
+        /* --- 3. THREE.JS OPTICAL ILLUSION BACKGROUND --- */
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -318,12 +299,26 @@
         document.getElementById('canvas-container').appendChild(renderer.domElement);
         scene.add(new THREE.AmbientLight(0xffffff, 0.4)); 
 
+        // THE 3D HOLE / ROOM ILLUSION
+        // This builds a massive 3D grid box around your content
+        const roomGeo = new THREE.BoxGeometry(60, 60, 60, 15, 15, 15);
+        const roomMat = new THREE.MeshBasicMaterial({ 
+            color: 0xFF003C, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.15, 
+            side: THREE.BackSide // Shows the inside of the box
+        });
+        const room = new THREE.Mesh(roomGeo, roomMat);
+        scene.add(room);
+
+        // YOUR ORIGINAL 3D OBJ TAGGING FILE
         let myTag;
         new THREE.OBJLoader().load('TAGGING.obj', (obj) => {
             myTag = obj;
             obj.traverse(c => { 
                 if (c.isMesh) {
-                    c.material = new THREE.MeshStandardMaterial({ color: 0x222222, wireframe: true, transparent: true, opacity: 0.2 }); 
+                    c.material = new THREE.MeshStandardMaterial({ color: 0x444444, wireframe: true, transparent: true, opacity: 0.2 }); 
                 }
             });
             myTag.scale.set(0.7, 0.7, 0.7); 
@@ -331,9 +326,28 @@
         });
         camera.position.z = 5;
 
-        let mX = 0, mY = 0;
-        document.onmousemove = (e) => { mX = (e.clientX - window.innerWidth/2)*0.0006; mY = (e.clientY - window.innerHeight/2)*0.0006; };
-        
+        // --- TRACKING MOUSE & GYRO ---
+        let targetRotX = 0;
+        let targetRotY = 0;
+
+        // DESKTOP: Track Mouse
+        document.addEventListener('mousemove', (e) => { 
+            let x = (e.clientX / window.innerWidth) * 2 - 1;
+            let y = -(e.clientY / window.innerHeight) * 2 + 1;
+            targetRotY = x * -0.4; 
+            targetRotX = y * 0.4;  
+        });
+
+        // MOBILE: Track Gyroscope
+        window.addEventListener('deviceorientation', (e) => {
+            let tiltX = e.gamma || 0; 
+            let tiltY = e.beta || 0;  
+            tiltX = Math.max(-45, Math.min(45, tiltX));
+            tiltY = Math.max(-45, Math.min(45, tiltY));
+            targetRotY = (tiltX / 45) * 0.5;
+            targetRotX = (tiltY / 45) * -0.5;
+        });
+
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -342,34 +356,19 @@
 
         function animate() {
             requestAnimationFrame(animate);
+            
+            // Smoothly tilt the entire 3D room to create the illusion of a deep box
+            room.rotation.y += (targetRotY - room.rotation.y) * 0.05;
+            room.rotation.x += (targetRotX - room.rotation.x) * 0.05;
+
+            // Spin your tagging object slowly in the center
             if (myTag) { 
-                myTag.rotation.x += 0.05 * (mY - myTag.rotation.x) + 0.001; 
-                myTag.rotation.y += 0.05 * (mX - myTag.rotation.y) + 0.002; 
+                myTag.rotation.y += 0.003; 
             }
+            
             renderer.render(scene, camera);
         }
         animate();
-
-        /* --- 4. OPTICAL ILLUSION BOX (GYRO & MOUSE) --- */
-        const illusionBox = document.getElementById('illusion-box');
-
-        // DESKTOP: Move based on mouse
-        window.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.pageX) / 25;
-            const y = (window.innerHeight / 2 - e.pageY) / 25;
-            illusionBox.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotateX(${y/2}deg) rotateY(${-x/2}deg)`;
-        });
-
-        // MOBILE: Move based on phone tilt
-        window.addEventListener('deviceorientation', (e) => {
-            let tiltX = e.gamma || 0; // Left/Right
-            let tiltY = e.beta || 0;  // Front/Back
-            
-            tiltX = Math.max(-45, Math.min(45, tiltX));
-            tiltY = Math.max(-45, Math.min(45, tiltY));
-
-            illusionBox.style.transform = `translate(calc(-50% + ${tiltX}px), calc(-50% + ${tiltY}px)) rotateX(${-tiltY/2}deg) rotateY(${tiltX/2}deg)`;
-        });
 
         // --- APPLE iPHONE UNLOCK LOGIC ---
         if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
