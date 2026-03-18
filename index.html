@@ -11,15 +11,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --accent: #FF003C; 
-            --bg-dark: #050505; 
-            --glass: rgba(20, 20, 20, 0.7); 
-            --border: rgba(255, 255, 255, 0.1);
-            --text-main: #EAEAEA;
+            --bg-dark: #070707; /* Slightly softer black for premium feel */
+            --glass: rgba(15, 15, 15, 0.6); 
+            --border: rgba(255, 255, 255, 0.04); /* Very subtle border */
+            --text-main: #D1D1D1;
+            --text-light: #FFFFFF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none !important; -webkit-tap-highlight-color: transparent; }
@@ -31,104 +32,108 @@
             position: relative; z-index: 2;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 20px;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 25px;
         }
 
-        /* --- BENTO BOXES WITH HOVER PHYSICS --- */
+        /* --- CLEAN PREMIUM BENTO BOXES --- */
         .bento-box {
             background: var(--glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 40px;
+            border-radius: 16px; /* Sharper, more modern corners */
+            padding: 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.4s ease;
             opacity: 0; 
             transform: translateY(30px);
         }
         
         .bento-box.visible { opacity: 1; transform: translateY(0); }
-        .bento-box:hover { border-color: var(--accent); transform: translateY(-8px); box-shadow: 0 10px 30px rgba(255, 0, 60, 0.1); }
+        .bento-box:hover { border-color: rgba(255, 0, 60, 0.3); transform: translateY(-5px); }
 
-        .box-hero { grid-column: span 12; text-align: center; padding: 100px 20px; }
-        .box-title { grid-column: span 12; padding: 20px; text-align: left; background: none; border: none; backdrop-filter: none; opacity: 1; transform: none; box-shadow: none;}
-        .box-title:hover { transform: none; box-shadow: none; border-color: transparent; }
-        .box-marquee { grid-column: span 12; padding: 20px 0; overflow: hidden; position: relative; background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--border); border-radius: 24px; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .box-hero { grid-column: span 12; text-align: center; padding: 120px 20px; background: transparent; border: none; }
+        .box-title { grid-column: span 12; padding: 30px 20px 10px 20px; text-align: left; background: none; border: none; backdrop-filter: none; opacity: 1; transform: none; align-items: flex-start; }
+        .box-title:hover { transform: none; }
+        
+        .box-marquee { grid-column: span 12; padding: 20px 0; overflow: hidden; position: relative; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 16px; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
         .box-marquee.visible { opacity: 1; transform: translateY(0); }
-        .box-model { grid-column: span 6; min-height: 500px; position: relative; }
-        .box-footer { grid-column: span 12; text-align: center; padding: 60px; }
+        .box-model { grid-column: span 6; min-height: 550px; position: relative; }
+        .box-footer { grid-column: span 12; text-align: center; padding: 80px 20px 40px 20px; background: transparent; border: none; }
 
         /* --- SHOP GRID --- */
-        .box-shop { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; background: none; border: none; backdrop-filter: none; padding: 0; opacity: 1; transform: none; }
-        .box-shop:hover { transform: none; box-shadow: none; }
+        .box-shop { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; background: none; border: none; backdrop-filter: none; padding: 0; opacity: 1; transform: none; }
+        .box-shop:hover { transform: none; }
 
         .product-card {
             background: var(--glass);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 30px;
+            border-radius: 16px;
+            padding: 40px 30px;
             text-align: center;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .product-card:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 15px 40px rgba(255, 0, 60, 0.15); }
-        .merch-img { width: 100%; height: 250px; object-fit: contain; margin-bottom: 20px; transition: 0.5s; }
-        .product-card:hover .merch-img { transform: scale(1.1); }
-        .price { font-family: 'Oswald'; font-size: 1.5rem; color: var(--accent); margin: 10px 0; }
+        .product-card:hover { border-color: rgba(255, 0, 60, 0.4); transform: translateY(-8px); }
+        .merch-img { width: 100%; height: 250px; object-fit: contain; margin-bottom: 25px; transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .product-card:hover .merch-img { transform: scale(1.08); }
+        .price { font-family: 'Rajdhani'; font-weight: 700; font-size: 1.4rem; color: var(--text-light); margin: 10px 0 20px 0; }
         
         .buy-btn { 
-            width: 100%; padding: 12px; background: transparent; border: 1px solid var(--accent); 
-            color: white; font-family: 'Oswald'; text-transform: uppercase; border-radius: 50px; 
+            width: 100%; padding: 14px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); 
+            color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; 
             cursor: pointer; transition: 0.3s; 
         }
-        .buy-btn:hover { background: var(--accent); color: white; }
+        .buy-btn:hover { background: var(--text-light); color: var(--bg-dark); border-color: var(--text-light); }
 
         /* --- GALLERY --- */
-        .marquee-track { display: flex; width: max-content; gap: 20px; animation: scroll 30s linear infinite; padding-left: 20px; }
+        .marquee-track { display: flex; width: max-content; gap: 20px; animation: scroll 35s linear infinite; padding-left: 20px; }
         .marquee-track:hover { animation-play-state: paused; }
-        .art-item { height: 350px; width: 350px; border-radius: 16px; object-fit: cover; filter: grayscale(100%); transition: 0.5s ease; flex-shrink: 0; }
-        .art-item:hover { filter: grayscale(0%); transform: scale(1.02); border: 1px solid var(--accent); box-shadow: 0 0 20px rgba(255, 0, 60, 0.3); }
+        .art-item { height: 400px; width: 320px; border-radius: 8px; object-fit: cover; filter: grayscale(100%) opacity(0.7); transition: 0.5s ease; flex-shrink: 0; border: 1px solid transparent; }
+        .art-item:hover { filter: grayscale(0%) opacity(1); transform: scale(1.02); border-color: var(--accent); }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- TYPOGRAPHY --- */
-        .specs { font-family: 'Courier New', monospace; color: var(--accent); font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: bold; margin-bottom: 15px; display: block; }
-        h1 { font-family: 'Oswald', sans-serif; font-size: clamp(3rem, 8vw, 8rem); font-weight: 700; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px; }
-        h1 span { color: var(--accent); }
-        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 4vw, 3rem); text-transform: uppercase; margin: 0; }
-        h3 { font-family: 'Oswald', sans-serif; font-size: 2.2rem; margin-bottom: 15px; }
-        .hero-sub { font-size: 1.1rem; max-width: 600px; margin: 20px 0 30px 0; color: #aaa; }
+        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.85rem; letter-spacing: 5px; text-transform: uppercase; font-weight: 700; margin-bottom: 20px; display: block; }
+        h1 { font-family: 'Oswald', sans-serif; font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 700; line-height: 1; text-transform: uppercase; letter-spacing: -1px; color: var(--text-light); }
+        h1 span { color: var(--accent); font-weight: 300; }
+        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 300; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: 1px;}
+        h3 { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 5px; color: var(--text-light); letter-spacing: 1px; }
+        
+        /* Updated Tagline Styling */
+        .hero-sub { font-size: 1.2rem; font-weight: 400; max-width: 600px; margin: 30px auto 40px auto; color: #888; letter-spacing: 2px; line-height: 1.6; text-transform: uppercase; }
 
         /* --- 360 VIEWER --- */
         .viewer-box { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: ew-resize; user-select: none; }
         .product-img { width: 100%; height: auto; max-height: 350px; object-fit: contain; pointer-events: none; }
-        .drag-hint { margin-top: auto; color: var(--accent); font-family: 'Courier New'; font-size: 0.7rem; border: 1px solid var(--accent); padding: 5px 15px; border-radius: 50px; }
+        .drag-hint { margin-top: auto; color: var(--text-main); font-family: 'Rajdhani'; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.5; }
 
         /* --- BUTTONS --- */
-        .btn { padding: 18px 50px; background: var(--accent); color: white; text-decoration: none; font-family: 'Oswald'; font-size: 1.2rem; letter-spacing: 2px; border-radius: 50px; transition: 0.3s; display: inline-block; border: none !important; white-space: nowrap; }
-        .btn:hover { background: white; color: black; box-shadow: 0 0 25px rgba(255, 0, 60, 0.6); transform: scale(1.05); }
+        .btn { padding: 18px 40px; background: var(--accent); color: white; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; letter-spacing: 3px; border-radius: 4px; transition: 0.4s ease; display: inline-block; border: 1px solid var(--accent); white-space: nowrap; }
+        .btn:hover { background: transparent; color: var(--accent); box-shadow: 0 0 30px rgba(255, 0, 60, 0.2); transform: translateY(-2px); }
 
-        .social-links { display: flex; gap: 30px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
-        .social-links a { font-family: 'Oswald'; color: white; font-size: 1.5rem; text-decoration: none; transition: 0.3s; }
-        .social-links a:hover { color: var(--accent); transform: translateY(-3px); }
+        .social-links { display: flex; gap: 40px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
+        .social-links a { font-family: 'Rajdhani'; font-weight: 500; letter-spacing: 2px; color: #888; font-size: 1.1rem; text-decoration: none; transition: 0.3s; }
+        .social-links a:hover { color: var(--text-light); }
 
         @media (max-width: 900px) {
             .wrapper { display: flex; flex-direction: column; gap: 20px; padding: 20px 10px; }
             .box-hero, .box-model, .box-footer, .box-marquee, .box-title, .box-shop { width: 100%; grid-column: auto; }
             .bento-box { padding: 40px 20px; }
-            .art-item { height: 220px; width: 220px; } 
+            .art-item { height: 280px; width: 220px; } 
             .box-model { min-height: 450px; }
-            .box-hero { padding: 60px 15px; }
+            .box-hero { padding: 80px 15px; }
+            .hero-sub { font-size: 1rem; }
         }
     </style>
 </head>
@@ -143,10 +148,10 @@
     <div class="wrapper">
         
         <div class="bento-box box-hero">
-            <span class="specs">WORK IN PROGRESS // JB.MY</span>
-            <h1>REBELIVIOUS CREATIVE</h1>
-            <p class="hero-sub">REBELIVIOUS CREATIVE . MAKE IT OBVIOUS . MAKE IT CREATIVE</p>
-            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%203D%2FInteractive%20design%20services.%20Can%20we%20talk%20about%20a%20custom%20project%3F" class="btn">START A PROJECT?</a>
+            <span class="specs">JB.MY // STUDIO</span>
+            <h1>REBELIVIOUS <span>CREATIVE</span></h1>
+            <p class="hero-sub">Create. Train to be a Creator. Live a life as a Creative Soul.</p>
+            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%203D%2FInteractive%20design%20services.%20Can%20we%20talk%20about%20a%20custom%20project%3F" class="btn">START A PROJECT</a>
         </div>
 
         <div class="bento-box box-title">
@@ -226,8 +231,8 @@
 
         <div class="bento-box box-footer">
             <div class="social-links">
-                <a href="https://www.instagram.com/rebelivious.c" target="_blank"><i class="fab fa-instagram"></i> INSTAGRAM</a>
-                <a href="https://www.behance.net/x6irdm-4k" target="_blank"><i class="fab fa-behance"></i> BEHANCE</a>
+                <a href="https://www.instagram.com/rebelivious.c" target="_blank">INSTAGRAM</a>
+                <a href="https://www.behance.net/x6irdm-4k" target="_blank">BEHANCE</a>
             </div>
             <span class="specs">REBELIVIOUS CREATIVE // 2026</span>
         </div>
@@ -299,26 +304,23 @@
         document.getElementById('canvas-container').appendChild(renderer.domElement);
         scene.add(new THREE.AmbientLight(0xffffff, 0.4)); 
 
-        // THE 3D HOLE / ROOM ILLUSION
-        // This builds a massive 3D grid box around your content
         const roomGeo = new THREE.BoxGeometry(60, 60, 60, 15, 15, 15);
         const roomMat = new THREE.MeshBasicMaterial({ 
             color: 0xFF003C, 
             wireframe: true, 
             transparent: true, 
-            opacity: 0.15, 
-            side: THREE.BackSide // Shows the inside of the box
+            opacity: 0.1, /* Lowered opacity slightly for cleaner look */
+            side: THREE.BackSide 
         });
         const room = new THREE.Mesh(roomGeo, roomMat);
         scene.add(room);
 
-        // YOUR ORIGINAL 3D OBJ TAGGING FILE
         let myTag;
         new THREE.OBJLoader().load('TAGGING.obj', (obj) => {
             myTag = obj;
             obj.traverse(c => { 
                 if (c.isMesh) {
-                    c.material = new THREE.MeshStandardMaterial({ color: 0x444444, wireframe: true, transparent: true, opacity: 0.2 }); 
+                    c.material = new THREE.MeshStandardMaterial({ color: 0x333333, wireframe: true, transparent: true, opacity: 0.2 }); 
                 }
             });
             myTag.scale.set(0.7, 0.7, 0.7); 
@@ -326,11 +328,9 @@
         });
         camera.position.z = 5;
 
-        // --- TRACKING MOUSE & GYRO ---
         let targetRotX = 0;
         let targetRotY = 0;
 
-        // DESKTOP: Track Mouse
         document.addEventListener('mousemove', (e) => { 
             let x = (e.clientX / window.innerWidth) * 2 - 1;
             let y = -(e.clientY / window.innerHeight) * 2 + 1;
@@ -338,7 +338,6 @@
             targetRotX = y * 0.4;  
         });
 
-        // MOBILE: Track Gyroscope
         window.addEventListener('deviceorientation', (e) => {
             let tiltX = e.gamma || 0; 
             let tiltY = e.beta || 0;  
@@ -356,12 +355,9 @@
 
         function animate() {
             requestAnimationFrame(animate);
-            
-            // Smoothly tilt the entire 3D room to create the illusion of a deep box
             room.rotation.y += (targetRotY - room.rotation.y) * 0.05;
             room.rotation.x += (targetRotX - room.rotation.x) * 0.05;
 
-            // Spin your tagging object slowly in the center
             if (myTag) { 
                 myTag.rotation.y += 0.003; 
             }
