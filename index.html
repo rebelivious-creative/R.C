@@ -6,89 +6,97 @@
     <title>R.C. | REBELIVIOUS CREATIVE</title>
 
     <link rel="icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
     
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
     <style>
         :root { 
-            --accent: #FF003C; 
-            --bg-dark: #070707; 
-            --glass: rgba(15, 15, 15, 0.6); 
-            --border: rgba(255, 255, 255, 0.05); 
-            --text-main: #D1D1D1;
-            --text-light: #FFFFFF;
+            /* LUXURY MATTE RED PALETTE */
+            --bg-base: #110405; /* Deep matte burgundy background */
+            --accent: #C81E31; /* Premium matte crimson */
+            --accent-glow: rgba(200, 30, 49, 0.15);
+            
+            /* GLASSMORPHISM */
+            --glass-bg: rgba(255, 255, 255, 0.02); 
+            --glass-border: rgba(255, 255, 255, 0.06); 
+            
+            --text-main: #C0C0C0; /* Soft silver text */
+            --text-light: #F5F5F5; /* Crisp white for headers */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none !important; -webkit-tap-highlight-color: transparent; }
         
-        /* New Luxury CSS Background instead of heavy 3D */
         body { 
-            background-color: var(--bg-dark); 
-            background-image: radial-gradient(circle at 50% -20%, rgba(255, 0, 60, 0.15) 0%, transparent 70%);
+            background-color: var(--bg-base); 
             color: var(--text-main); 
             font-family: 'Rajdhani', sans-serif; 
             overflow-x: hidden; 
         }
 
+        /* --- INTERACTIVE BACKGROUND GLOW --- */
+        #interactive-glow {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 60vw; height: 60vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            transition: width 0.5s, height 0.5s;
+            filter: blur(40px);
+        }
+
         .wrapper {
             position: relative; z-index: 2;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 25px;
+            max-width: 1400px; margin: 0 auto; padding: 60px 20px;
+            display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px;
         }
 
-        /* --- CLEAN PREMIUM BENTO BOXES --- */
-        .bento-box {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 16px; 
+        /* --- MORPHIC GLASS CUSTOM SHAPES --- */
+        .morphic-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            /* Custom Asymmetrical Shape */
+            border-radius: 40px 12px 40px 12px; 
             padding: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.4s ease;
-            opacity: 0; 
-            transform: translateY(30px);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            opacity: 0; transform: translateY(30px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
         
-        .bento-box.visible { opacity: 1; transform: translateY(0); }
-        .bento-box:hover { border-color: rgba(255, 0, 60, 0.3); transform: translateY(-5px); }
-
-        .box-hero { grid-column: span 12; text-align: center; padding: 120px 20px; background: transparent; border: none; }
-        .box-title { grid-column: span 12; padding: 30px 20px 10px 20px; text-align: left; background: none; border: none; backdrop-filter: none; opacity: 1; transform: none; align-items: flex-start; }
-        .box-title:hover { transform: none; }
+        .morphic-glass.alt-shape { border-radius: 12px 40px 12px 40px; } /* Opposite curve for variety */
         
-        .box-marquee { grid-column: span 12; padding: 20px 0; overflow: hidden; position: relative; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 16px; opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
-        .box-marquee.visible { opacity: 1; transform: translateY(0); }
-        .box-model { grid-column: span 6; min-height: 550px; position: relative; }
-        .box-footer { grid-column: span 12; text-align: center; padding: 80px 20px 40px 20px; background: transparent; border: none; }
+        .morphic-glass.visible { opacity: 1; transform: translateY(0); }
+        .morphic-glass:hover { border-color: rgba(200, 30, 49, 0.4); transform: translateY(-5px); box-shadow: 0 15px 50px rgba(200, 30, 49, 0.05); }
 
-        /* --- GRID LAYOUTS (SHOP & PRICING) --- */
-        .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; background: none; border: none; backdrop-filter: none; padding: 0; opacity: 1; transform: none; }
-        .grid-3:hover { transform: none; }
+        .box-hero { grid-column: span 12; text-align: center; padding: 140px 20px; background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
+        .box-title { grid-column: span 12; padding: 20px; text-align: left; background: transparent; border: none; box-shadow: none; backdrop-filter: none; align-items: flex-start; opacity: 1; transform: none; }
+        
+        /* --- CLIENT SOCIAL PROOF SECTION --- */
+        .client-marquee { grid-column: span 12; padding: 30px 0; overflow: hidden; position: relative; background: var(--glass-bg); border-radius: 20px; border: 1px solid var(--glass-border); display: flex; align-items: center; opacity: 0; transform: translateY(30px); }
+        .client-marquee.visible { opacity: 1; transform: translateY(0); }
+        .client-track { display: flex; width: max-content; gap: 60px; animation: scroll-clients 20s linear infinite; padding-left: 60px; align-items: center; }
+        .client-logo { font-family: 'Oswald'; font-size: 2rem; color: #555; letter-spacing: 4px; font-weight: 700; transition: 0.4s; }
+        .client-logo:hover { color: var(--text-light); }
+        @keyframes scroll-clients { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- PRODUCT CARDS --- */
-        .product-card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 16px; padding: 40px 30px; text-align: center; transition: 0.5s; display: flex; flex-direction: column; align-items: center; }
-        .product-card:hover { border-color: rgba(255, 0, 60, 0.4); transform: translateY(-8px); }
-        .merch-img { width: 100%; height: 250px; object-fit: contain; margin-bottom: 25px; transition: 0.6s; }
-        .product-card:hover .merch-img { transform: scale(1.08); }
-        .price { font-family: 'Rajdhani'; font-weight: 700; font-size: 1.4rem; color: var(--text-light); margin: 10px 0 20px 0; }
+        /* --- GRID LAYOUTS --- */
+        .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; background: none; border: none; padding: 0; opacity: 1; transform: none; box-shadow: none;}
+
+        /* --- PRICING PACKAGES (Decoy Strategy) --- */
+        .pricing-card { background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 30px 10px 30px 10px; padding: 40px; text-align: left; transition: 0.5s; display: flex; flex-direction: column; }
+        .pricing-card.premium { border-color: var(--accent); border-radius: 10px 40px 10px 40px; background: linear-gradient(135deg, rgba(200,30,49,0.05), transparent); position: relative; overflow: hidden; }
+        .pricing-card.premium::before { content: 'RECOMMENDED'; position: absolute; top: 20px; right: -35px; background: var(--accent); color: white; font-family: 'Rajdhani'; font-size: 0.7rem; font-weight: 700; padding: 5px 40px; transform: rotate(45deg); letter-spacing: 2px; }
+        .pricing-card:hover { transform: translateY(-8px); border-color: rgba(200, 30, 49, 0.4); }
         
-        /* --- PRICING PACKAGES --- */
-        .pricing-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: left; transition: 0.5s; display: flex; flex-direction: column; }
-        .pricing-card.premium { border-color: var(--accent); box-shadow: 0 0 40px rgba(255, 0, 60, 0.1); position: relative; overflow: hidden; }
-        .pricing-card.premium::before { content: 'RECOMMENDED'; position: absolute; top: 15px; right: -30px; background: var(--accent); color: white; font-family: 'Rajdhani'; font-size: 0.7rem; font-weight: 700; padding: 5px 30px; transform: rotate(45deg); letter-spacing: 2px; }
-        .pricing-card:hover { transform: translateY(-8px); }
-        
-        .price-tag { font-family: 'Oswald'; font-size: 2.5rem; color: var(--text-light); margin: 15px 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .price-tag { font-family: 'Oswald'; font-size: 2.5rem; color: var(--text-light); margin: 15px 0; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; }
         .pricing-features { list-style: none; margin: 20px 0 30px 0; flex-grow: 1; }
         .pricing-features li { color: #aaa; margin-bottom: 15px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
         .pricing-features li i { color: var(--accent); font-size: 0.9rem; }
@@ -96,194 +104,131 @@
         .pricing-features li.con i { color: #555; }
 
         /* --- BUTTONS --- */
-        .buy-btn { width: 100%; padding: 14px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; cursor: pointer; transition: 0.3s; }
-        .buy-btn:hover { background: var(--text-light); color: var(--bg-dark); border-color: var(--text-light); }
+        .buy-btn { width: 100%; padding: 14px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .buy-btn:hover { background: var(--text-light); color: var(--bg-base); }
         .buy-btn.premium-btn { background: var(--accent); border-color: var(--accent); color: white; }
-        .buy-btn.premium-btn:hover { background: white; color: black; border-color: white; }
+        .buy-btn.premium-btn:hover { background: transparent; color: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
 
-        /* --- GALLERY --- */
-        .marquee-track { display: flex; width: max-content; gap: 20px; animation: scroll 35s linear infinite; padding-left: 20px; }
-        .marquee-track:hover { animation-play-state: paused; }
-        .art-item { height: 400px; width: 320px; border-radius: 8px; object-fit: cover; filter: grayscale(100%) opacity(0.7); transition: 0.5s ease; flex-shrink: 0; border: 1px solid transparent; }
-        .art-item:hover { filter: grayscale(0%) opacity(1); transform: scale(1.02); border-color: var(--accent); }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .btn { padding: 18px 40px; background: var(--accent); color: white; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; letter-spacing: 3px; border-radius: 8px; transition: 0.4s ease; display: inline-block; border: 1px solid var(--accent); }
+        .btn:hover { background: transparent; color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-2px); }
+
+        /* --- REAL 3D VIEWER (.glb) --- */
+        .box-model { grid-column: span 6; height: 500px; position: relative; padding: 20px;}
+        model-viewer { width: 100%; height: 100%; --poster-color: transparent; }
 
         /* --- TYPOGRAPHY --- */
-        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.85rem; letter-spacing: 5px; text-transform: uppercase; font-weight: 700; margin-bottom: 20px; display: block; }
-        h1 { font-family: 'Oswald', sans-serif; font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 700; line-height: 1; text-transform: uppercase; letter-spacing: -1px; color: var(--text-light); }
+        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+        h1 { font-family: 'Oswald', sans-serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 700; line-height: 1.1; text-transform: uppercase; letter-spacing: -1px; color: var(--text-light); }
         h1 span { color: var(--accent); font-weight: 300; }
-        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 300; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: 1px;}
+        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 400; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: 1px;}
         h3 { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 5px; color: var(--text-light); letter-spacing: 1px; }
-        .hero-sub { font-size: 1.2rem; font-weight: 400; max-width: 600px; margin: 30px auto 40px auto; color: #888; letter-spacing: 2px; line-height: 1.6; text-transform: uppercase; }
-
-        /* --- 360 VIEWER --- */
-        .viewer-box { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: ew-resize; user-select: none; }
-        .product-img { width: 100%; height: auto; max-height: 350px; object-fit: contain; pointer-events: none; }
-        .drag-hint { margin-top: auto; color: var(--text-main); font-family: 'Rajdhani'; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.5; }
-
-        .btn { padding: 18px 40px; background: var(--accent); color: white; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; letter-spacing: 3px; border-radius: 4px; transition: 0.4s ease; display: inline-block; border: 1px solid var(--accent); white-space: nowrap; }
-        .btn:hover { background: transparent; color: var(--accent); box-shadow: 0 0 30px rgba(255, 0, 60, 0.2); transform: translateY(-2px); }
-
-        .social-links { display: flex; gap: 40px; margin-bottom: 30px; justify-content: center; flex-wrap: wrap; }
-        .social-links a { font-family: 'Rajdhani'; font-weight: 500; letter-spacing: 2px; color: #888; font-size: 1.1rem; text-decoration: none; transition: 0.3s; }
-        .social-links a:hover { color: var(--text-light); }
+        .hero-sub { font-size: 1.2rem; font-weight: 400; max-width: 600px; margin: 20px auto 40px auto; color: #888; letter-spacing: 2px; line-height: 1.6; text-transform: uppercase; }
 
         @media (max-width: 900px) {
-            .wrapper { display: flex; flex-direction: column; gap: 20px; padding: 20px 10px; }
-            .box-hero, .box-model, .box-footer, .box-marquee, .box-title, .grid-3 { width: 100%; grid-column: auto; }
-            .bento-box { padding: 40px 20px; }
-            .art-item { height: 280px; width: 220px; } 
-            .box-model { min-height: 450px; }
-            .box-hero { padding: 80px 15px; }
-            .hero-sub { font-size: 1rem; }
+            .wrapper { display: flex; flex-direction: column; gap: 20px; padding: 20px 15px; }
+            .box-model, .grid-3 { width: 100%; grid-column: auto; }
+            .morphic-glass { padding: 30px 20px; }
+            .box-model { height: 400px; }
         }
     </style>
 </head>
 <body>
     
+    <div id="interactive-glow"></div>
+    
     <div class="wrapper">
         
-        <div class="bento-box box-hero">
-            <span class="specs">JB.MY // STUDIO</span>
+        <div class="morphic-glass box-hero">
+            <span class="specs">PREMIUM DIGITAL STUDIO</span>
             <h1>REBELIVIOUS <span>CREATIVE</span></h1>
-            <p class="hero-sub">Create. Train to be a Creator. Live a life as a Creative Soul.</p>
-            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%20services.%20Can%20we%20talk%20about%20a%20project%3F" class="btn">START A PROJECT</a>
+            <p class="hero-sub">Specializing in Interactive Web Design, 3D Identity & Custom Hardware.</p>
+            <a href="https://wa.me/60169429370?text=Hello%20R.C." class="btn">START A PROJECT</a>
         </div>
 
-        <div class="bento-box box-title">
+        <div class="morphic-glass box-title">
+            <span class="specs">TRUSTED BY</span>
+            <h2>OUR PARTNERS</h2>
+        </div>
+
+        <div class="client-marquee">
+            <div class="client-track">
+                <div class="client-logo">CROSSFIELD</div>
+                <div class="client-logo">G.F.M.</div>
+                <div class="client-logo">I.O.E.</div>
+                <div class="client-logo">CYH CONST.</div>
+                <div class="client-logo">THE KOLONG</div>
+                
+                <div class="client-logo">CROSSFIELD</div>
+                <div class="client-logo">G.F.M.</div>
+                <div class="client-logo">I.O.E.</div>
+                <div class="client-logo">CYH CONST.</div>
+                <div class="client-logo">THE KOLONG</div>
+            </div>
+        </div>
+
+        <div class="morphic-glass box-title">
             <span class="specs">AGENCY SERVICES</span>
             <h2>DIGITAL EXPERIENCES</h2>
         </div>
 
-        <div class="bento-box grid-3 visible">
+        <div class="morphic-glass grid-3 visible">
             <div class="pricing-card">
                 <span class="specs">THE HOOK</span>
                 <h3>BASIC</h3>
-                <div class="price-tag">RM 1,200</div>
+                <div class="price-tag">RM 389</div>
                 <ul class="pricing-features">
                     <li><i class="fas fa-check"></i> Clean 1-Page Layout</li>
                     <li><i class="fas fa-check"></i> WhatsApp Lead Setup</li>
-                    <li><i class="fas fa-check"></i> Cloudflare Security</li>
                     <li class="con"><i class="fas fa-times"></i> No Interactive Animations</li>
                 </ul>
-                <button class="buy-btn" onclick="buyItem('Basic Web Package')">SELECT BASIC</button>
+                <button class="buy-btn">SELECT BASIC</button>
             </div>
 
             <div class="pricing-card">
                 <span class="specs">THE STANDARD</span>
                 <h3>MEDIUM</h3>
-                <div class="price-tag">RM 2,400</div>
+                <div class="price-tag">RM 1,399</div>
                 <ul class="pricing-features">
                     <li><i class="fas fa-check"></i> Up to 4 Pages</li>
                     <li><i class="fas fa-check"></i> Technical SEO Setup</li>
-                    <li><i class="fas fa-check"></i> Cloudflare Security</li>
                     <li class="con"><i class="fas fa-times"></i> Standard Static Design</li>
                 </ul>
-                <button class="buy-btn" onclick="buyItem('Medium Web Package')">SELECT MEDIUM</button>
+                <button class="buy-btn">SELECT MEDIUM</button>
             </div>
 
             <div class="pricing-card premium">
                 <span class="specs" style="color: white;">THE CF EXPERIENCE</span>
                 <h3>PREMIUM</h3>
-                <div class="price-tag">RM 2,700</div>
+                <div class="price-tag">RM 1,599</div>
                 <ul class="pricing-features">
                     <li style="color: white;"><i class="fas fa-star" style="color: white;"></i> Fully Interactive Design</li>
                     <li style="color: white;"><i class="fas fa-check"></i> Smooth Scroll & Parallax</li>
-                    <li style="color: white;"><i class="fas fa-check"></i> Asset Protection</li>
                     <li style="color: white;"><i class="fas fa-check"></i> + 1 Free Smart NFC Card</li>
                 </ul>
-                <button class="buy-btn premium-btn" onclick="buyItem('Premium Web Package')">SELECT PREMIUM</button>
+                <button class="buy-btn premium-btn">SELECT PREMIUM</button>
             </div>
         </div>
 
-        <div class="bento-box box-title">
-            <span class="specs">VISUAL ARCHIVE</span>
-            <h2>ARTWORK & DESIGNS</h2>
-        </div>
-
-        <div class="box-marquee">
-            <div class="marquee-track">
-                <img src="gallery/art1.jpg" class="art-item" alt="Art 1">
-                <img src="gallery/art2.jpg" class="art-item" alt="Art 2">
-                <img src="gallery/art3.jpg" class="art-item" alt="Art 3">
-                <img src="gallery/art4.jpg" class="art-item" alt="Art 4">
-                <img src="gallery/art5.jpg" class="art-item" alt="Art 5">
-                <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
-                
-                <img src="gallery/art1.jpg" class="art-item" alt="Art 1">
-                <img src="gallery/art2.jpg" class="art-item" alt="Art 2">
-                <img src="gallery/art3.jpg" class="art-item" alt="Art 3">
-                <img src="gallery/art4.jpg" class="art-item" alt="Art 4">
-                <img src="gallery/art5.jpg" class="art-item" alt="Art 5">
-                <img src="gallery/art6.jpg" class="art-item" alt="Art 6">
-            </div>
-        </div>
-
-        <div class="bento-box box-title">
-            <span class="specs">DESIGNER HARDWARE</span>
-            <h2>R.C. MERCH SHOP</h2>
-        </div>
-
-        <div class="bento-box grid-3 visible">
-            <div class="product-card">
-                <span class="specs">ACCESSORY</span>
-                    <img src="merch/CARD.png" class="merch-img" alt="R.C NFC Card">
-                <h3>SMART NFC CARD</h3>
-                <p class="price">RM 140.00</p>
-                <button class="buy-btn" onclick="buyItem('Smart NFC Card')">SECURE DROP</button>
-            </div>
-
-            <div class="product-card">
-                <span class="specs">HARDWARE</span>
-                <img src="merch/NS.png" class="merch-img" alt="R.C Keychain">
-                <h3>TACTICAL KEYCHAIN</h3>
-                <p class="price">RM 60.00</p>
-                <button class="buy-btn" onclick="buyItem('Tactical Keychain')">SECURE DROP</button>
-            </div>
-
-            <div class="product-card">
-                <span class="specs">LIFESTYLE</span>
-                <img src="merch/MUG1.png" class="merch-img" alt="R.C Mug">
-                <h3>DESIGNER MUG</h3>
-                <p class="price">RM 80.00</p>
-                <button class="buy-btn" onclick="buyItem('Designer Mug')">SECURE DROP</button>
-            </div>
-        </div>
-
-        <div class="bento-box box-title">
-            <span class="specs">360 PRECISION</span>
+        <div class="morphic-glass box-title">
+            <span class="specs">3D PRECISION</span>
             <h2>INTERACTIVE RENDERS</h2>
         </div>
 
-        <div class="bento-box box-model">
-            <h3>MODEL 01</h3>
-            <div class="viewer-box" id="viewer-1">
-                <img id="img-1" class="product-img" src="360object/frame 1.png" alt="Model 1">
-            </div>
-            <div class="drag-hint"><i class="fas fa-arrows-alt-h"></i> DRAG TO ROTATE</div>
-        </div>
-
-        <div class="bento-box box-model">
-            <h3>MODEL 02</h3>
-            <div class="viewer-box" id="viewer-2">
-                <img id="img-2" class="product-img" src="360object2/frame 1.png" alt="Model 2">
-            </div>
-            <div class="drag-hint"><i class="fas fa-arrows-alt-h"></i> DRAG TO ROTATE</div>
-        </div>
-
-        <div class="bento-box box-footer">
-            <div class="social-links">
-                <a href="https://www.instagram.com/rebelivious.c" target="_blank">INSTAGRAM</a>
-                <a href="https://www.behance.net/x6irdm-4k" target="_blank">BEHANCE</a>
-            </div>
-            <span class="specs">REBELIVIOUS CREATIVE // 2026</span>
+        <div class="morphic-glass alt-shape box-model">
+            <model-viewer 
+                src="your-model.glb" 
+                auto-rotate 
+                camera-controls 
+                shadow-intensity="1"
+                environment-image="neutral"
+                exposure="1.2">
+            </model-viewer>
         </div>
 
     </div>
 
     <script>
-        /* --- 0. SCROLL ANIMATION --- */
-        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        /* --- SCROLL ANIMATION --- */
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -291,51 +236,20 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.bento-box, .box-marquee').forEach(el => observer.observe(el));
+        document.querySelectorAll('.morphic-glass, .client-marquee').forEach(el => observer.observe(el));
 
-        /* --- 1. 360 VIEWER LOGIC --- */
-        function init360Viewer(viewerId, imgId, folderPath, totalFrames) {
-            const viewer = document.getElementById(viewerId);
-            const mainImg = document.getElementById(imgId);
-            let isDragging = false, startX = 0, currentFrame = 1;
-            const sensitivity = 10;
-
-            for (let i = 1; i <= totalFrames; i++) {
-                const img = new Image();
-                img.src = `${folderPath}frame ${i}.png`; 
-            }
-
-            const updateImage = (x) => {
-                if (!isDragging) return;
-                const dragDistance = x - startX;
-                if (Math.abs(dragDistance) > sensitivity) {
-                    if (dragDistance > 0) currentFrame = currentFrame >= totalFrames ? 1 : currentFrame + 1;
-                    else currentFrame = currentFrame <= 1 ? totalFrames : currentFrame - 1;
-                    mainImg.src = `${folderPath}frame ${currentFrame}.png`;
-                    startX = x;
-                }
-            };
-
-            viewer.onmousedown = (e) => { isDragging = true; startX = e.pageX; viewer.style.cursor = 'grabbing'; };
-            window.addEventListener('mouseup', () => { isDragging = false; viewer.style.cursor = 'ew-resize'; });
-            window.addEventListener('mousemove', (e) => updateImage(e.pageX));
-            
-            viewer.ontouchstart = (e) => { isDragging = true; startX = e.touches[0].pageX; };
-            window.addEventListener('touchend', () => { isDragging = false; });
-            window.addEventListener('touchmove', (e) => { updateImage(e.touches[0].pageX); });
-        }
-
-        // Initialize viewers (Make sure you actually have these image folders!)
-        init360Viewer('viewer-1', 'img-1', '360object/', 30);
-        init360Viewer('viewer-2', 'img-2', '360object2/', 30);
-
-        /* --- 2. WHATSAPP LOGIC --- */
-        function buyItem(itemName) {
-            const message = `Yo%20R.C.%21%20I'm%20interested%20in%20the%20[${itemName}].%20Can%20we%20discuss%20the%20details%3F`;
-            window.open(`https://wa.me/60169429370?text=${message}`, '_blank');
-        }
+        /* --- INTERACTIVE MOUSE GLOW --- */
+        const glow = document.getElementById('interactive-glow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+        });
+        
+        // Touch support for mobile glow
+        document.addEventListener('touchmove', (e) => {
+            glow.style.transform = `translate(calc(${e.touches[0].clientX}px - 50%), calc(${e.touches[0].clientY}px - 50%))`;
+        });
     </script>
 </body>
 </html>
