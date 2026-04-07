@@ -36,18 +36,17 @@
             overflow-x: hidden; 
         }
 
-        /* --- INTERACTIVE BACKGROUND GLOW --- */
+/* --- INTERACTIVE BACKGROUND GLOW --- */
         #interactive-glow {
             position: fixed;
-            top: 50%; left: 50%;
+            top: 0; left: 0; /* Changed from 50% to 0 to fix the offset */
             width: 60vw; height: 60vw;
             background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
             border-radius: 50%;
-            transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 0;
-            transition: width 0.5s, height 0.5s;
             filter: blur(40px);
+            will-change: transform; /* Boosts performance for smooth tracking */
         }
 
         .wrapper {
