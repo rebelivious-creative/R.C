@@ -8,25 +8,29 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --accent: #FF003C; 
-            --bg-dark: #070707; /* Slightly softer black for premium feel */
+            --bg-dark: #070707; 
             --glass: rgba(15, 15, 15, 0.6); 
-            --border: rgba(255, 255, 255, 0.04); /* Very subtle border */
+            --border: rgba(255, 255, 255, 0.05); 
             --text-main: #D1D1D1;
             --text-light: #FFFFFF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none !important; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
-
-        #canvas-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
+        
+        /* New Luxury CSS Background instead of heavy 3D */
+        body { 
+            background-color: var(--bg-dark); 
+            background-image: radial-gradient(circle at 50% -20%, rgba(255, 0, 60, 0.15) 0%, transparent 70%);
+            color: var(--text-main); 
+            font-family: 'Rajdhani', sans-serif; 
+            overflow-x: hidden; 
+        }
 
         .wrapper {
             position: relative; z-index: 2;
@@ -44,7 +48,7 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 16px; /* Sharper, more modern corners */
+            border-radius: 16px; 
             padding: 50px;
             display: flex;
             flex-direction: column;
@@ -67,34 +71,35 @@
         .box-model { grid-column: span 6; min-height: 550px; position: relative; }
         .box-footer { grid-column: span 12; text-align: center; padding: 80px 20px 40px 20px; background: transparent; border: none; }
 
-        /* --- SHOP GRID --- */
-        .box-shop { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; background: none; border: none; backdrop-filter: none; padding: 0; opacity: 1; transform: none; }
-        .box-shop:hover { transform: none; }
+        /* --- GRID LAYOUTS (SHOP & PRICING) --- */
+        .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; background: none; border: none; backdrop-filter: none; padding: 0; opacity: 1; transform: none; }
+        .grid-3:hover { transform: none; }
 
-        .product-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
+        /* --- PRODUCT CARDS --- */
+        .product-card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 16px; padding: 40px 30px; text-align: center; transition: 0.5s; display: flex; flex-direction: column; align-items: center; }
         .product-card:hover { border-color: rgba(255, 0, 60, 0.4); transform: translateY(-8px); }
-        .merch-img { width: 100%; height: 250px; object-fit: contain; margin-bottom: 25px; transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .merch-img { width: 100%; height: 250px; object-fit: contain; margin-bottom: 25px; transition: 0.6s; }
         .product-card:hover .merch-img { transform: scale(1.08); }
         .price { font-family: 'Rajdhani'; font-weight: 700; font-size: 1.4rem; color: var(--text-light); margin: 10px 0 20px 0; }
         
-        .buy-btn { 
-            width: 100%; padding: 14px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); 
-            color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; 
-            cursor: pointer; transition: 0.3s; 
-        }
+        /* --- PRICING PACKAGES --- */
+        .pricing-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 40px; text-align: left; transition: 0.5s; display: flex; flex-direction: column; }
+        .pricing-card.premium { border-color: var(--accent); box-shadow: 0 0 40px rgba(255, 0, 60, 0.1); position: relative; overflow: hidden; }
+        .pricing-card.premium::before { content: 'RECOMMENDED'; position: absolute; top: 15px; right: -30px; background: var(--accent); color: white; font-family: 'Rajdhani'; font-size: 0.7rem; font-weight: 700; padding: 5px 30px; transform: rotate(45deg); letter-spacing: 2px; }
+        .pricing-card:hover { transform: translateY(-8px); }
+        
+        .price-tag { font-family: 'Oswald'; font-size: 2.5rem; color: var(--text-light); margin: 15px 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .pricing-features { list-style: none; margin: 20px 0 30px 0; flex-grow: 1; }
+        .pricing-features li { color: #aaa; margin-bottom: 15px; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .pricing-features li i { color: var(--accent); font-size: 0.9rem; }
+        .pricing-features li.con { color: #555; }
+        .pricing-features li.con i { color: #555; }
+
+        /* --- BUTTONS --- */
+        .buy-btn { width: 100%; padding: 14px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; cursor: pointer; transition: 0.3s; }
         .buy-btn:hover { background: var(--text-light); color: var(--bg-dark); border-color: var(--text-light); }
+        .buy-btn.premium-btn { background: var(--accent); border-color: var(--accent); color: white; }
+        .buy-btn.premium-btn:hover { background: white; color: black; border-color: white; }
 
         /* --- GALLERY --- */
         .marquee-track { display: flex; width: max-content; gap: 20px; animation: scroll 35s linear infinite; padding-left: 20px; }
@@ -109,8 +114,6 @@
         h1 span { color: var(--accent); font-weight: 300; }
         h2 { font-family: 'Oswald'; font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 300; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: 1px;}
         h3 { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 5px; color: var(--text-light); letter-spacing: 1px; }
-        
-        /* Updated Tagline Styling */
         .hero-sub { font-size: 1.2rem; font-weight: 400; max-width: 600px; margin: 30px auto 40px auto; color: #888; letter-spacing: 2px; line-height: 1.6; text-transform: uppercase; }
 
         /* --- 360 VIEWER --- */
@@ -118,7 +121,6 @@
         .product-img { width: 100%; height: auto; max-height: 350px; object-fit: contain; pointer-events: none; }
         .drag-hint { margin-top: auto; color: var(--text-main); font-family: 'Rajdhani'; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.5; }
 
-        /* --- BUTTONS --- */
         .btn { padding: 18px 40px; background: var(--accent); color: white; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; letter-spacing: 3px; border-radius: 4px; transition: 0.4s ease; display: inline-block; border: 1px solid var(--accent); white-space: nowrap; }
         .btn:hover { background: transparent; color: var(--accent); box-shadow: 0 0 30px rgba(255, 0, 60, 0.2); transform: translateY(-2px); }
 
@@ -128,7 +130,7 @@
 
         @media (max-width: 900px) {
             .wrapper { display: flex; flex-direction: column; gap: 20px; padding: 20px 10px; }
-            .box-hero, .box-model, .box-footer, .box-marquee, .box-title, .box-shop { width: 100%; grid-column: auto; }
+            .box-hero, .box-model, .box-footer, .box-marquee, .box-title, .grid-3 { width: 100%; grid-column: auto; }
             .bento-box { padding: 40px 20px; }
             .art-item { height: 280px; width: 220px; } 
             .box-model { min-height: 450px; }
@@ -138,12 +140,6 @@
     </style>
 </head>
 <body>
-
-    <div id="canvas-container"></div>
-
-    <div id="ios-motion-wrapper" style="display: none; position: fixed; bottom: 30px; right: 30px; z-index: 999;">
-        <button id="ios-motion-btn" class="buy-btn" style="background: var(--bg-dark); padding: 10px 20px; font-size: 1rem; box-shadow: 0 0 15px rgba(255,0,60,0.3);">ENABLE 3D TILT</button>
-    </div>
     
     <div class="wrapper">
         
@@ -151,7 +147,53 @@
             <span class="specs">JB.MY // STUDIO</span>
             <h1>REBELIVIOUS <span>CREATIVE</span></h1>
             <p class="hero-sub">Create. Train to be a Creator. Live a life as a Creative Soul.</p>
-            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%203D%2FInteractive%20design%20services.%20Can%20we%20talk%20about%20a%20custom%20project%3F" class="btn">START A PROJECT</a>
+            <a href="https://wa.me/60169429370?text=Hello%20R.C.%2C%20I%27m%20interested%20in%20your%20services.%20Can%20we%20talk%20about%20a%20project%3F" class="btn">START A PROJECT</a>
+        </div>
+
+        <div class="bento-box box-title">
+            <span class="specs">AGENCY SERVICES</span>
+            <h2>DIGITAL EXPERIENCES</h2>
+        </div>
+
+        <div class="bento-box grid-3 visible">
+            <div class="pricing-card">
+                <span class="specs">THE HOOK</span>
+                <h3>BASIC</h3>
+                <div class="price-tag">RM 1,200</div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Clean 1-Page Layout</li>
+                    <li><i class="fas fa-check"></i> WhatsApp Lead Setup</li>
+                    <li><i class="fas fa-check"></i> Cloudflare Security</li>
+                    <li class="con"><i class="fas fa-times"></i> No Interactive Animations</li>
+                </ul>
+                <button class="buy-btn" onclick="buyItem('Basic Web Package')">SELECT BASIC</button>
+            </div>
+
+            <div class="pricing-card">
+                <span class="specs">THE STANDARD</span>
+                <h3>MEDIUM</h3>
+                <div class="price-tag">RM 2,400</div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i> Up to 4 Pages</li>
+                    <li><i class="fas fa-check"></i> Technical SEO Setup</li>
+                    <li><i class="fas fa-check"></i> Cloudflare Security</li>
+                    <li class="con"><i class="fas fa-times"></i> Standard Static Design</li>
+                </ul>
+                <button class="buy-btn" onclick="buyItem('Medium Web Package')">SELECT MEDIUM</button>
+            </div>
+
+            <div class="pricing-card premium">
+                <span class="specs" style="color: white;">THE CF EXPERIENCE</span>
+                <h3>PREMIUM</h3>
+                <div class="price-tag">RM 2,700</div>
+                <ul class="pricing-features">
+                    <li style="color: white;"><i class="fas fa-star" style="color: white;"></i> Fully Interactive Design</li>
+                    <li style="color: white;"><i class="fas fa-check"></i> Smooth Scroll & Parallax</li>
+                    <li style="color: white;"><i class="fas fa-check"></i> Asset Protection</li>
+                    <li style="color: white;"><i class="fas fa-check"></i> + 1 Free Smart NFC Card</li>
+                </ul>
+                <button class="buy-btn premium-btn" onclick="buyItem('Premium Web Package')">SELECT PREMIUM</button>
+            </div>
         </div>
 
         <div class="bento-box box-title">
@@ -182,7 +224,7 @@
             <h2>R.C. MERCH SHOP</h2>
         </div>
 
-        <div class="bento-box box-shop visible">
+        <div class="bento-box grid-3 visible">
             <div class="product-card">
                 <span class="specs">ACCESSORY</span>
                     <img src="merch/CARD.png" class="merch-img" alt="R.C NFC Card">
@@ -253,7 +295,7 @@
 
         document.querySelectorAll('.bento-box, .box-marquee').forEach(el => observer.observe(el));
 
-        /* --- 1. 360 VIEWER --- */
+        /* --- 1. 360 VIEWER LOGIC --- */
         function init360Viewer(viewerId, imgId, folderPath, totalFrames) {
             const viewer = document.getElementById(viewerId);
             const mainImg = document.getElementById(imgId);
@@ -285,103 +327,14 @@
             window.addEventListener('touchmove', (e) => { updateImage(e.touches[0].pageX); });
         }
 
+        // Initialize viewers (Make sure you actually have these image folders!)
         init360Viewer('viewer-1', 'img-1', '360object/', 30);
         init360Viewer('viewer-2', 'img-2', '360object2/', 30);
 
-        /* --- 2. SHOP BUY LOGIC --- */
+        /* --- 2. WHATSAPP LOGIC --- */
         function buyItem(itemName) {
-            const message = `Yo%20R.C.%21%20I%20want%20to%20secure%20the%20[${itemName}]%20from%20the%20merch%20shop.`;
+            const message = `Yo%20R.C.%21%20I'm%20interested%20in%20the%20[${itemName}].%20Can%20we%20discuss%20the%20details%3F`;
             window.open(`https://wa.me/60169429370?text=${message}`, '_blank');
-        }
-
-        /* --- 3. THREE.JS OPTICAL ILLUSION BACKGROUND --- */
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        
-        renderer.setPixelRatio(window.devicePixelRatio); 
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
-        scene.add(new THREE.AmbientLight(0xffffff, 0.4)); 
-
-        const roomGeo = new THREE.BoxGeometry(60, 60, 60, 15, 15, 15);
-        const roomMat = new THREE.MeshBasicMaterial({ 
-            color: 0xFF003C, 
-            wireframe: true, 
-            transparent: true, 
-            opacity: 0.1, /* Lowered opacity slightly for cleaner look */
-            side: THREE.BackSide 
-        });
-        const room = new THREE.Mesh(roomGeo, roomMat);
-        scene.add(room);
-
-        let myTag;
-        new THREE.OBJLoader().load('TAGGING.obj', (obj) => {
-            myTag = obj;
-            obj.traverse(c => { 
-                if (c.isMesh) {
-                    c.material = new THREE.MeshStandardMaterial({ color: 0x333333, wireframe: true, transparent: true, opacity: 0.2 }); 
-                }
-            });
-            myTag.scale.set(0.7, 0.7, 0.7); 
-            scene.add(myTag);
-        });
-        camera.position.z = 5;
-
-        let targetRotX = 0;
-        let targetRotY = 0;
-
-        document.addEventListener('mousemove', (e) => { 
-            let x = (e.clientX / window.innerWidth) * 2 - 1;
-            let y = -(e.clientY / window.innerHeight) * 2 + 1;
-            targetRotY = x * -0.4; 
-            targetRotX = y * 0.4;  
-        });
-
-        window.addEventListener('deviceorientation', (e) => {
-            let tiltX = e.gamma || 0; 
-            let tiltY = e.beta || 0;  
-            tiltX = Math.max(-45, Math.min(45, tiltX));
-            tiltY = Math.max(-45, Math.min(45, tiltY));
-            targetRotY = (tiltX / 45) * 0.5;
-            targetRotX = (tiltY / 45) * -0.5;
-        });
-
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        function animate() {
-            requestAnimationFrame(animate);
-            room.rotation.y += (targetRotY - room.rotation.y) * 0.05;
-            room.rotation.x += (targetRotX - room.rotation.x) * 0.05;
-
-            if (myTag) { 
-                myTag.rotation.y += 0.003; 
-            }
-            
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        // --- APPLE iPHONE UNLOCK LOGIC ---
-        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-            const iosWrapper = document.getElementById('ios-motion-wrapper');
-            const iosBtn = document.getElementById('ios-motion-btn');
-            
-            iosWrapper.style.display = 'block';
-
-            iosBtn.addEventListener('click', () => {
-                DeviceOrientationEvent.requestPermission()
-                    .then(permissionState => {
-                        if (permissionState === 'granted') {
-                            iosWrapper.style.display = 'none'; 
-                        }
-                    })
-                    .catch(console.error);
-            });
         }
     </script>
 </body>
