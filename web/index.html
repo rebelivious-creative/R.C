@@ -36,23 +36,34 @@
         h2 { font-family: 'Oswald'; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: 1px; line-height: 1.1; }
         h3 { font-family: 'Oswald'; font-size: 1.8rem; font-weight: 400; color: var(--text-light); }
 
-        /* --- INTERACTIVE WEB STACK --- */
+        /* --- GLITCH-FREE INTERACTIVE WEB STACK --- */
         .stack-container { position: relative; width: 100%; height: 600px; display: flex; justify-content: center; align-items: center; margin-top: 20px; }
         .stack-card { position: absolute; width: 380px; height: 500px; background: #0a0a0a; border: 1px solid var(--glass-border); border-radius: 12px; transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column; overflow: hidden; }
-        .browser-bar { height: 30px; background: #1a1a1a; display: flex; align-items: center; padding: 0 15px; gap: 6px; border-bottom: 1px solid #333; }
+        .browser-bar { height: 30px; background: #1a1a1a; display: flex; align-items: center; padding: 0 15px; gap: 6px; border-bottom: 1px solid #333; flex-shrink: 0; }
         .dot { width: 10px; height: 10px; border-radius: 50%; }
         .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
-        .stack-card iframe { width: 100%; height: calc(100% - 30px); border: none; background: #fff; pointer-events: none; transition: 0.3s; }
         
-        .stack-card:nth-child(1) { transform: translateX(-100px) rotate(-5deg) scale(0.9); z-index: 1; opacity: 0.5; }
-        .stack-card:nth-child(2) { transform: translateX(100px) rotate(5deg) scale(0.9); z-index: 2; opacity: 0.5; }
+        /* The Scrolling Image (Replaces Buggy Iframes) */
+        .scroll-frame { width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; pointer-events: none; }
+        .scroll-frame img { width: 100%; height: auto; display: block; filter: grayscale(50%) brightness(0.6); transition: 0.4s; }
+        .scroll-frame::-webkit-scrollbar { width: 6px; }
+        .scroll-frame::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        
+        /* Stack Positioning */
+        .stack-card:nth-child(1) { transform: translateX(-120px) rotate(-5deg) scale(0.9); z-index: 1; opacity: 0.5; }
+        .stack-card:nth-child(2) { transform: translateX(120px) rotate(5deg) scale(0.9); z-index: 2; opacity: 0.5; }
         .stack-card:nth-child(3) { transform: translateX(0) rotate(0deg) scale(1); z-index: 3; border-color: var(--accent); }
+        .stack-card:nth-child(3) img { filter: grayscale(0%) brightness(1); }
 
-        .stack-container:hover .stack-card:nth-child(1) { transform: translateX(-240px) rotate(-8deg) scale(0.95); opacity: 0.8; }
-        .stack-container:hover .stack-card:nth-child(2) { transform: translateX(240px) rotate(8deg) scale(0.95); opacity: 0.8; }
+        /* Hover Interaction (Glitch Fixed) */
+        .stack-container:hover .stack-card:nth-child(1) { transform: translateX(-260px) rotate(-8deg) scale(0.95); opacity: 0.8; }
+        .stack-container:hover .stack-card:nth-child(2) { transform: translateX(260px) rotate(8deg) scale(0.95); opacity: 0.8; }
+        
         .stack-card:hover { z-index: 10 !important; opacity: 1 !important; transform: scale(1.05) !important; border-color: var(--accent); }
-        .stack-card:hover iframe { pointer-events: auto; } 
+        .stack-card:hover .scroll-frame { pointer-events: auto; } 
+        .stack-card:hover img { filter: grayscale(0%) brightness(1); }
 
+        /* Pricing & Compare */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; width: 100%; margin-top: 20px; }
         .pricing-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px 10px 30px 10px; padding: 40px; }
         .pricing-card.premium { border-color: var(--accent); background: linear-gradient(135deg, rgba(200,30,49,0.05), transparent); position: relative; overflow: hidden; }
@@ -93,24 +104,30 @@
         <div class="morphic-glass box-title visible" style="align-items: center; text-align: center; margin-top: 20px;">
             <span class="specs">DIGITAL ARCHITECTURE</span>
             <h2>INTERACTIVE WEB DESIGN</h2>
-            <p style="color: #aaa; max-width: 600px; margin-top: 20px; font-size: 1.1rem; line-height: 1.6;">High-performance sites tailored to convert. Hover over our recent case studies below to interact directly with the live code.</p>
+            <p style="color: #aaa; max-width: 600px; margin-top: 20px; font-size: 1.1rem; line-height: 1.6;">High-performance sites tailored to convert. Hover over our recent case studies below and scroll to view the builds.</p>
         </div>
 
         <div class="morphic-glass visible" style="padding: 20px; overflow: visible;">
             <div class="stack-container">
                 <div class="stack-card">
                     <div class="browser-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-                    <iframe src="https://example.com" title="Client Site 1"></iframe>
+                    <div class="scroll-frame">
+                        <img src="https://via.placeholder.com/800x2000/111/444?text=Upload+Screenshot+Here" alt="Web Project 1">
+                    </div>
                 </div>
                 
                 <div class="stack-card">
                     <div class="browser-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-                    <iframe src="https://example.com" title="Client Site 2"></iframe>
+                    <div class="scroll-frame">
+                        <img src="https://via.placeholder.com/800x2000/111/444?text=Upload+Screenshot+Here" alt="Web Project 2">
+                    </div>
                 </div>
                 
                 <div class="stack-card">
                     <div class="browser-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
-                    <iframe src="https://crossfield.com" title="CF Main Site"></iframe>
+                    <div class="scroll-frame">
+                        <img src="https://via.placeholder.com/800x2000/111/C81E31?text=Crossfield+Screenshot" alt="CF Main Site">
+                    </div>
                 </div>
             </div>
             <span class="specs" style="margin-top: 20px;">HOVER TO EXPAND & SCROLL</span>
