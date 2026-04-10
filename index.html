@@ -84,10 +84,21 @@
         .btn { padding: 18px 40px; background: var(--accent); color: white; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; letter-spacing: 3px; border-radius: 8px; transition: 0.4s ease; display: inline-block; border: 1px solid var(--accent); }
         .btn:hover { background: transparent; color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-2px); }
 
-        /* --- NAVIGATION --- */
-        .top-nav { grid-column: span 12; display: flex; justify-content: flex-end; gap: 30px; padding: 20px 0; }
-        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
+        /* --- FLOATING PILL NAVIGATION --- */
+        .top-nav { 
+            grid-column: span 12; display: flex; justify-content: center; gap: 30px; 
+            padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100;
+            width: max-content; margin: 0 auto;
+        }
+        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
         .top-nav a:hover { color: var(--text-light); }
+
+        @media (max-width: 900px) {
+            .top-nav { padding: 12px 25px; gap: 15px; width: 100%; border-radius: 12px; }
+            .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
+        }
 
         /* --- TYPOGRAPHY --- */
         .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
