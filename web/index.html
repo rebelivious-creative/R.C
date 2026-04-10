@@ -56,7 +56,7 @@
         .stack-card:hover .scroll-frame { pointer-events: auto; } 
         .stack-card:hover img { filter: grayscale(0%) brightness(1); }
 
-        /* Pricing Grid */
+        /* Pricing Grid - FIXED HORIZONTAL SPAN */
         .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; margin-top: 20px; }
         .pricing-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px 10px 30px 10px; padding: 40px; display: flex; flex-direction: column; }
         .pricing-card.premium { border-color: var(--accent); background: linear-gradient(135deg, rgba(200,30,49,0.05), transparent); position: relative; overflow: hidden; }
@@ -143,14 +143,15 @@
             <h3>CHOOSE YOUR ARCHITECTURE</h3>
         </div>
 
-        <div class="grid-3">
+        <div class="grid-3 visible">
             <div class="pricing-card">
                 <h3>BASIC</h3>
                 <div class="price-tag">RM 389</div>
                 <ul class="pricing-features">
-                    <li><i class="fas fa-check"></i> Clean 1-Page Layout</li>
-                    <li><i class="fas fa-check"></i> WhatsApp Lead Setup</li>
-                    <li><i class="fas fa-times" style="color:#555;"></i> No Interactive Animations</li>
+                    <li><i class="fas fa-check"></i> Up to 3 Pages</li>
+                    <li><i class="fas fa-check"></i> WhatsApp Direct Funnel</li>
+                    <li><i class="fas fa-check"></i> Mobile-First Layout</li>
+                    <li><i class="fas fa-check"></i> R.C. Subdomain Setup</li>
                 </ul>
                 <button class="buy-btn">SELECT BASIC</button>
             </div>
@@ -159,9 +160,10 @@
                 <h3>MEDIUM</h3>
                 <div class="price-tag">RM 1,399</div>
                 <ul class="pricing-features">
-                    <li><i class="fas fa-check"></i> Up to 4 Pages</li>
+                    <li><i class="fas fa-check"></i> Up to 6 Pages</li>
+                    <li><i class="fas fa-check"></i> CMS Editor Access</li>
                     <li><i class="fas fa-check"></i> Technical SEO Setup</li>
-                    <li><i class="fas fa-times" style="color:#555;"></i> Standard Static Design</li>
+                    <li><i class="fas fa-check"></i> Custom Domain Linking</li>
                 </ul>
                 <button class="buy-btn">SELECT MEDIUM</button>
             </div>
@@ -170,8 +172,9 @@
                 <h3>PREMIUM</h3>
                 <div class="price-tag">RM 1,599</div>
                 <ul class="pricing-features">
-                    <li><i class="fas fa-star" style="color:white;"></i> Fully Interactive Design</li>
-                    <li><i class="fas fa-check"></i> Smooth Scroll & Parallax</li>
+                    <li><i class="fas fa-star" style="color:white;"></i> Unlimited Pages & Scaling</li>
+                    <li><i class="fas fa-check"></i> Interactive 3D Integration</li>
+                    <li><i class="fas fa-check"></i> Custom Scroll Animations</li>
                     <li><i class="fas fa-check"></i> + 1 Free Smart NFC Card</li>
                 </ul>
                 <button class="buy-btn premium-btn">SELECT PREMIUM</button>
@@ -183,7 +186,7 @@
                 <table class="compare-table">
                     <thead>
                         <tr>
-                            <th>Features</th>
+                            <th>Architecture Features</th>
                             <th>Basic</th>
                             <th>Medium</th>
                             <th style="color: var(--accent);">Premium</th>
@@ -191,16 +194,28 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Interactive WebGL</td>
+                            <td>Cloudflare SSL Security</td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                            <td><i class="fas fa-check check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Interactive WebGL & 3D</td>
                             <td><i class="fas fa-times cross"></i></td>
                             <td><i class="fas fa-times cross"></i></td>
                             <td><i class="fas fa-check check"></i></td>
                         </tr>
                         <tr>
-                            <td>Total Web Pages</td>
-                            <td>1 Landing Page</td>
-                            <td>Up to 4 Pages</td>
-                            <td>Up to 6 Pages</td>
+                            <td>Content Management System</td>
+                            <td>R.C. Managed</td>
+                            <td>Self-Serve Access</td>
+                            <td>Full Admin Control</td>
+                        </tr>
+                        <tr>
+                            <td>Domain Hosting</td>
+                            <td>Subdomain included</td>
+                            <td>Custom Domain (.com)</td>
+                            <td>Custom Domain (.com)</td>
                         </tr>
                         <tr>
                             <td>Revisions Included</td>
