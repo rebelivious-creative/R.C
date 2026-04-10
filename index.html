@@ -1,1 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.C. | REBELIVIOUS CREATIVE</title>
 
+    <link rel="icon" type="image/png" href="logo.png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { 
+            --bg-base: #110405; 
+            --accent: #C81E31; 
+            --accent-glow: rgba(200, 30, 49, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.02); 
+            --glass-border: rgba(255, 255, 255, 0.06); 
+            --text-main: #C0C0C0; 
+            --text-light: #F5F5F5; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none !important; -webkit-tap-highlight-color: transparent; }
+        
+        body { 
+            background-color: var(--bg-base); 
+            color: var(--text-main); 
+            font-family: 'Rajdhani', sans-serif; 
+            overflow-x: hidden; 
+        }
+
+        /* --- INTERACTIVE BACKGROUND GLOW --- */
+        #interactive-glow {
+            position: fixed; top: 0; left: 0; width: 60vw; height: 60vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(40px); will-change: transform; 
+        }
+
+        .wrapper {
+            position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 60px 20px;
+            display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px;
+        }
+
+        /* --- FLOATING PILL NAVIGATION --- */
+        .top-nav { 
+            grid-column: span 12; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 30px; 
+            padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100;
+            width: max-content; margin: 0 auto;
+        }
+        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
+        .top-nav a:hover { color: var(--text-light); }
+
+        /* --- MORPHIC GLASS --- */
+        .morphic-glass {
+            background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border); border-radius: 40px 12px 40px 12px; 
+            padding: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); opacity: 0; transform: translateY(30px); box-shadow: 0 10px 40px rgba(0,0,0,0.2); grid-column: span 12;
+        }
+        .morphic-glass.visible { opacity: 1; transform: translateY(0); }
+        .morphic-glass:hover { border-color: rgba(200, 30, 49, 0.4); transform: translateY(-5px); box-shadow: 0 15px 50px rgba(200, 30, 49, 0.05); }
+
+        .box-hero { text-align: center; padding: 140px 20px; background: transparent; border: none; box-shadow: none; backdrop-filter: none; }
+        .box-title { padding: 20px; text-align: left; background: transparent; border: none; box-shadow: none; backdrop-filter: none; align-items: flex-start; opacity: 1; transform: none; }
+        
+        /* --- CLIENT SOCIAL PROOF --- */
+        .client-marquee { grid-column: span 12; padding: 30px 0; overflow: hidden; position: relative; background: var(--glass-bg); border-radius: 20px; border: 1px solid var(--glass-border); display: flex; align-items: center; opacity: 0; transform: translateY(30px); }
+        .client-marquee.visible { opacity: 1; transform: translateY(0); }
+        .client-track { display: flex; width: max-content; gap: 60px; animation: scroll-clients 20s linear infinite; padding-left: 60px; align-items: center; }
+        .client-logo { font-family: 'Oswald'; font-size: 2rem; color: #555; letter-spacing: 4px; font-weight: 700; transition: 0.4s; }
+        .client-logo:hover { color: var(--text-light); }
+        @keyframes scroll-clients { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- SERVICES GRID --- */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; background: none; border: none; padding: 0; opacity: 1; transform: none; box-shadow: none;}
+
+        .service-card { 
+            background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); 
+            border-radius: 20px; padding: 50px 40px; text-align: center; transition: 0.5s; display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+        }
+        .service-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 10px 40px rgba(200,30,49,0.1); }
+        
+        .service-icon { font-size: 3.5rem; color: var(--accent); margin-bottom: 25px; transition: 0.4s; }
+        .service-card:hover .service-icon { transform: scale(1.1); color: var(--text-light); }
+        
+        .service-desc { color: #aaa; margin: 20px 0 35px 0; line-height: 1.6; font-size: 1.1rem; }
+
+        /* --- BUTTONS --- */
+        .action-btn { width: 100%; padding: 16px; background: transparent; border: 1px solid var(--glass-border); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; }
+        .action-btn:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+
+        .btn { padding: 18px 40px; background: var(--accent); color: white; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; letter-spacing: 3px; border-radius: 8px; transition: 0.4s ease; display: inline-block; border: 1px solid var(--accent); }
+        .btn:hover { background: transparent; color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-2px); }
+
+        /* --- TYPOGRAPHY --- */
+        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+        h1 { font-family: 'Oswald', sans-serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 700; line-height: 1.1; text-transform: uppercase; letter-spacing: -1px; color: var(--text-light); }
+        h1 span { color: var(--accent); font-weight: 300; }
+        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 400; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: 1px;}
+        h3 { font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 5px; color: var(--text-light); letter-spacing: 1px; }
+        .hero-sub { font-size: 1.2rem; font-weight: 400; max-width: 600px; margin: 20px auto 40px auto; color: #888; letter-spacing: 2px; line-height: 1.6; text-transform: uppercase; }
+
+        @media (max-width: 900px) {
+            .wrapper { display: flex; flex-direction: column; gap: 20px; padding: 20px 15px; }
+            .morphic-glass { padding: 30px 20px; }
+            .top-nav { padding: 12px 25px; gap: 15px; width: 100%; border-radius: 12px; }
+            .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="interactive-glow"></div>
+    
+    <div class="wrapper">
+        
+        <div class="top-nav">
+            <a href="index.html" style="color: var(--accent);">HOME</a>
+            <a href="gallery.html">VISUAL ARCHIVE</a>
+            <a href="shop.html">HARDWARE</a>
+        </div>
+
+        <div class="morphic-glass box-hero visible">
+            <span class="specs">PREMIUM DIGITAL STUDIO</span>
+            <h1>REBELIVIOUS <span>CREATIVE</span></h1>
+            <p class="hero-sub">Specializing in Interactive Web Design, 3D Identity & Custom Hardware.</p>
+            <a href="https://wa.me/60169429370?text=Hello%20R.C." class="btn">START A PROJECT</a>
+        </div>
+
+        <div class="morphic-glass box-title">
+            <span class="specs">TRUSTED BY</span>
+            <h2>OUR PARTNERS</h2>
+        </div>
+
+        <div class="client-marquee">
+            <div class="client-track">
+                <div class="client-logo">CROSSFIELD</div>
+                <div class="client-logo">G.F.M.</div>
+                <div class="client-logo">I.O.E.</div>
+                <div class="client-logo">CYH CONST.</div>
+                <div class="client-logo">THE KOLONG</div>
+                
+                <div class="client-logo">CROSSFIELD</div>
+                <div class="client-logo">G.F.M.</div>
+                <div class="client-logo">I.O.E.</div>
+                <div class="client-logo">CYH CONST.</div>
+                <div class="client-logo">THE KOLONG</div>
+            </div>
+        </div>
+
+       <div class="morphic-glass box-title">
+            <span class="specs">CORE COMPETENCIES</span>
+            <h2>AGENCY SERVICES</h2>
+        </div>
+
+        <div class="morphic-glass grid-3 visible">
+            
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-laptop-code service-icon"></i>
+                    <h3>WEB & INTERACTIVE</h3>
+                    <p class="service-desc">High-performance landing pages, interactive WebGL experiences, and custom coded funnels designed to convert traffic into revenue.</p>
+                </div>
+                <a href="web/" class="action-btn">VIEW PACKAGES</a>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-cube service-icon"></i>
+                    <h3>3D & ANIMATION</h3>
+                    <p class="service-desc">Custom 3D modeling, environment rendering, and high-fidelity product animations for campaigns and interactive web integration.</p>
+                </div>
+                <a href="3d-services/" class="action-btn">VIEW PACKAGES</a>
+            </div>
+
+            <div class="service-card">
+                <div>
+                    <i class="fas fa-tshirt service-icon"></i>
+                    <h3>BRAND & APPAREL</h3>
+                    <p class="service-desc">Full brand identity systems, custom typography, automotive sticker wraps, and streetwear apparel collections.</p>
+                </div>
+                <a href="graphic-design/" class="action-btn">VIEW PACKAGES</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.morphic-glass, .client-marquee').forEach(el => observer.observe(el));
+
+        const glow = document.getElementById('interactive-glow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+        });
+        
+        document.addEventListener('touchmove', (e) => {
+            glow.style.transform = `translate(calc(${e.touches[0].clientX}px - 50%), calc(${e.touches[0].clientY}px - 50%))`;
+        });
+    </script>
+</body>
+</html>
