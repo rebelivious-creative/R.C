@@ -42,6 +42,17 @@
             display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px;
         }
 
+        /* --- FLOATING PILL NAVIGATION --- */
+        .top-nav { 
+            grid-column: span 12; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 30px; 
+            padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100;
+            width: max-content; margin: 0 auto;
+        }
+        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
+        .top-nav a:hover { color: var(--text-light); }
+
         /* --- MORPHIC GLASS --- */
         .morphic-glass {
             background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
@@ -84,22 +95,6 @@
         .btn { padding: 18px 40px; background: var(--accent); color: white; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; letter-spacing: 3px; border-radius: 8px; transition: 0.4s ease; display: inline-block; border: 1px solid var(--accent); }
         .btn:hover { background: transparent; color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-2px); }
 
-        /* --- FLOATING PILL NAVIGATION --- */
-        .top-nav { 
-            grid-column: span 12; display: flex; justify-content: center; gap: 30px; 
-            padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100;
-            width: max-content; margin: 0 auto;
-        }
-        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
-        .top-nav a:hover { color: var(--text-light); }
-
-        @media (max-width: 900px) {
-            .top-nav { padding: 12px 25px; gap: 15px; width: 100%; border-radius: 12px; }
-            .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
-        }
-
         /* --- TYPOGRAPHY --- */
         .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
         h1 { font-family: 'Oswald', sans-serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 700; line-height: 1.1; text-transform: uppercase; letter-spacing: -1px; color: var(--text-light); }
@@ -111,7 +106,8 @@
         @media (max-width: 900px) {
             .wrapper { display: flex; flex-direction: column; gap: 20px; padding: 20px 15px; }
             .morphic-glass { padding: 30px 20px; }
-            .top-nav { justify-content: center; }
+            .top-nav { padding: 12px 25px; gap: 15px; width: 100%; border-radius: 12px; }
+            .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
         }
     </style>
 </head>
@@ -121,7 +117,7 @@
     
     <div class="wrapper">
         
-        <div class="top-nav morphic-glass visible" style="padding: 20px 40px; border-radius: 50px; background: rgba(10,10,10,0.5);">
+        <div class="top-nav">
             <a href="index.html" style="color: var(--accent);">HOME</a>
             <a href="gallery.html">VISUAL ARCHIVE</a>
             <a href="shop.html">HARDWARE</a>
@@ -168,7 +164,7 @@
                     <h3>WEB & INTERACTIVE</h3>
                     <p class="service-desc">High-performance landing pages, interactive WebGL experiences, and custom coded funnels designed to convert traffic into revenue.</p>
                 </div>
-                <a href="web-design.html" class="action-btn">VIEW PACKAGES</a>
+                <a href="web/" class="action-btn">VIEW PACKAGES</a>
             </div>
 
             <div class="service-card">
@@ -177,7 +173,7 @@
                     <h3>3D & ANIMATION</h3>
                     <p class="service-desc">Custom 3D modeling, environment rendering, and high-fidelity product animations for campaigns and interactive web integration.</p>
                 </div>
-                <a href="3d-services.html" class="action-btn">VIEW PACKAGES</a>
+                <a href="3d-services/" class="action-btn">VIEW PACKAGES</a>
             </div>
 
             <div class="service-card">
@@ -186,7 +182,7 @@
                     <h3>BRAND & APPAREL</h3>
                     <p class="service-desc">Full brand identity systems, custom typography, automotive sticker wraps, and streetwear apparel collections.</p>
                 </div>
-                <a href="graphic-design.html" class="action-btn">VIEW PACKAGES</a>
+                <a href="graphic-design/" class="action-btn">VIEW PACKAGES</a>
             </div>
 
         </div>
@@ -194,7 +190,6 @@
     </div>
 
     <script>
-        /* --- SCROLL ANIMATION --- */
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -206,7 +201,6 @@
 
         document.querySelectorAll('.morphic-glass, .client-marquee').forEach(el => observer.observe(el));
 
-        /* --- INTERACTIVE MOUSE GLOW --- */
         const glow = document.getElementById('interactive-glow');
         document.addEventListener('mousemove', (e) => {
             glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
