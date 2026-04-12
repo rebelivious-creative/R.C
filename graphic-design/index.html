@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="../logo.png">
 
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
     <style>
         :root { --bg-base: #110405; --accent: #C81E31; --accent-glow: rgba(200, 30, 49, 0.15); --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
         
@@ -32,7 +34,22 @@
         h2 { font-family: 'Oswald'; font-size: clamp(2rem, 5vw, 4rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: 1px; line-height: 1.1; }
         h3 { font-family: 'Oswald'; font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 400; color: var(--text-light); }
 
-        /* --- MASONRY GALLERY FOR DESIGN SHOWCASE --- */
+        /* --- 3D TEE SHOWCASE --- */
+        .model-gallery { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .viewer-display { width: 100%; height: 500px; border-radius: 20px; overflow: hidden; position: relative; border: 1px solid var(--glass-border); background: radial-gradient(circle at center, #1a0a0c 0%, #0a0a0a 100%); transition: 0.4s; }
+        model-viewer { width: 100%; height: 100%; --poster-color: transparent; outline: none; }
+        .model-overlay { position: absolute; bottom: 20px; left: 20px; background: rgba(10,10,10,0.8); backdrop-filter: blur(10px); padding: 15px 25px; border-radius: 12px; border: 1px solid var(--glass-border); pointer-events: none; }
+        .model-overlay p { font-family: 'Rajdhani'; color: #aaa; font-size: 0.9rem; margin-top: 5px; }
+
+        .thumbnail-strip { width: 100%; display: flex; justify-content: center; gap: 15px; overflow-x: auto; padding-bottom: 10px; margin-top: 20px;}
+        .thumbnail-strip::-webkit-scrollbar { height: 4px; }
+        .thumbnail-strip::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        .thumb-item { width: 100px; height: 100px; border-radius: 12px; border: 1px solid var(--glass-border); cursor: pointer; overflow: hidden; transition: 0.3s; filter: grayscale(100%); background: #111; }
+        .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb-item.active { border-color: var(--accent); transform: scale(1.05); filter: grayscale(0%); }
+        .thumb-item:hover { border-color: rgba(200, 30, 49, 0.4); filter: grayscale(0%); }
+
+        /* --- MASONRY GALLERY FOR 2D DESIGN --- */
         .masonry-gallery { width: 100%; columns: 3 300px; column-gap: 20px; margin-top: 20px; }
         .gallery-item { break-inside: avoid; margin-bottom: 20px; border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border); position: relative; cursor: pointer; }
         .gallery-item img { width: 100%; display: block; transition: 0.5s ease; filter: grayscale(40%) brightness(0.8); }
@@ -43,7 +60,7 @@
         .gallery-overlay h4 { font-family: 'Oswald'; color: var(--text-light); font-size: 1.2rem; letter-spacing: 1px; margin-bottom: 5px; }
         .gallery-overlay p { font-family: 'Rajdhani'; color: var(--accent); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; }
 
-        /* Pricing Grid - FIXED HORIZONTAL SPAN */
+        /* Pricing Grid */
         .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; margin-top: 20px; }
         .pricing-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px 10px 30px 10px; padding: 40px; display: flex; flex-direction: column; }
         .pricing-card.premium { border-color: var(--accent); background: linear-gradient(135deg, rgba(200,30,49,0.05), transparent); position: relative; overflow: hidden; }
@@ -70,6 +87,8 @@
             .top-nav { padding: 12px 15px; width: 100%; flex-wrap: wrap; }
             .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
             .masonry-gallery { columns: 1; }
+            .viewer-display { height: 350px; }
+            .thumb-item { width: 70px; height: 70px; }
         }
     </style>
 </head>
@@ -89,7 +108,46 @@
         <div class="morphic-glass box-title visible" style="align-items: center; text-align: center; margin-top: 20px;">
             <span class="specs">VISUAL IDENTITY & MERCHANDISE</span>
             <h2>BRANDING & APPAREL</h2>
-            <p style="color: #aaa; max-width: 700px; margin-top: 20px; font-size: 1.1rem; line-height: 1.6;">From full corporate identity systems and custom streetwear jersey collections, to high-performance automotive sticker wraps. We forge visual authority.</p>
+            <p style="color: #aaa; max-width: 700px; margin-top: 20px; font-size: 1.1rem; line-height: 1.6;">From full corporate identity systems to custom streetwear jersey collections and automotive wraps. Interact with our latest apparel models below.</p>
+        </div>
+
+        <div class="morphic-glass visible" style="padding: 20px;">
+            <div class="model-gallery">
+                <div class="viewer-display">
+                    <model-viewer 
+                        id="tee-viewer"
+                        src="tee-model-1.glb" 
+                        auto-rotate 
+                        camera-controls 
+                        shadow-intensity="1"
+                        exposure="1.2"
+                        environment-image="neutral"
+                        interaction-prompt="hover">
+                    </model-viewer>
+                    
+                    <div class="model-overlay">
+                        <span class="specs" style="margin-bottom: 0;">3D APPAREL CAPSULE</span>
+                        <p>DRAG TO ROTATE TEE</p>
+                    </div>
+                </div>
+                
+                <div class="thumbnail-strip">
+                    <div class="thumb-item active" onclick="switchTee('tee-model-1.glb', this)">
+                        <img src="tee-thumb-1.jpg" alt="Tee Design 1">
+                    </div>
+                    <div class="thumb-item" onclick="switchTee('tee-model-2.glb', this)">
+                        <img src="tee-thumb-2.jpg" alt="Tee Design 2">
+                    </div>
+                    <div class="thumb-item" onclick="switchTee('tee-model-3.glb', this)">
+                        <img src="tee-thumb-3.jpg" alt="Tee Design 3">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="morphic-glass box-title visible">
+            <span class="specs">VISUAL ARCHIVE</span>
+            <h3>RECENT CAMPAIGNS & WRAPS</h3>
         </div>
 
         <div class="morphic-glass visible" style="padding: 20px;">
@@ -104,15 +162,7 @@
                 </div>
 
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/600x600/1a1a1a/555?text=Apparel+Collection" alt="Streetwear Collection">
-                    <div class="gallery-overlay">
-                        <h4>CIVILIAN BRAND</h4>
-                        <p>Streetwear & Jersey Design</p>
-                    </div>
-                </div>
-
-                <div class="gallery-item">
-                    <img src="https://via.placeholder.com/600x900/0a0a0a/333?text=Brand+Identity" alt="Corporate Branding">
+                    <img src="https://via.placeholder.com/600x600/1a1a1a/555?text=Brand+Identity" alt="Corporate Branding">
                     <div class="gallery-overlay">
                         <h4>BRAND IDENTITY</h4>
                         <p>Logo & Typography System</p>
@@ -156,7 +206,7 @@
                 <ul class="pricing-features">
                     <li><i class="fas fa-check"></i> Custom Jersey/Streetwear Design</li>
                     <li><i class="fas fa-check"></i> Manufacturer-Ready Tech Packs</li>
-                    <li><i class="fas fa-check"></i> Realistic 3D Clothing Mockups</li>
+                    <li><i class="fas fa-check"></i> Interactive 3D Web Mockup (.GLB)</li>
                     <li><i class="fas fa-check"></i> Commercial Use License</li>
                 </ul>
                 <button class="buy-btn">START APPAREL</button>
@@ -190,7 +240,7 @@
                         <tr>
                             <td>Source Files Delivered</td>
                             <td>.AI, .PNG, .PDF</td>
-                            <td>.AI, Tech Packs, Mockups</td>
+                            <td>.AI, Tech Packs, .GLB</td>
                             <td>.AI, Print Vectors, Guidelines</td>
                         </tr>
                         <tr>
@@ -219,6 +269,15 @@
     </div>
 
     <script>
+        // Switcher for the 3D Tees
+        function switchTee(glbUrl, clickedThumb) {
+            const teeViewer = document.getElementById('tee-viewer');
+            teeViewer.src = glbUrl;
+            const allThumbs = document.querySelectorAll('.thumb-item');
+            allThumbs.forEach(thumb => thumb.classList.remove('active'));
+            clickedThumb.classList.add('active');
+        }
+
         const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
         document.querySelectorAll('.morphic-glass').forEach(el => observer.observe(el));
         
