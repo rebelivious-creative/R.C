@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Archive | R.C.</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --bg-base: #110405; --accent: #C81E31; --accent-glow: rgba(200, 30, 49, 0.15); --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; min-height: 100vh; }
+
+        #interactive-glow { position: fixed; top: 0; left: 0; width: 60vw; height: 60vw; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(40px); will-change: transform; }
+
+        .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 60px 20px; display: flex; flex-direction: column; gap: 30px; }
+
+        /* Navigation */
+        .top-nav { display: flex; justify-content: center; align-items: center; gap: 30px; padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100; width: max-content; max-width: 95%; margin: 0 auto; }
+        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
+        .top-nav a:hover { color: var(--text-light); }
+
+        /* Glass Blocks */
+        .morphic-glass { background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 40px 12px 40px 12px; padding: 50px; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); transition: 0.6s; width: 100%; }
+        .morphic-glass.visible { opacity: 1; transform: translateY(0); }
+        
+        .box-title { padding: 20px 40px; text-align: center; align-items: center; }
+
+        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+        h2 { font-family: 'Oswald'; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); line-height: 1.1; }
+        
+        /* Filter System */
+        .filter-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 30px; }
+        .filter-btn { background: transparent; border: 1px solid var(--glass-border); color: var(--text-main); padding: 10px 25px; border-radius: 30px; font-family: 'Rajdhani'; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+        .filter-btn:hover { border-color: var(--accent); color: var(--text-light); }
+        .filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+        /* Dynamic Portfolio Grid */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; margin-top: 40px; width: 100%; }
+        
+        .portfolio-item { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); cursor: pointer; height: 350px; transition: transform 0.4s, opacity 0.4s; }
+        .portfolio-item.hide { display: none; }
+        
+        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; filter: grayscale(50%) brightness(0.7); }
+        .portfolio-item:hover img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
+
+        .item-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 20px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); transform: translateY(20px); opacity: 0; transition: 0.4s; display: flex; flex-direction: column; }
+        .portfolio-item:hover .item-overlay { transform: translateY(0); opacity: 1; }
+        
+        .item-category { color: var(--accent); font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+        .item-title { font-family: 'Oswald'; color: var(--text-light); font-size: 1.5rem; font-weight: 400; letter-spacing: 1px; }
+
+        @media (max-width: 900px) { 
+            .wrapper { padding: 40px 15px; } 
+            .top-nav { padding: 12px 20px; gap: 15px; flex-wrap: wrap; } 
+            .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .portfolio-item { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="interactive-glow"></div>
+    
+    <div class="wrapper">
+        
+        <div class="top-nav">
+            <a href="index.html">HOME</a>
+            <a href="gallery.html" style="color: var(--accent);">VISUAL ARCHIVE</a>
+            <a href="shop.html">HARDWARE</a>
+        </div>
+
+        <div class="morphic-glass box-title visible">
+            <span class="specs">THE VAULT</span>
+            <h2>VISUAL ARCHIVE</h2>
+            <p style="color: #aaa; max-width: 600px; margin: 20px auto 0 auto; font-size: 1.1rem; line-height: 1.6;">A curated selection of our finest digital architecture, 3D rendering, and visual identity projects.</p>
+            
+            <div class="filter-container">
+                <button class="filter-btn active" data-filter="all">All Work</button>
+                <button class="filter-btn" data-filter="web">Web & Interactive</button>
+                <button class="filter-btn" data-filter="3d">3D Architecture</button>
+                <button class="filter-btn" data-filter="brand">Brand & Apparel</button>
+            </div>
+        </div>
+
+        <div class="portfolio-grid visible morphic-glass" style="padding: 20px; background: transparent; border: none; backdrop-filter: none;">
+            
+            <div class="portfolio-item" data-category="web">
+                <img src="https://via.placeholder.com/800x600/111/444?text=Crossfield+Web" alt="Crossfield Website">
+                <div class="item-overlay">
+                    <span class="item-category">WEB & INTERACTIVE</span>
+                    <span class="item-title">CROSSFIELD COLLECTIVE</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="3d">
+                <img src="https://via.placeholder.com/800x600/1a1a1a/555?text=Yayasan+Model" alt="Yayasan 3D Model">
+                <div class="item-overlay">
+                    <span class="item-category">3D ARCHITECTURE</span>
+                    <span class="item-title">ROYAL FOUNDATION FIGURE</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="brand">
+                <img src="https://via.placeholder.com/800x600/0a0a0a/333?text=Civilian+Tee" alt="Civilian Streetwear">
+                <div class="item-overlay">
+                    <span class="item-category">BRAND & APPAREL</span>
+                    <span class="item-title">CIVILIAN BRAND CAPSULE</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="3d">
+                <img src="https://via.placeholder.com/800x600/111/C81E31?text=Johor+Tourism" alt="Visit Johor 2026">
+                <div class="item-overlay">
+                    <span class="item-category">3D ARCHITECTURE</span>
+                    <span class="item-title">VISIT JOHOR 2026</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="brand">
+                <img src="https://via.placeholder.com/800x600/222/555?text=Car+Wrap" alt="Automotive Wrap">
+                <div class="item-overlay">
+                    <span class="item-category">AUTOMOTIVE DESIGN</span>
+                    <span class="item-title">CUSTOM VEHICLE WRAP</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="web">
+                <img src="https://via.placeholder.com/800x600/050505/333?text=Client+Portal" alt="Corporate Portal">
+                <div class="item-overlay">
+                    <span class="item-category">WEB & INTERACTIVE</span>
+                    <span class="item-title">CYH CONST. PORTAL</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Intersection Observer for fade-ins
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
+        document.querySelectorAll('.morphic-glass').forEach(el => observer.observe(el));
+        
+        // Interactive Glow
+        const glow = document.getElementById('interactive-glow');
+        document.addEventListener('mousemove', (e) => { glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`; });
+        document.addEventListener('touchmove', (e) => { glow.style.transform = `translate(calc(${e.touches[0].clientX}px - 50%), calc(${e.touches[0].clientY}px - 50%))`; });
+
+        // Dynamic Portfolio Filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                portfolioItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.classList.remove('hide');
+                    } else {
+                        item.classList.add('hide');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
