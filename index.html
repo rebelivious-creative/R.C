@@ -7,6 +7,8 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
     <style>
         :root { --bg-base: #110405; --accent: #C81E31; --accent-glow: rgba(200, 30, 49, 0.15); --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
@@ -14,7 +16,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
 
-        #interactive-glow { position: fixed; top: 0; left: 0; width: 60vw; height: 60vw; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(40px); will-change: transform; }
+        /* The Custom WebGL Canvas */
+        #webgl-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
         .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 60px 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
 
@@ -50,7 +53,8 @@
         /* Buttons & Typography */
         .action-btn { width: 100%; padding: 16px; background: transparent; border: 1px solid var(--glass-border); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; }
         .action-btn:hover { background: var(--accent); border-color: var(--accent); }
-        .btn { padding: 18px 40px; background: var(--accent); color: white; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; letter-spacing: 3px; border-radius: 8px; transition: 0.4s ease; display: inline-block; border: 1px solid var(--accent); }
+        .btn { padding: 18px 40px; background: var(--accent); color: white; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.1rem; letter-spacing: 3px; border-radius: 8px; transition: 0.4s ease; display: inline-block; border: 1px solid var(--accent); position: relative; z-index: 10;}
+        .btn:hover { background: transparent; color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); transform: translateY(-2px); }
 
         .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
         h1 { font-family: 'Oswald', sans-serif; font-size: clamp(2.5rem, 8vw, 6.5rem); font-weight: 700; line-height: 1.1; text-transform: uppercase; color: var(--text-light); }
@@ -59,7 +63,6 @@
         h3 { font-family: 'Oswald'; font-size: 1.5rem; font-weight: 400; color: var(--text-light); }
         .hero-sub { font-size: clamp(1rem, 3vw, 1.2rem); max-width: 600px; margin: 20px auto 40px auto; color: #888; letter-spacing: 2px; line-height: 1.6; text-transform: uppercase; }
 
-        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 900px) { 
             .wrapper { padding: 40px 15px; display: flex; flex-direction: column; } 
             .morphic-glass { padding: 30px 20px; border-radius: 20px; } 
@@ -71,7 +74,7 @@
 </head>
 <body>
     
-    <div id="interactive-glow"></div>
+    <canvas id="webgl-canvas"></canvas>
     
     <div class="wrapper">
         
@@ -141,10 +144,100 @@
     <script>
         const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
         document.querySelectorAll('.morphic-glass, .client-marquee').forEach(el => observer.observe(el));
+    </script>
+
+    <script>
+        // 1. Scene Setup
+        const canvas = document.querySelector('#webgl-canvas');
+        const scene = new THREE.Scene();
         
-        const glow = document.getElementById('interactive-glow');
-        document.addEventListener('mousemove', (e) => { glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`; });
-        document.addEventListener('touchmove', (e) => { glow.style.transform = `translate(calc(${e.touches[0].clientX}px - 50%), calc(${e.touches[0].clientY}px - 50%))`; });
+        // 2. Camera Setup
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 15;
+
+        // 3. Renderer Setup (Alpha true makes the background transparent so CSS shows through)
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // 4. Create the Geometry (The R.C. Digital Core)
+        // An Icosahedron wireframe gives that premium digital/spatial vibe
+        const geometry = new THREE.IcosahedronGeometry(8, 1);
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0xC81E31, // Your accent red
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.15 
+        });
+        const coreShape = new THREE.Mesh(geometry, material);
+        scene.add(coreShape);
+
+        // 5. Create Spatial Particle Field
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 800; // Total particles
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for(let i = 0; i < particlesCount * 3; i++) {
+            // Spread particles across a wide 3D space
+            posArray[i] = (Math.random() - 0.5) * 40;
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.05,
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.4
+        });
+        
+        const particleMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particleMesh);
+
+        // 6. Mouse Interaction Mathematics
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        });
+
+        // 7. Responsive Window Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // 8. The Animation Loop (Running at 60fps)
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            // Auto-rotate the core and particles
+            coreShape.rotation.y = elapsedTime * 0.1;
+            coreShape.rotation.x = elapsedTime * 0.05;
+            particleMesh.rotation.y = -elapsedTime * 0.02;
+
+            // Smooth Mouse Parallax Effect
+            targetX = mouseX * 0.001;
+            targetY = mouseY * 0.001;
+            
+            // Apply mouse movement to the camera with ease-in physics
+            camera.position.x += (mouseX * 0.005 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.005 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
     </script>
 </body>
 </html>
