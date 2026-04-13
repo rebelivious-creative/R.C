@@ -72,6 +72,33 @@
             </div>
         </div>
 
+        <div style="background-color: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 25px; text-align: left; border: 1px solid #333;">
+    <h3 style="color: #fff; margin-top: 0; margin-bottom: 20px; font-size: 18px; border-bottom: 1px solid #333; padding-bottom: 10px;">Client Details</h3>
+
+    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Full Name *</label>
+    <input type="text" id="clientName" required style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box;">
+
+    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Primary Email *</label>
+    <input type="email" id="primaryEmail" required style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box;">
+
+    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Alternative Delivery Email (Optional - For digital assets)</label>
+    <input type="email" id="deliveryEmail" placeholder="Leave blank to use Primary Email" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box;">
+
+    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">WhatsApp Number *</label>
+    <input type="tel" id="clientPhone" placeholder="+60..." required style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box;">
+
+    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Shipping Address (For Physical Items)</label>
+    <textarea id="clientAddress" rows="2" placeholder="Leave blank if digital-only" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; font-family: 'Arial', sans-serif;"></textarea>
+
+    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Project Remarks / Specific Details</label>
+    <textarea id="clientRemarks" rows="2" placeholder="Any specific requirements?" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; font-family: 'Arial', sans-serif;"></textarea>
+
+    <div style="background-color: #2a1114; padding: 15px; border-radius: 6px; border: 1px solid #C81E31;">
+        <label style="color: #ffb3b3; font-size: 14px; display: block; margin-bottom: 5px;">Support the Creator (Tip Jar - RM)</label>
+        <input type="number" id="clientTip" placeholder="0" min="0" style="width: 100%; padding: 12px; background: #111; border: 1px solid #C81E31; color: #fff; border-radius: 6px; box-sizing: border-box;">
+    </div>
+</div>
+        
         <div class="checkout-action">
             <span class="specs">LEGAL & COMPLIANCE</span>
             <div class="terms-box">
@@ -122,28 +149,58 @@
             }
         });
 
-// 4. Payment & Automated Delivery Routing
+        // Dynamic Tip Calculator for the UI
+        document.getElementById('clientTip').addEventListener('input', function() {
+            let tip = parseFloat(this.value) || 0;
+            let basePrice = parseFloat(itemPrice) || 0; 
+            document.getElementById('display-total').innerText = `RM ${basePrice + tip}`;
+        });
+
+        // Payment & Automated Delivery Routing
         payBtn.addEventListener('click', async function() {
-            // Change button to show loading state
+            const name = document.getElementById('clientName').value;
+            const primaryEmail = document.getElementById('primaryEmail').value;
+            const deliveryEmail = document.getElementById('deliveryEmail').value;
+            const phone = document.getElementById('clientPhone').value;
+            const address = document.getElementById('clientAddress').value;
+            const remarks = document.getElementById('clientRemarks').value;
+            const tipAmount = parseFloat(document.getElementById('clientTip').value) || 0;
+
+            // Stop them if they missed the crucial info
+            if (!name || !primaryEmail || !phone) {
+                alert("Please fill in your Name, Primary Email, and WhatsApp number.");
+                return;
+            }
+
+            // Smart Email Routing: Use delivery email if provided, otherwise use primary
+            const finalTargetEmail = deliveryEmail ? deliveryEmail : primaryEmail;
+            
+            // Calculate final total
+            const finalTotal = parseFloat(itemPrice) + tipAmount;
+
+            // Change button state
             payBtn.innerText = "PROCESSING ARCHITECTURE...";
             payBtn.style.pointerEvents = "none";
 
             try {
-                // Ping your new Cloudflare Worker!
                 const response = await fetch('https://rc-delivery-engine.rebeliviouscreative.workers.dev', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         itemName: itemName,
-                        price: itemPrice,
-                        // IMPORTANT: Replace this with the email you used to sign up for Resend!
-                        clientEmail: "rebeliviouscreative@gmail.com" 
+                        price: finalTotal, 
+                        clientName: name,
+                        clientEmail: finalTargetEmail, // This ensures the files go to the right place
+                        clientPhone: phone,
+                        clientAddress: address,
+                        clientRemarks: remarks,
+                        tip: tipAmount
                     })
                 });
 
                 if (response.ok) {
-                    payBtn.innerText = "RECEIPT SENT! CHECK INBOX";
-                    payBtn.style.background = "#27c93f"; // Turns green on success
+                    payBtn.innerText = "ORDER SECURED! CHECK INBOX";
+                    payBtn.style.background = "#27c93f"; 
                     payBtn.style.color = "#fff";
                 } else {
                     payBtn.innerText = "ERROR - TRY AGAIN";
