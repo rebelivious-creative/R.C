@@ -9,115 +9,130 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --bg-base: #110405; --accent: #C81E31; --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
+        :root { --bg-base: #0a0a0a; --accent: #C81E31; --glass-bg: rgba(255, 255, 255, 0.03); --glass-border: rgba(255, 255, 255, 0.08); --text-main: #C0C0C0; --text-light: #F5F5F5; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;}
+        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;}
 
-        .checkout-container { width: 100%; max-width: 1000px; background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 20px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+        .checkout-container { width: 100%; max-width: 1100px; background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* Left Side: Order Summary */
-        .order-summary { padding: 50px; background: rgba(0,0,0,0.3); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; }
-        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
-        h2 { font-family: 'Oswald'; font-size: 2.5rem; font-weight: 700; text-transform: uppercase; color: var(--text-light); margin-bottom: 30px; line-height: 1.1;}
+        /* Top Section: Split Layout */
+        .top-section { display: grid; grid-template-columns: 1.2fr 1fr; border-bottom: 1px solid var(--glass-border); }
+
+        .order-summary { padding: 40px; background: rgba(0,0,0,0.2); border-right: 1px solid var(--glass-border); }
+        .client-form { padding: 40px; background: rgba(255,255,255,0.01); }
+
+        /* Typography */
+        .specs { color: var(--accent); font-size: 0.8rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+        h2, h3 { font-family: 'Oswald'; text-transform: uppercase; color: var(--text-light); }
+        h2 { font-size: 2.2rem; margin-bottom: 30px; }
+        h3 { font-size: 1.4rem; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;}
+
+        /* Form Inputs */
+        .input-group { margin-bottom: 15px; }
+        label { color: #888; font-size: 0.85rem; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+        input, textarea { width: 100%; padding: 12px; background: #111; border: 1px solid #333; color: #fff; border-radius: 8px; font-family: 'Rajdhani'; font-size: 1rem; transition: 0.3s; }
+        input:focus, textarea:focus { border-color: var(--accent); outline: none; background: #151515; }
+
+        /* Tip Jar */
+        .tip-box { background: rgba(200, 30, 49, 0.05); padding: 15px; border-radius: 12px; border: 1px dashed var(--accent); margin-top: 10px; }
+
+        /* Summary Row */
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--glass-border); }
+        .item-name { font-size: 1.2rem; color: var(--text-light); font-weight: 700; }
+        .item-price { font-family: 'Oswald'; font-size: 1.4rem; color: var(--accent); }
         
-        .item-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; margin-bottom: 20px; }
-        .item-name { font-size: 1.3rem; color: var(--text-light); font-weight: 700; }
-        .item-price { font-family: 'Oswald'; font-size: 1.5rem; color: var(--accent); }
-        
-        .total-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; }
-        .total-label { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; }
-        .total-price { font-family: 'Oswald'; font-size: 2.5rem; color: var(--text-light); }
+        .total-display { margin-top: 40px; }
+        .total-label { font-size: 1rem; letter-spacing: 2px; color: #888; }
+        .total-price { font-family: 'Oswald'; font-size: 3.5rem; color: var(--text-light); line-height: 1; }
 
-        /* Right Side: Terms & Action */
-        .checkout-action { padding: 50px; display: flex; flex-direction: column; }
-        
-        .terms-box { width: 100%; height: 200px; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); border-radius: 8px; padding: 20px; overflow-y: auto; font-size: 0.9rem; color: #888; line-height: 1.6; margin-bottom: 20px; }
-        .terms-box h4 { color: var(--text-light); font-family: 'Oswald'; letter-spacing: 1px; margin: 15px 0 5px 0; }
-        .terms-box h4:first-child { margin-top: 0; }
-        .terms-box::-webkit-scrollbar { width: 4px; }
-        .terms-box::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        /* Bottom Section: Wide Terms & Button */
+        .bottom-action { padding: 40px; background: rgba(0,0,0,0.4); }
+        .terms-container { width: 100%; margin-bottom: 30px; }
+        .terms-text { font-size: 0.9rem; color: #666; line-height: 1.6; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .terms-column h4 { color: #aaa; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
 
-        .checkbox-container { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 30px; cursor: pointer; }
-        .checkbox-container input { margin-top: 5px; cursor: pointer; accent-color: var(--accent); width: 18px; height: 18px;}
-        .checkbox-label { font-size: 1rem; color: var(--text-light); line-height: 1.4; }
+        .checkbox-container { display: flex; align-items: center; gap: 12px; margin: 30px 0; cursor: pointer; justify-content: center; }
+        .checkbox-container input { width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); }
 
-        .btn { width: 100%; padding: 18px; background: #333; color: #888; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.2rem; letter-spacing: 3px; border-radius: 8px; text-align: center; border: 1px solid #444; transition: 0.4s ease; cursor: not-allowed; text-transform: uppercase; }
-        .btn.active { background: var(--accent); color: white; border-color: var(--accent); cursor: pointer; box-shadow: 0 0 20px var(--accent-glow); }
-        .btn.active:hover { background: transparent; color: var(--accent); }
+        .btn { width: 100%; max-width: 500px; margin: 0 auto; display: block; padding: 20px; background: #222; color: #555; font-family: 'Oswald'; font-weight: 700; font-size: 1.4rem; letter-spacing: 3px; border-radius: 12px; border: 1px solid #333; transition: 0.4s; cursor: not-allowed; }
+        .btn.active { background: var(--accent); color: white; border-color: var(--accent); cursor: pointer; box-shadow: 0 10px 30px rgba(200, 30, 49, 0.3); }
+        .btn.active:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(200, 30, 49, 0.4); }
 
-        /* Mobile Adjustments */
-        @media (max-width: 900px) { 
-            .checkout-container { grid-template-columns: 1fr; }
-            .order-summary { border-right: none; border-bottom: 1px solid var(--glass-border); padding: 30px 20px; }
-            .checkout-action { padding: 30px 20px; }
-            h2 { font-size: 2rem; }
+        /* Mobile */
+        @media (max-width: 850px) {
+            .top-section { grid-template-columns: 1fr; }
+            .order-summary { border-right: none; border-bottom: 1px solid var(--glass-border); }
+            .terms-text { grid-template-columns: 1fr; gap: 15px; }
+            .total-price { font-size: 2.8rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="checkout-container">
-        <div class="order-summary">
-            <span class="specs">SECURE CHECKOUT</span>
-            <h2>ORDER OVERVIEW</h2>
-            
-            <div class="item-row">
-                <div class="item-name" id="display-item">Loading Asset...</div>
-                <div class="item-price" id="display-price">RM 0</div>
+        <div class="top-section">
+            <div class="order-summary">
+                <span class="specs">SECURE ARCHITECTURE</span>
+                <h2>ORDER OVERVIEW</h2>
+                
+                <div class="item-row">
+                    <div class="item-name" id="display-item">Loading...</div>
+                    <div class="item-price" id="display-price">RM 0</div>
+                </div>
+                
+                <div class="total-display">
+                    <div class="total-label">FINAL INVESTMENT</div>
+                    <div class="total-price" id="display-total">RM 0</div>
+                </div>
             </div>
-            
-            <div class="total-row">
-                <div class="total-label">Final Total</div>
-                <div class="total-price" id="display-total">RM 0</div>
+
+            <div class="client-form">
+                <h3>CLIENT DETAILS</h3>
+                <div class="input-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="clientName" placeholder="Azhari Azmi">
+                </div>
+                <div class="input-group">
+                    <label>Primary Email *</label>
+                    <input type="email" id="primaryEmail" placeholder="mrazhariazmi@gmail.com">
+                </div>
+                <div class="input-group">
+                    <label>Alternative Email (Optional)</label>
+                    <input type="email" id="deliveryEmail" placeholder="For file delivery">
+                </div>
+                <div class="input-group">
+                    <label>WhatsApp Number *</label>
+                    <input type="tel" id="clientPhone" placeholder="+60...">
+                </div>
+                <div class="input-group">
+                    <label>Shipping / Project Remarks</label>
+                    <textarea id="clientRemarks" rows="2" placeholder="Address or notes..."></textarea>
+                </div>
+                
+                <div class="tip-box">
+                    <label style="color: var(--accent);">SUPPORT THE VISION (TIP JAR RM)</label>
+                    <input type="number" id="clientTip" placeholder="0" min="0">
+                </div>
             </div>
         </div>
 
-        <div style="background-color: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 25px; text-align: left; border: 1px solid #333;">
-    <h3 style="color: #fff; margin-top: 0; margin-bottom: 20px; font-size: 18px; border-bottom: 1px solid #333; padding-bottom: 10px;">Client Details</h3>
-
-    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Full Name *</label>
-    <input type="text" id="clientName" required style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box;">
-
-    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Primary Email *</label>
-    <input type="email" id="primaryEmail" required style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box;">
-
-    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Alternative Delivery Email (Optional - For digital assets)</label>
-    <input type="email" id="deliveryEmail" placeholder="Leave blank to use Primary Email" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box;">
-
-    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">WhatsApp Number *</label>
-    <input type="tel" id="clientPhone" placeholder="+60..." required style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box;">
-
-    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Shipping Address (For Physical Items)</label>
-    <textarea id="clientAddress" rows="2" placeholder="Leave blank if digital-only" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; font-family: 'Arial', sans-serif;"></textarea>
-
-    <label style="color: #aaa; font-size: 14px; display: block; margin-bottom: 5px;">Project Remarks / Specific Details</label>
-    <textarea id="clientRemarks" rows="2" placeholder="Any specific requirements?" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; font-family: 'Arial', sans-serif;"></textarea>
-
-    <div style="background-color: #2a1114; padding: 15px; border-radius: 6px; border: 1px solid #C81E31;">
-        <label style="color: #ffb3b3; font-size: 14px; display: block; margin-bottom: 5px;">Support the Creator (Tip Jar - RM)</label>
-        <input type="number" id="clientTip" placeholder="0" min="0" style="width: 100%; padding: 12px; background: #111; border: 1px solid #C81E31; color: #fff; border-radius: 6px; box-sizing: border-box;">
-    </div>
-</div>
-        
-        <div class="checkout-action">
-            <span class="specs">LEGAL & COMPLIANCE</span>
-            <div class="terms-box">
-                <h4>1. Payment & Commencement</h4>
-                Full payment is required prior to the commencement of any creative production. Due to the custom nature of our architecture, payments are non-refundable once production has begun.
-                
-                <h4>2. Revisions & Scope</h4>
-                Projects include the specified rounds of revisions. A "revision" constitutes minor adjustments to the presented concept. Deviations from the original creative brief will be quoted as a separate project.
-                
-                <h4>3. Intellectual Property</h4>
-                Upon final payment, the client is granted commercial rights to use the finalized visual assets. Rebelivious Creative retains the right to display completed work within our visual archive. Raw source files remain the property of Rebelivious Creative unless a separate license is acquired.
-                
-                <h4>4. Timelines</h4>
-                Project delivery depends on timely feedback. Projects delayed by the client for more than 30 days will be considered paused, and a reactivation fee may apply.
+        <div class="bottom-action">
+            <div class="terms-container">
+                <div class="terms-text">
+                    <div class="terms-column">
+                        <h4>1. COMMENCEMENT</h4>
+                        <p>Full payment is required before production. Non-refundable once work begins.</p>
+                    </div>
+                    <div class="terms-column">
+                        <h4>2. INTELLECTUAL PROPERTY</h4>
+                        <p>Client gains commercial rights upon final payment. R.C. retains portfolio rights.</p>
+                    </div>
+                </div>
             </div>
 
             <label class="checkbox-container">
                 <input type="checkbox" id="agree-checkbox">
-                <span class="checkbox-label">I have read and agree to the Rebelivious Creative Terms of Service.</span>
+                <span style="color: #fff; font-size: 0.9rem;">I AGREE TO THE TERMS OF SERVICE</span>
             </label>
 
             <button class="btn" id="pay-btn" disabled>PROCEED TO PAYMENT</button>
@@ -125,17 +140,28 @@
     </div>
 
     <script>
-        // 1. Read the URL to figure out what they are buying
+        // 1. Get Data from URL & Force to Number
         const urlParams = new URLSearchParams(window.location.search);
         const itemName = urlParams.get('item') || 'Custom Project Retainer';
-        const itemPrice = urlParams.get('price') || 'TBD';
+        // Force the price to be a Number so math works!
+        let basePrice = parseFloat(urlParams.get('price')) || 0;
 
-        // 2. Display it on the page
+        // 2. Initial Display
         document.getElementById('display-item').innerText = itemName;
-        document.getElementById('display-price').innerText = `RM ${itemPrice}`;
-        document.getElementById('display-total').innerText = `RM ${itemPrice}`;
+        document.getElementById('display-price').innerText = `RM ${basePrice}`;
+        document.getElementById('display-total').innerText = `RM ${basePrice}`;
 
-        // 3. Checkbox Logic
+        // 3. Dynamic Tip Math (THE FIX)
+        const tipInput = document.getElementById('clientTip');
+        const totalDisplay = document.getElementById('display-total');
+
+        tipInput.addEventListener('input', () => {
+            let tipValue = parseFloat(tipInput.value) || 0;
+            let finalSum = basePrice + tipValue;
+            totalDisplay.innerText = `RM ${finalSum}`;
+        });
+
+        // 4. Checkbox & Button
         const checkbox = document.getElementById('agree-checkbox');
         const payBtn = document.getElementById('pay-btn');
 
@@ -149,37 +175,22 @@
             }
         });
 
-        // Dynamic Tip Calculator for the UI
-        document.getElementById('clientTip').addEventListener('input', function() {
-            let tip = parseFloat(this.value) || 0;
-            let basePrice = parseFloat(itemPrice) || 0; 
-            document.getElementById('display-total').innerText = `RM ${basePrice + tip}`;
-        });
-
-        // Payment & Automated Delivery Routing
+        // 5. Submit to Cloudflare Worker
         payBtn.addEventListener('click', async function() {
             const name = document.getElementById('clientName').value;
-            const primaryEmail = document.getElementById('primaryEmail').value;
+            const email = document.getElementById('primaryEmail').value;
             const deliveryEmail = document.getElementById('deliveryEmail').value;
             const phone = document.getElementById('clientPhone').value;
-            const address = document.getElementById('clientAddress').value;
             const remarks = document.getElementById('clientRemarks').value;
-            const tipAmount = parseFloat(document.getElementById('clientTip').value) || 0;
+            const tipValue = parseFloat(tipInput.value) || 0;
+            const finalTotal = basePrice + tipValue;
 
-            // Stop them if they missed the crucial info
-            if (!name || !primaryEmail || !phone) {
-                alert("Please fill in your Name, Primary Email, and WhatsApp number.");
+            if (!name || !email || !phone) {
+                alert("Please complete required fields.");
                 return;
             }
 
-            // Smart Email Routing: Use delivery email if provided, otherwise use primary
-            const finalTargetEmail = deliveryEmail ? deliveryEmail : primaryEmail;
-            
-            // Calculate final total
-            const finalTotal = parseFloat(itemPrice) + tipAmount;
-
-            // Change button state
-            payBtn.innerText = "PROCESSING ARCHITECTURE...";
+            payBtn.innerText = "LINKING TO BANKING GATEWAY...";
             payBtn.style.pointerEvents = "none";
 
             try {
@@ -190,23 +201,18 @@
                         itemName: itemName,
                         price: finalTotal, 
                         clientName: name,
-                        clientEmail: finalTargetEmail, // This ensures the files go to the right place
+                        clientEmail: deliveryEmail || email,
                         clientPhone: phone,
-                        clientAddress: address,
                         clientRemarks: remarks,
-                        tip: tipAmount
+                        tip: tipValue
                     })
                 });
 
                 if (response.ok) {
-                    payBtn.innerText = "ORDER SECURED! CHECK INBOX";
-                    payBtn.style.background = "#27c93f"; 
-                    payBtn.style.color = "#fff";
-                } else {
-                    payBtn.innerText = "ERROR - TRY AGAIN";
+                    payBtn.innerText = "SUCCESS! CHECK EMAIL";
+                    payBtn.style.background = "#27c93f";
                 }
             } catch(e) {
-                console.error(e);
                 payBtn.innerText = "SYSTEM ERROR";
             }
         });
