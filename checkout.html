@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Secure Checkout | R.C.</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root { --bg-base: #110405; --accent: #C81E31; --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;}
+
+        .checkout-container { width: 100%; max-width: 1000px; background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 20px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+
+        /* Left Side: Order Summary */
+        .order-summary { padding: 50px; background: rgba(0,0,0,0.3); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; }
+        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+        h2 { font-family: 'Oswald'; font-size: 2.5rem; font-weight: 700; text-transform: uppercase; color: var(--text-light); margin-bottom: 30px; line-height: 1.1;}
+        
+        .item-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; margin-bottom: 20px; }
+        .item-name { font-size: 1.3rem; color: var(--text-light); font-weight: 700; }
+        .item-price { font-family: 'Oswald'; font-size: 1.5rem; color: var(--accent); }
+        
+        .total-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; }
+        .total-label { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; }
+        .total-price { font-family: 'Oswald'; font-size: 2.5rem; color: var(--text-light); }
+
+        /* Right Side: Terms & Action */
+        .checkout-action { padding: 50px; display: flex; flex-direction: column; }
+        
+        .terms-box { width: 100%; height: 200px; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); border-radius: 8px; padding: 20px; overflow-y: auto; font-size: 0.9rem; color: #888; line-height: 1.6; margin-bottom: 20px; }
+        .terms-box h4 { color: var(--text-light); font-family: 'Oswald'; letter-spacing: 1px; margin: 15px 0 5px 0; }
+        .terms-box h4:first-child { margin-top: 0; }
+        .terms-box::-webkit-scrollbar { width: 4px; }
+        .terms-box::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        .checkbox-container { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 30px; cursor: pointer; }
+        .checkbox-container input { margin-top: 5px; cursor: pointer; accent-color: var(--accent); width: 18px; height: 18px;}
+        .checkbox-label { font-size: 1rem; color: var(--text-light); line-height: 1.4; }
+
+        .btn { width: 100%; padding: 18px; background: #333; color: #888; text-decoration: none; font-family: 'Rajdhani'; font-weight: 700; font-size: 1.2rem; letter-spacing: 3px; border-radius: 8px; text-align: center; border: 1px solid #444; transition: 0.4s ease; cursor: not-allowed; text-transform: uppercase; }
+        .btn.active { background: var(--accent); color: white; border-color: var(--accent); cursor: pointer; box-shadow: 0 0 20px var(--accent-glow); }
+        .btn.active:hover { background: transparent; color: var(--accent); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 900px) { 
+            .checkout-container { grid-template-columns: 1fr; }
+            .order-summary { border-right: none; border-bottom: 1px solid var(--glass-border); padding: 30px 20px; }
+            .checkout-action { padding: 30px 20px; }
+            h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-container">
+        <div class="order-summary">
+            <span class="specs">SECURE CHECKOUT</span>
+            <h2>ORDER OVERVIEW</h2>
+            
+            <div class="item-row">
+                <div class="item-name" id="display-item">Loading Asset...</div>
+                <div class="item-price" id="display-price">RM 0</div>
+            </div>
+            
+            <div class="total-row">
+                <div class="total-label">Final Total</div>
+                <div class="total-price" id="display-total">RM 0</div>
+            </div>
+        </div>
+
+        <div class="checkout-action">
+            <span class="specs">LEGAL & COMPLIANCE</span>
+            <div class="terms-box">
+                <h4>1. Payment & Commencement</h4>
+                Full payment is required prior to the commencement of any creative production. Due to the custom nature of our architecture, payments are non-refundable once production has begun.
+                
+                <h4>2. Revisions & Scope</h4>
+                Projects include the specified rounds of revisions. A "revision" constitutes minor adjustments to the presented concept. Deviations from the original creative brief will be quoted as a separate project.
+                
+                <h4>3. Intellectual Property</h4>
+                Upon final payment, the client is granted commercial rights to use the finalized visual assets. Rebelivious Creative retains the right to display completed work within our visual archive. Raw source files remain the property of Rebelivious Creative unless a separate license is acquired.
+                
+                <h4>4. Timelines</h4>
+                Project delivery depends on timely feedback. Projects delayed by the client for more than 30 days will be considered paused, and a reactivation fee may apply.
+            </div>
+
+            <label class="checkbox-container">
+                <input type="checkbox" id="agree-checkbox">
+                <span class="checkbox-label">I have read and agree to the Rebelivious Creative Terms of Service.</span>
+            </label>
+
+            <button class="btn" id="pay-btn" disabled>PROCEED TO PAYMENT</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Read the URL to figure out what they are buying
+        const urlParams = new URLSearchParams(window.location.search);
+        const itemName = urlParams.get('item') || 'Custom Project Retainer';
+        const itemPrice = urlParams.get('price') || 'TBD';
+
+        // 2. Display it on the page
+        document.getElementById('display-item').innerText = itemName;
+        document.getElementById('display-price').innerText = `RM ${itemPrice}`;
+        document.getElementById('display-total').innerText = `RM ${itemPrice}`;
+
+        // 3. Checkbox Logic
+        const checkbox = document.getElementById('agree-checkbox');
+        const payBtn = document.getElementById('pay-btn');
+
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                payBtn.classList.add('active');
+                payBtn.disabled = false;
+            } else {
+                payBtn.classList.remove('active');
+                payBtn.disabled = true;
+            }
+        });
+
+        // 4. Payment Routing
+        payBtn.addEventListener('click', function() {
+            // Option A: Direct to a ToyyibPay Link
+            // window.location.href = "https://toyyibpay.com/Your-Secret-Link";
+
+            // Option B: The Pro-Forma WhatsApp Route (Sends a clean receipt to your phone)
+            const phone = "60169429370";
+            const message = `*R.C. SECURE CHECKOUT*%0A%0A*Order:* ${itemName}%0A*Total:* RM ${itemPrice}%0A*T&C:* Agreed%0A%0AHi R.C., I am ready to process the FPX/DuitNow payment for this architecture. Please send the payment gateway link.`;
+            window.location.href = `https://wa.me/${phone}?text=${message}`;
+        });
+    </script>
+</body>
+</html>
