@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://rebeliviouscreative.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
 
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 
@@ -78,7 +78,7 @@
         .compare-table td:first-child { text-align: left; font-family: 'Rajdhani'; font-weight: 700; color: var(--text-light); }
         .check { color: var(--accent); } .cross { color: #555; }
 
-        .buy-btn { width: 100%; padding: 14px; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 8px; transition: 0.3s; margin-top: auto;}
+        .buy-btn { width: 100%; padding: 14px; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 8px; transition: 0.3s; margin-top: auto; display: block; text-align: center; text-decoration: none; box-sizing: border-box;}
         .buy-btn:hover { background: var(--text-light); color: var(--bg-base); }
         .premium-btn { background: var(--accent); border-color: var(--accent); color: white; }
 
@@ -100,10 +100,10 @@
     <div class="wrapper">
         
         <div class="top-nav">
-            <a href="../index.html">← BACK TO HUB</a>
-            <a href="../web/index.html">WEB & INTERACTIVE</a>
-            <a href="../3d-services/index.html">3D & ANIMATION</a>
-            <a href="index.html" style="color: var(--accent);">BRAND & APPAREL</a>
+            <a href="/">← BACK TO HUB</a>
+            <a href="/web/">WEB & INTERACTIVE</a>
+            <a href="/3d-services/">3D ARCHITECTURE</a>
+            <a href="/graphic-design/" style="color: var(--accent);">BRAND & APPAREL</a>
         </div>
 
         <div class="morphic-glass box-title visible" style="align-items: center; text-align: center; margin-top: 20px;">
@@ -117,7 +117,7 @@
                 <div class="viewer-display">
                     <model-viewer 
                         id="tee-viewer"
-                        src="CreativeDirectortee-v3.glb" 
+                        src="/assets/3d-models/CreativeDirectortee-v3.glb" 
                         auto-rotate 
                         camera-controls 
                         shadow-intensity="2"
@@ -134,14 +134,14 @@
                 </div>
                 
                 <div class="thumbnail-strip">
-                    <div class="thumb-item active" onclick="switchTee('tee-model-1.glb', this)">
-                        <img src="tee-thumb-1.jpg" alt="Tee Design 1">
+                    <div class="thumb-item active" onclick="switchTee('/assets/3d-models/tee-model-1.glb', this)">
+                        <img src="/assets/images/tee-thumb-1.jpg" alt="Tee Design 1">
                     </div>
-                    <div class="thumb-item" onclick="switchTee('tee-model-2.glb', this)">
-                        <img src="tee-thumb-2.jpg" alt="Tee Design 2">
+                    <div class="thumb-item" onclick="switchTee('/assets/3d-models/tee-model-2.glb', this)">
+                        <img src="/assets/images/tee-thumb-2.jpg" alt="Tee Design 2">
                     </div>
-                    <div class="thumb-item" onclick="switchTee('tee-model-3.glb', this)">
-                        <img src="tee-thumb-3.jpg" alt="Tee Design 3">
+                    <div class="thumb-item" onclick="switchTee('/assets/3d-models/tee-model-3.glb', this)">
+                        <img src="/assets/images/tee-thumb-3.jpg" alt="Tee Design 3">
                     </div>
                 </div>
             </div>
@@ -199,7 +199,7 @@
                     <li><i class="fas fa-check"></i> Product Sticker Design</li>
                     <li><i class="fas fa-check"></i> Vector Files (.AI, .EPS, .PDF)</li>
                 </ul>
-                <button class="buy-btn">START IDENTITY</button>
+                <a href="/checkout/?item=Essential%20Identity&price=350" class="buy-btn">START IDENTITY</a>
             </div>
 
             <div class="pricing-card">
@@ -211,7 +211,7 @@
                     <li><i class="fas fa-check"></i> Interactive 3D Web Mockup (.GLB)</li>
                     <li><i class="fas fa-check"></i> Commercial Use License</li>
                 </ul>
-                <button class="buy-btn">START APPAREL</button>
+                <a href="/checkout/?item=Apparel%20and%20Merch&price=850" class="buy-btn">START APPAREL</a>
             </div>
 
             <div class="pricing-card premium">
@@ -223,7 +223,7 @@
                     <li><i class="fas fa-check"></i> Print-Ready Scalable Vectors</li>
                     <li><i class="fas fa-check"></i> Unlimited Design Revisions</li>
                 </ul>
-                <button class="buy-btn premium-btn">START ENTERPRISE</button>
+                <a href="/checkout/?item=Automotive%20and%20Corporate&price=1800" class="buy-btn premium-btn">START ENTERPRISE</a>
             </div>
         </div>
 

@@ -7,57 +7,41 @@
     <link rel="canonical" href="https://rebeliviouscreative.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
 
     <style>
         :root { --bg-base: #110405; --accent: #C81E31; --accent-glow: rgba(200, 30, 49, 0.15); --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
-        
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
-
         #interactive-glow { position: fixed; top: 0; left: 0; width: 60vw; height: 60vw; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(40px); will-change: transform; }
-
         .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
-
-        /* Navigation */
         .top-nav { grid-column: span 12; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 30px; padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100; width: max-content; max-width: 95%; margin: 0 auto; }
         .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
         .top-nav a:hover { color: var(--text-light); }
-
-        /* Glass Blocks */
         .morphic-glass { background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 40px 12px 40px 12px; padding: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transform: translateY(30px); transition: 0.6s; grid-column: span 12; width: 100%; }
         .morphic-glass.visible { opacity: 1; transform: translateY(0); }
         .box-title { padding: 20px; text-align: left; background: transparent; border: none; align-items: flex-start; }
-
         .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
         h2 { font-family: 'Oswald'; font-size: clamp(2rem, 5vw, 4rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: 1px; line-height: 1.1; }
         h3 { font-family: 'Oswald'; font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 400; color: var(--text-light); }
-
-        /* --- RESPONSIVE WEB STACK --- */
         .stack-container { position: relative; width: 100%; height: 600px; display: flex; justify-content: center; align-items: center; margin-top: 20px; }
         .stack-card { position: absolute; width: 380px; height: 500px; background: #0a0a0a; border: 1px solid var(--glass-border); border-radius: 12px; transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column; overflow: hidden; }
         .browser-bar { height: 30px; background: #1a1a1a; display: flex; align-items: center; padding: 0 15px; gap: 6px; border-bottom: 1px solid #333; flex-shrink: 0; }
         .dot { width: 10px; height: 10px; border-radius: 50%; }
         .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
-        
         .scroll-frame { width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; pointer-events: none; }
         .scroll-frame img { width: 100%; height: auto; display: block; filter: grayscale(50%) brightness(0.6); transition: 0.4s; }
         .scroll-frame::-webkit-scrollbar { width: 4px; }
         .scroll-frame::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
-        
         .stack-card:nth-child(1) { transform: translateX(-120px) rotate(-5deg) scale(0.9); z-index: 1; opacity: 0.5; }
         .stack-card:nth-child(2) { transform: translateX(120px) rotate(5deg) scale(0.9); z-index: 2; opacity: 0.5; }
         .stack-card:nth-child(3) { transform: translateX(0) rotate(0deg) scale(1); z-index: 3; border-color: var(--accent); }
         .stack-card:nth-child(3) img { filter: grayscale(0%) brightness(1); }
-
         .stack-container:hover .stack-card:nth-child(1) { transform: translateX(-260px) rotate(-8deg) scale(0.95); opacity: 0.8; }
         .stack-container:hover .stack-card:nth-child(2) { transform: translateX(260px) rotate(8deg) scale(0.95); opacity: 0.8; }
-        
         .stack-card:hover { z-index: 10 !important; opacity: 1 !important; transform: scale(1.05) !important; border-color: var(--accent); }
         .stack-card:hover .scroll-frame { pointer-events: auto; } 
         .stack-card:hover img { filter: grayscale(0%) brightness(1); }
-
-        /* Pricing Grid - FIXED HORIZONTAL SPAN */
         .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; margin-top: 20px; }
         .pricing-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px 10px 30px 10px; padding: 40px; display: flex; flex-direction: column; }
         .pricing-card.premium { border-color: var(--accent); background: linear-gradient(135deg, rgba(200,30,49,0.05), transparent); position: relative; overflow: hidden; }
@@ -65,27 +49,20 @@
         .pricing-features { list-style: none; margin: 20px 0; flex-grow: 1; }
         .pricing-features li { color: #aaa; margin-bottom: 15px; font-size: 1.05rem; display: flex; align-items: center; }
         .pricing-features li i { color: var(--accent); margin-right: 12px; width: 15px; text-align: center; }
-        
-        /* Table Optimization */
         .table-responsive { width: 100%; overflow-x: auto; border-radius: 12px; }
         .compare-table { width: 100%; min-width: 600px; border-collapse: collapse; text-align: center; }
         .compare-table th, .compare-table td { padding: 20px; border-bottom: 1px solid var(--glass-border); color: #aaa; }
         .compare-table th { font-family: 'Oswald'; color: var(--text-light); text-transform: uppercase; border-bottom: 2px solid rgba(200,30,49,0.5); font-weight: 400; letter-spacing: 1px;}
         .compare-table td:first-child { text-align: left; font-family: 'Rajdhani'; font-weight: 700; color: var(--text-light); }
         .check { color: var(--accent); } .cross { color: #555; }
-
         .buy-btn { width: 100%; padding: 14px; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 8px; transition: 0.3s; margin-top: auto;}
         .buy-btn:hover { background: var(--text-light); color: var(--bg-base); }
         .premium-btn { background: var(--accent); border-color: var(--accent); color: white; }
-
-        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 900px) { 
             .wrapper { padding: 20px 10px; display: flex; flex-direction: column; } 
             .morphic-glass { padding: 30px 15px; border-radius: 20px; } 
             .top-nav { padding: 12px 15px; width: 100%; flex-wrap: wrap; }
             .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
-            
-            /* Tighter Stack For Phones */
             .stack-container { height: 450px; margin-top: 10px; }
             .stack-card { width: 280px; height: 400px; }
             .stack-card:nth-child(1) { transform: translateX(-40px) rotate(-4deg) scale(0.9); }
@@ -102,9 +79,9 @@
     <div class="wrapper">
         
         <div class="top-nav">
-            <a href="../index.html">← BACK TO HUB</a>
-            <a href="index.html" style="color: var(--accent);">WEB & INTERACTIVE</a>
-            <a href="../shop.html">HARDWARE</a>
+            <a href="/">← BACK TO HUB</a>
+            <a href="/web/" style="color: var(--accent);">WEB & INTERACTIVE</a>
+            <a href="/shop/">HARDWARE</a>
         </div>
 
         <div class="morphic-glass box-title visible" style="align-items: center; text-align: center; margin-top: 20px;">
@@ -125,21 +102,21 @@
                 <div class="stack-card">
                     <div class="browser-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
                     <div class="scroll-frame">
-                        <img src="Ioe-showcase.jpg" alt="Web Project 2">
+                        <img src="/assets/images/Ioe-showcase.jpg" alt="Web Project 2">
                     </div>
                 </div>
                 
                 <div class="stack-card">
                     <div class="browser-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
                     <div class="scroll-frame">
-                        <img src="cf-showcase.jpg" alt="CF Main Site">
+                        <img src="/assets/images/cf-showcase.jpg" alt="CF Main Site">
                     </div>
                 </div>
             </div>
             <span class="specs" style="margin-top: 20px; text-align: center; width: 100%;">HOVER TO EXPAND & SCROLL</span>
         </div>
 
-<div class="morphic-glass box-title visible">
+        <div class="morphic-glass box-title visible">
             <span class="specs">INVESTMENT</span>
             <h3>CHOOSE YOUR ARCHITECTURE</h3>
         </div>
@@ -154,7 +131,7 @@
                     <li><i class="fas fa-check"></i> WhatsApp Lead Funnel</li>
                     <li><i class="fas fa-check"></i> High-Speed Mobile Layout</li>
                 </ul>
-                <a href="../checkout.html?item=Basic Web Architecture&price=389" class="buy-btn basic-btn" style="text-decoration: none; display: block; text-align: center;">SELECT BASIC</a>
+                <a href="/checkout/?item=Basic%20Web%20Architecture&price=389" class="buy-btn basic-btn" style="text-decoration: none; display: block; text-align: center;">SELECT BASIC</a>
             </div>
 
             <div class="pricing-card">
@@ -166,7 +143,7 @@
                     <li><i class="fas fa-check"></i> Standard Web Animations</li>
                     <li><i class="fas fa-check"></i> Custom Domain Linking</li>
                 </ul>
-                <a href="../checkout.html?item=Medium Web Architecture&price=1399" class="buy-btn medium-btn" style="text-decoration: none; display: block; text-align: center;">SELECT MEDIUM</a>
+                <a href="/checkout/?item=Medium%20Web%20Architecture&price=1399" class="buy-btn medium-btn" style="text-decoration: none; display: block; text-align: center;">SELECT MEDIUM</a>
             </div>
 
             <div class="pricing-card premium">
@@ -178,7 +155,7 @@
                     <li><i class="fas fa-check"></i> Advanced Scroll Parallax</li>
                     <li><i class="fas fa-check"></i> + 1 Free Smart NFC Card</li>
                 </ul>
-                <a href="../checkout.html?item=Premium Web Architecture&price=1599" class="buy-btn premium-btn" style="text-decoration: none; display: block; text-align: center;">SELECT PREMIUM</a>
+                <a href="/checkout/?item=Premium%20Web%20Architecture&price=1599" class="buy-btn premium-btn" style="text-decoration: none; display: block; text-align: center;">SELECT PREMIUM</a>
             </div>
         </div>
 
