@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardware & NFC | R.C.</title>
+    <link rel="canonical" href="https://rebeliviouscreative.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/assets/images/logo.png">
+
+    <style>
+        :root { --bg-base: #110405; --accent: #C81E31; --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
+
+        .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
+
+        .top-nav { grid-column: span 12; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 30px; padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100; width: max-content; max-width: 95%; margin: 0 auto; }
+        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
+        .top-nav a:hover { color: var(--text-light); }
+
+        .morphic-glass { background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 40px 12px 40px 12px; padding: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transform: translateY(30px); transition: 0.6s; grid-column: span 12; width: 100%; }
+        .morphic-glass.visible { opacity: 1; transform: translateY(0); }
+        .box-title { padding: 20px; text-align: left; background: transparent; border: none; align-items: flex-start; }
+
+        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 5vw, 4rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); line-height: 1.1; }
+
+        /* Hardware Grid */
+        .hardware-grid { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; width: 100%; margin-top: 20px; }
+        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; transition: 0.4s; }
+        .product-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(200, 30, 49, 0.1); }
+        
+        .product-image { width: 100%; height: 280px; background: #0a0a0a; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .product-image img { width: 80%; height: 80%; object-fit: contain; transition: 0.5s; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
+        .product-card:hover .product-image img { transform: scale(1.05); }
+        
+        .badge { position: absolute; top: 20px; right: 20px; background: var(--accent); color: white; padding: 5px 12px; border-radius: 20px; font-family: 'Rajdhani'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; }
+
+        .product-info { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-title { font-family: 'Oswald'; font-size: 1.8rem; color: var(--text-light); margin-bottom: 10px; text-transform: uppercase; }
+        .product-desc { color: #888; font-size: 1rem; line-height: 1.5; margin-bottom: 25px; flex-grow: 1; }
+        
+        .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-top: 1px solid var(--glass-border); padding-top: 20px; }
+        .price { font-family: 'Oswald'; font-size: 2rem; color: var(--text-light); }
+        
+        .buy-btn { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; cursor: pointer; transition: 0.3s; text-decoration: none; text-align: center;}
+        .buy-btn:hover { background: #e62239; box-shadow: 0 0 20px rgba(200, 30, 49, 0.4); }
+
+        @media (max-width: 900px) { 
+            .wrapper { padding: 20px 10px; } 
+            .top-nav { padding: 12px 15px; width: 100%; flex-wrap: wrap; }
+            .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        
+        <div class="top-nav">
+            <a href="/">← BACK TO HUB</a>
+            <a href="/web/">WEB & INTERACTIVE</a>
+            <a href="/gallery/">VISUAL ARCHIVE</a>
+            <a href="/shop/" style="color: var(--accent);">HARDWARE</a>
+        </div>
+
+        <div class="morphic-glass box-title visible" style="align-items: center; text-align: center; margin-top: 20px;">
+            <span class="specs">PHYSICAL DEPLOYMENT</span>
+            <h2>RC HARDWARE & MERCH</h2>
+            <p style="color: #aaa; max-width: 600px; margin-top: 20px; font-size: 1.1rem; line-height: 1.6;">Premium physical assets engineered for networking and brand deployment. Tap into the future with our custom NFC systems.</p>
+        </div>
+
+        <div class="hardware-grid visible morphic-glass" style="padding: 10px; background: transparent; border: none;">
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <div class="badge">BEST SELLER</div>
+                    <img src="/assets/images/CARD.png" alt="Smart NFC Card">
+                </div>
+                <div class="product-info">
+                    <span class="specs">NFC + QR SYSTEM</span>
+                    <div class="product-title">THE SMART CARD</div>
+                    <p class="product-desc">Replace paper business cards forever. Custom designed PVC card with embedded NFC chip and QR code. Instantly transfer your contact info, portfolio, or landing page with a single tap.</p>
+                    <div class="price-row">
+                        <div class="price">RM 120</div>
+                        <span style="color: #666; font-size: 0.9rem;">Custom Design Included</span>
+                    </div>
+                    <a href="/checkout/?item=Smart%20NFC%20Card&price=120" class="buy-btn">SECURE HARDWARE</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/assets/images/MUG1.png" alt="RC Mug">
+                </div>
+                <div class="product-info">
+                    <span class="specs">OFFICE ESSENTIALS</span>
+                    <div class="product-title">STUDIO MUG</div>
+                    <p class="product-desc">Matte black ceramic studio mug featuring the Rebelivious Creative legacy logo. Built for late-night render sessions and endless coffee loops.</p>
+                    <div class="price-row">
+                        <div class="price">RM 45</div>
+                        <span style="color: #666; font-size: 0.9rem;">+ RM 10 Shipping</span>
+                    </div>
+                    <a href="/checkout/?item=Studio%20Mug&price=45" class="buy-btn">SECURE HARDWARE</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="/assets/images/NS.png" alt="Custom Keychain">
+                </div>
+                <div class="product-info">
+                    <span class="specs">ACCESSORIES</span>
+                    <div class="product-title">ACRYLIC KEYCHAIN</div>
+                    <p class="product-desc">Heavy-duty laser cut acrylic keychain. Precision printed with your custom branding or automotive team logo. Scratch-resistant finish.</p>
+                    <div class="price-row">
+                        <div class="price">RM 25</div>
+                        <span style="color: #666; font-size: 0.9rem;">Min. Order: 10 units</span>
+                    </div>
+                    <a href="/checkout/?item=Acrylic%20Keychain%20Bundle&price=250" class="buy-btn">SECURE HARDWARE</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
+        document.querySelectorAll('.morphic-glass, .hardware-grid').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

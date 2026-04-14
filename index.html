@@ -25,11 +25,27 @@
         .morphic-glass:hover { border-color: rgba(200, 30, 49, 0.4); transform: translateY(-5px); }
         .box-hero { text-align: center; padding: 100px 20px; background: transparent; border: none; }
         .box-title { padding: 20px; text-align: left; background: transparent; border: none; align-items: flex-start; opacity: 1; transform: none; }
+        
+        /* Fixed Marquee Styles */
         .client-marquee { grid-column: span 12; padding: 30px 0; overflow: hidden; position: relative; background: var(--glass-bg); border-radius: 20px; border: 1px solid var(--glass-border); display: flex; align-items: center; opacity: 0; transform: translateY(30px); width: 100%; }
         .client-marquee.visible { opacity: 1; transform: translateY(0); }
         .client-track { display: flex; width: max-content; gap: 60px; animation: scroll-clients 20s linear infinite; padding-left: 60px; align-items: center; }
-        .client-logo { font-family: 'Oswald'; font-size: clamp(1.2rem, 3vw, 2rem); color: #555; letter-spacing: 4px; font-weight: 700; }
         @keyframes scroll-clients { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* Re-added Partner Logo CSS to fix stretching! */
+        .partner-logo { 
+            height: 60px; 
+            width: 180px; 
+            object-fit: contain; 
+            padding: 0 15px;     
+            filter: grayscale(100%) opacity(0.5); 
+            transition: 0.4s ease; 
+        }
+        .partner-logo:hover { 
+            filter: grayscale(0%) opacity(1); 
+            transform: scale(1.05);
+        }
+
         .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; opacity: 1; transform: none; }
         .service-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 40px 30px; text-align: center; transition: 0.5s; display: flex; flex-direction: column; align-items: center; height: 100%; }
         .service-icon { font-size: 3rem; color: var(--accent); margin-bottom: 25px; }
@@ -71,18 +87,34 @@
             <span class="specs">TRUSTED BY</span>
             <h2>OUR PARTNERS</h2>
         </div>
-        <div class="marquee-track" style="display: flex; justify-content: space-around; width: 100%; align-items: center;">
-            <img src="/assets/images/crossfield@300x.webp" class="partner-logo" alt="Crossfield">
-            <img src="/assets/images/eadproperty@300x.webp" class="partner-logo" alt="EAD Property">
-            <img src="/assets/images/chyconstruction@300x.webp" class="partner-logo" alt="CYH Construction">
-            <img src="/assets/images/kolong-logo-07.webp" class="partner-logo" alt="The Kolong">
-            <img src="/assets/images/zoyatie@300x.webp" class="partner-logo" alt="Zoyatie Publication">
-            <img src="/assets/images/chubbymuffin@300x.webp" class="partner-logo" alt="Chubby Muffin">
-            <img src="/assets/images/nsunderground@300x.webp" class="partner-logo" alt="NS Underground">
-            <img src="/assets/images/backstreetdevil@300x.webp" class="partner-logo" alt="Back Street Devil">
-            <img src="/assets/images/cb@300x.webp" class="partner-logo" alt="Civilian Brands">
-            <img src="/assets/images/YWNJ.png" class="partner-logo" alt="Yayasan Warisan Negeri Johor">
-            <img src="/assets/images/LOGO-VJ-26.png" class="partner-logo" alt="Visit Johor 2026">
+        
+        <div class="client-marquee">
+            <div class="client-track">
+                <img src="/assets/images/crossfield@300x.png" class="partner-logo" alt="Crossfield">
+                <img src="/assets/images/eadproperty@300x.png" class="partner-logo" alt="EAD Property">
+                <img src="/assets/images/chyconstruction@300x.png" class="partner-logo" alt="CYH Construction">
+                <img src="/assets/images/kolong-logo-07.png" class="partner-logo" alt="The Kolong">
+                <img src="/assets/images/zoyatie@300x.png" class="partner-logo" alt="Zoyatie Publication">
+                <img src="/assets/images/chubbymuffin@300x.png" class="partner-logo" alt="Chubby Muffin">
+                <img src="/assets/images/nsunderground@300x.png" class="partner-logo" alt="NS Underground">
+                <img src="/assets/images/backstreetdevil@300x.png" class="partner-logo" alt="Back Street Devil">
+                <img src="/assets/images/cb@300x.png" class="partner-logo" alt="Civilian Brands">
+                <img src="/assets/images/YWNJ.png" class="partner-logo" alt="Yayasan Warisan Negeri Johor">
+                <img src="/assets/images/LOGO-VJ-26.png" class="partner-logo" alt="Visit Johor 2026">
+            </div>
+            <div class="client-track">
+                <img src="/assets/images/crossfield@300x.png" class="partner-logo" alt="Crossfield">
+                <img src="/assets/images/eadproperty@300x.png" class="partner-logo" alt="EAD Property">
+                <img src="/assets/images/chyconstruction@300x.png" class="partner-logo" alt="CYH Construction">
+                <img src="/assets/images/kolong-logo-07.png" class="partner-logo" alt="The Kolong">
+                <img src="/assets/images/zoyatie@300x.png" class="partner-logo" alt="Zoyatie Publication">
+                <img src="/assets/images/chubbymuffin@300x.png" class="partner-logo" alt="Chubby Muffin">
+                <img src="/assets/images/nsunderground@300x.png" class="partner-logo" alt="NS Underground">
+                <img src="/assets/images/backstreetdevil@300x.png" class="partner-logo" alt="Back Street Devil">
+                <img src="/assets/images/cb@300x.png" class="partner-logo" alt="Civilian Brands">
+                <img src="/assets/images/YWNJ.png" class="partner-logo" alt="Yayasan Warisan Negeri Johor">
+                <img src="/assets/images/LOGO-VJ-26.png" class="partner-logo" alt="Visit Johor 2026">
+            </div>
         </div>
         
         <div class="morphic-glass box-title">
