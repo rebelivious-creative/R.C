@@ -53,6 +53,18 @@
             .top-nav { padding: 12px 15px; width: 100%; flex-wrap: wrap; }
             .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
         }
+
+        /* --- ANTI-THEFT ARMOR --- */
+        img, video, canvas {
+            -webkit-user-drag: none; 
+            -khtml-user-drag: none; 
+            -moz-user-drag: none; 
+            -o-user-drag: none; 
+            user-select: none; 
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -128,6 +140,29 @@
     <script>
         const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
         document.querySelectorAll('.morphic-glass, .hardware-grid').forEach(el => observer.observe(el));
+
+        // --- ANTI-THEFT JAVASCRIPT ---
+        
+        // 1. Disable Right-Click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 2. Disable Keyboard Shortcuts (Save, Inspect, Source)
+        document.addEventListener('keydown', function(e) {
+            // Block F12 (Inspect Element)
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            // Block Ctrl+S (Save), Ctrl+U (View Source), Ctrl+C (Copy)
+            if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'c')) {
+                e.preventDefault();
+            }
+            // Block Ctrl+Shift+I / Ctrl+Shift+J (Open Developer Tools)
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
