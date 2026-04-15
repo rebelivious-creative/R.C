@@ -97,6 +97,18 @@
             .viewer-display { height: 350px; }
             .thumb-item { width: 70px; height: 70px; }
         }
+
+        /* --- ANTI-THEFT ARMOR --- */
+        img, video, canvas {
+            -webkit-user-drag: none; 
+            -khtml-user-drag: none; 
+            -moz-user-drag: none; 
+            -o-user-drag: none; 
+            user-select: none; 
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none;
+        }
     </style>
 </head>
 <body>
@@ -292,6 +304,29 @@
         const glow = document.getElementById('interactive-glow');
         document.addEventListener('mousemove', (e) => { glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`; });
         document.addEventListener('touchmove', (e) => { glow.style.transform = `translate(calc(${e.touches[0].clientX}px - 50%), calc(${e.touches[0].clientY}px - 50%))`; });
+
+        // --- ANTI-THEFT JAVASCRIPT ---
+        
+        // 1. Disable Right-Click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 2. Disable Keyboard Shortcuts (Save, Inspect, Source)
+        document.addEventListener('keydown', function(e) {
+            // Block F12 (Inspect Element)
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            // Block Ctrl+S (Save), Ctrl+U (View Source), Ctrl+C (Copy)
+            if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'c')) {
+                e.preventDefault();
+            }
+            // Block Ctrl+Shift+I / Ctrl+Shift+J (Open Developer Tools)
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
