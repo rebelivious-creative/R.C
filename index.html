@@ -25,6 +25,18 @@
         .morphic-glass:hover { border-color: rgba(200, 30, 49, 0.4); transform: translateY(-5px); }
         .box-hero { text-align: center; padding: 100px 20px; background: transparent; border: none; }
         .box-title { padding: 20px; text-align: left; background: transparent; border: none; align-items: flex-start; opacity: 1; transform: none; }
+
+        /* --- ANTI-THEFT ARMOR --- */
+        img, video, canvas {
+            -webkit-user-drag: none; 
+            -khtml-user-drag: none; 
+            -moz-user-drag: none; 
+            -o-user-drag: none; 
+            user-select: none; 
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none;
+        }
         
         /* Fixed Marquee Styles */
         .client-marquee { grid-column: span 12; padding: 30px 0; overflow: hidden; position: relative; background: var(--glass-bg); border-radius: 20px; border: 1px solid var(--glass-border); display: flex; align-items: center; opacity: 0; transform: translateY(30px); width: 100%; }
@@ -217,6 +229,29 @@
             renderer.render(scene, camera);
         }
         animate();
+
+        // --- ANTI-THEFT JAVASCRIPT ---
+        
+        // 1. Disable Right-Click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 2. Disable Keyboard Shortcuts (Save, Inspect, Source)
+        document.addEventListener('keydown', function(e) {
+            // Block F12 (Inspect Element)
+            if (e.key === 'F12') {
+                e.preventDefault();
+            }
+            // Block Ctrl+S (Save), Ctrl+U (View Source), Ctrl+C (Copy)
+            if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'c')) {
+                e.preventDefault();
+            }
+            // Block Ctrl+Shift+I / Ctrl+Shift+J (Open Developer Tools)
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
