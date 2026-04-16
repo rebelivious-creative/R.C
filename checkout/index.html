@@ -132,10 +132,9 @@
     </div>
 
     <script>
-        // 1. Get Data from URL & Force to Number
+       // 1. Get Data from URL & Force to Number
         const urlParams = new URLSearchParams(window.location.search);
         const itemName = urlParams.get('item') || 'Custom Project Retainer';
-        // Force the price to be a Number so math works!
         let basePrice = parseFloat(urlParams.get('price')) || 0;
 
         // 2. Initial Display
@@ -143,7 +142,7 @@
         document.getElementById('display-price').innerText = `RM ${basePrice}`;
         document.getElementById('display-total').innerText = `RM ${basePrice}`;
 
-        // 3. Dynamic Tip Math (THE FIX)
+        // 3. Dynamic Tip Math
         const tipInput = document.getElementById('clientTip');
         const totalDisplay = document.getElementById('display-total');
 
@@ -153,7 +152,7 @@
             totalDisplay.innerText = `RM ${finalSum}`;
         });
 
-        // 4. Checkbox & Button
+        // 4. Terms Checkbox & Button Lock
         const checkbox = document.getElementById('agree-checkbox');
         const payBtn = document.getElementById('pay-btn');
 
@@ -167,8 +166,9 @@
             }
         });
 
-        // 5. Submit to Cloudflare Worker
+        // 5. THE ENGINE: Submit to Cloudflare Worker
         payBtn.addEventListener('click', async function() {
+            // Grab all the typed info
             const name = document.getElementById('clientName').value;
             const email = document.getElementById('primaryEmail').value;
             const deliveryEmail = document.getElementById('deliveryEmail').value;
@@ -177,15 +177,18 @@
             const tipValue = parseFloat(tipInput.value) || 0;
             const finalTotal = basePrice + tipValue;
 
+            // Make sure they filled it out
             if (!name || !email || !phone) {
-                alert("Please complete required fields.");
+                alert("Please complete all required fields.");
                 return;
             }
 
-            payBtn.innerText = "LINKING TO BANKING GATEWAY...";
+            // Visual feedback so they know it's loading
+            payBtn.innerText = "LINKING TO SECURE GATEWAY...";
             payBtn.style.pointerEvents = "none";
 
             try {
+                // Send the data to your specific Cloudflare Worker
                 const response = await fetch('https://rc-delivery-engine.rebeliviouscreative.workers.dev', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -200,34 +203,19 @@
                     })
                 });
 
-                if (response.ok) {
-                    payBtn.innerText = "SUCCESS! CHECK EMAIL";
-                    payBtn.style.background = "#27c93f";
+                const result = await response.json();
+
+                // If ToyyibPay says YES, teleport them!
+                if (result.success && result.paymentUrl) {
+                    payBtn.innerText = "REDIRECTING TO BANK...";
+                    window.location.href = result.paymentUrl; 
+                } else {
+                    payBtn.innerText = "GATEWAY ERROR";
+                    payBtn.style.background = "#ff5f56";
                 }
             } catch(e) {
                 payBtn.innerText = "SYSTEM ERROR";
-            }
-        });
-        // --- ANTI-THEFT JAVASCRIPT ---
-        
-        // 1. Disable Right-Click
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        // 2. Disable Keyboard Shortcuts (Save, Inspect, Source)
-        document.addEventListener('keydown', function(e) {
-            // Block F12 (Inspect Element)
-            if (e.key === 'F12') {
-                e.preventDefault();
-            }
-            // Block Ctrl+S (Save), Ctrl+U (View Source), Ctrl+C (Copy)
-            if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'c')) {
-                e.preventDefault();
-            }
-            // Block Ctrl+Shift+I / Ctrl+Shift+J (Open Developer Tools)
-            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) {
-                e.preventDefault();
+                payBtn.style.background = "#ff5f56";
             }
         });
     </script>
