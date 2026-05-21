@@ -6,22 +6,20 @@
     <title>R.C. | REBELIVIOUS CREATIVE</title>
     
     <meta name="author" content="Azhari, Rebelivious Creative">
-    <meta name="generator" content="Custom Built in Johor Bahru">
+    <meta name="generator" content="Handcrafted in Johor Bahru">
     <link rel="canonical" href="https://rebeliviouscreative.com">
     <link rel="icon" type="image/png" href="/assets/images/logo.png?v=2">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
     <style>
         /* AGENCY ARCHITECTURE - BRUTALIST LUXURY */
         :root { 
-            --bg-base: #020202; 
-            --accent: #E50914; /* Deep Cinematic Crimson */
+            --bg-base: #030000; 
+            --accent: #E50914; 
             --border: #1a1a1a; 
-            --text-main: #7a7a7a; 
+            --text-main: #888888; 
             --text-light: #F5F5F5; 
         }
         
@@ -37,25 +35,36 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* CINEMATIC NOISE GRAIN */
+        /* CINEMATIC STUDIO LIGHTING */
+        .ambient-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 50% 0%, rgba(200, 30, 49, 0.07) 0%, transparent 70%);
+            z-index: 0; pointer-events: none;
+            animation: breathe 8s infinite alternate ease-in-out;
+        }
+        @keyframes breathe {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* HEAVY NOISE GRAIN */
         .noise-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none;
             z-index: 9999;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        #webgl-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
-        
         /* STRUCTURAL LAYOUT */
         .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 40px 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
         
         /* Nav: Sharp, Minimalist */
         .top-nav { 
             grid-column: span 12; display: flex; justify-content: center; gap: 40px; 
-            padding: 20px 40px; background: rgba(2, 2, 2, 0.8); backdrop-filter: blur(10px);
+            padding: 20px 40px; background: rgba(3, 0, 0, 0.8); backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; 
         }
         .top-nav a { 
@@ -70,7 +79,7 @@
         }
         .top-nav a:hover::after { width: 100%; }
 
-        /* Structural Cards (100% Opaque by default now) */
+        /* Structural Cards */
         .struct-panel { 
             background: rgba(5, 5, 5, 0.6); 
             border: 1px solid var(--border); 
@@ -79,7 +88,7 @@
             width: 100%; 
             position: relative;
             overflow: hidden;
-            opacity: 1; /* Fixed invisibility bug */
+            opacity: 1; 
         }
         
         .box-hero { text-align: center; padding: 120px 20px; background: transparent; border: none; }
@@ -144,8 +153,8 @@
 </head>
 <body>
     
+    <div class="ambient-glow"></div>
     <div class="noise-overlay"></div>
-    <canvas id="webgl-canvas"></canvas>
     
     <div class="wrapper">
         <div class="top-nav">
@@ -155,14 +164,14 @@
         </div>
         
         <div class="struct-panel box-hero">
-            <span class="specs">DIGITAL ARCHITECTURE STUDIO</span>
+            <span class="specs">JOHOR BAHRU // INDEPENDENT DESIGN</span>
             <h1>REBELIVIOUS<br><span>CREATIVE</span></h1>
-            <p class="hero-sub">Specializing in high-performance Interactive Web Design, 3D Identity Systems, and Custom Deployment Hardware.</p>
-            <a href="https://wa.me/60169429370?text=Hello%20R.C." class="btn">INITIATE PROJECT</a>
+            <p class="hero-sub">Digital experiences, 3D rendering, and physical goods. Built for brands that actually want to stand out.</p>
+            <a href="https://wa.me/60169429370?text=Hello%20R.C." class="btn">HIT US UP</a>
         </div>
         
         <div class="struct-panel" style="padding: 40px; text-align: center;">
-            <span class="specs">OPERATIONAL PARTNERS</span>
+            <span class="specs">BRANDS WE WORK WITH</span>
         </div>
         
         <div class="client-marquee struct-panel">
@@ -193,114 +202,39 @@
         </div>
         
         <div class="struct-panel" style="padding: 40px; border-bottom: none;">
-            <span class="specs">CORE COMPETENCIES</span>
-            <h2>AGENCY SERVICES</h2>
+            <span class="specs">SERVICES</span>
+            <h2>WHAT WE DO</h2>
         </div>
         
         <div class="grid-3 struct-panel" style="background: transparent; border: none; padding: 0;">
             <div class="service-card">
                 <i class="fas fa-code service-icon"></i>
-                <h3>WEB & INTERACTIVE</h3>
-                <p class="service-desc">High-performance landing pages, WebGL environments, and engineered funnels designed to convert traffic into structured revenue.</p>
-                <a href="/web/" class="action-link">VIEW ARCHITECTURE <i class="fas fa-arrow-right"></i></a>
+                <h3>WEB DESIGN</h3>
+                <p class="service-desc">Custom websites that don't look like a basic template. Fast, interactive, and straight to the point.</p>
+                <a href="/web/" class="action-link">SEE WEB PROJECTS <i class="fas fa-arrow-right"></i></a>
             </div>
             
             <div class="service-card">
                 <i class="fas fa-cube service-icon"></i>
-                <h3>3D & ANIMATION</h3>
-                <p class="service-desc">Custom spatial modeling, environment rendering, and high-fidelity product animations built for campaigns and AR integration.</p>
-                <a href="/3d-services/" class="action-link">VIEW RENDERS <i class="fas fa-arrow-right"></i></a>
+                <h3>3D & MOTION</h3>
+                <p class="service-desc">Product renders, AR assets, and full 3D environments. Modeled, textured, and lit properly.</p>
+                <a href="/3d-services/" class="action-link">SEE 3D WORK <i class="fas fa-arrow-right"></i></a>
             </div>
             
             <div class="service-card">
                 <i class="fas fa-layer-group service-icon"></i>
-                <h3>BRAND & APPAREL</h3>
-                <p class="service-desc">Complete corporate identity systems, precision typography, automotive wraps, and premium streetwear capsule collections.</p>
-                <a href="/graphic-design/" class="action-link">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></a>
+                <h3>BRAND & MERCH</h3>
+                <p class="service-desc">Logos, car wraps, and streetwear drops. We make visual identities that actually translate to the real world.</p>
+                <a href="/graphic-design/" class="action-link">SEE PORTFOLIO <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
     </div>
 
     <script>
-        const RCEngine_WebGL = (() => {
-            const canvas = document.querySelector('#webgl-canvas');
-            if(!canvas) return;
-            
-            const scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x020202, 0.03); 
-            
-            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-            camera.position.set(0, 10, 25); 
-            camera.lookAt(0, 0, 0);
-
-            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            const geometry = new THREE.PlaneGeometry(100, 100, 60, 60);
-            geometry.rotateX(-Math.PI / 2); 
-
-            const position = geometry.attributes.position;
-            const originalY = new Float32Array(position.count);
-            for(let i = 0; i < position.count; i++) {
-                originalY[i] = position.getY(i);
-            }
-
-            const material = new THREE.PointsMaterial({ 
-                size: 0.08, 
-                color: 0x444444, 
-                transparent: true, 
-                opacity: 0.6 
-            });
-            const grid = new THREE.Points(geometry, material);
-            scene.add(grid);
-
-            let mouseX = 0, mouseY = 0, windowHalfX = window.innerWidth / 2, windowHalfY = window.innerHeight / 2;
-            
-            document.addEventListener('mousemove', (e) => { 
-                mouseX = (e.clientX - windowHalfX) * 0.05; 
-                mouseY = (e.clientY - windowHalfY) * 0.05; 
-            });
-
-            window.addEventListener('resize', () => {
-                windowHalfX = window.innerWidth / 2; windowHalfY = window.innerHeight / 2;
-                camera.aspect = window.innerWidth / window.innerHeight; 
-                camera.updateProjectionMatrix(); 
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-
-            const clock = new THREE.Clock();
-
-            function renderCore() {
-                requestAnimationFrame(renderCore);
-                const time = clock.getElapsedTime();
-
-                const positions = grid.geometry.attributes.position;
-                for (let i = 0; i < positions.count; i++) {
-                    const x = positions.getX(i);
-                    const z = positions.getZ(i);
-                    const waveX = Math.sin(x * 0.2 + time) * 1.5;
-                    const waveZ = Math.cos(z * 0.2 + time * 0.8) * 1.5;
-                    const waveComplex = Math.sin((x * z) * 0.02 + time * 0.5) * 0.5;
-                    
-                    positions.setY(i, originalY[i] + waveX + waveZ + waveComplex);
-                }
-                positions.needsUpdate = true;
-
-                camera.position.x += (mouseX - camera.position.x) * 0.02;
-                camera.position.y += (-mouseY + 10 - camera.position.y) * 0.02;
-                camera.lookAt(scene.position);
-
-                renderer.render(scene, camera);
-            }
-            renderCore();
-        })();
-    </script>
-
-    <script>
         class RebeliviousArchitecture {
             constructor() {
                 this.deploySecurity();
+                this.deployObservers();
                 this.studioSignature();
             }
             
@@ -308,9 +242,16 @@
                 !function(){document.addEventListener("contextmenu",(e=>e.preventDefault())),document.addEventListener("keydown",(e=>{("F12"===e.key||e.ctrlKey&&["s","u","c"].includes(e.key.toLowerCase())||e.ctrlKey&&e.shiftKey&&["i","j"].includes(e.key.toLowerCase()))&&e.preventDefault()}))}();
             }
 
+            deployObservers() {
+                const observer = new IntersectionObserver((entries) => { 
+                    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('rc-visible'); observer.unobserve(e.target); } }); 
+                }, { threshold: 0.15 });
+                document.querySelectorAll('.struct-panel').forEach(el => observer.observe(el));
+            }
+
             studioSignature() {
-                console.log("%c SYSTEM // REBELIVIOUS ARCHITECTURE ACTIVE ", "color: #020202; background: #E50914; font-size: 13px; font-weight: 700; padding: 6px; border-radius: 2px; letter-spacing: 1px;");
-                console.log("%c Engineered in Johor Bahru. ", "color: #555; font-size: 11px; font-family: monospace;");
+                console.log("%c STUDIO // REBELIVIOUS CREATIVE ", "color: #020202; background: #E50914; font-size: 13px; font-weight: 700; padding: 6px; border-radius: 2px; letter-spacing: 1px;");
+                console.log("%c Handcrafted in Johor Bahru. ", "color: #555; font-size: 11px; font-family: monospace;");
             }
         }
         
