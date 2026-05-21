@@ -3,87 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hardware & NFC | R.C.</title>
+    <title>Hardware & Merch | R.C.</title>
+    
     <link rel="canonical" href="https://rebeliviouscreative.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="/assets/images/logo.png?v=2">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --bg-base: #110405; --accent: #C81E31; --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
+        /* Base Variables */
+        :root { 
+            --bg-base: #030000; 
+            --accent: #E50914; 
+            --border: #1a1a1a; 
+            --text-main: #888888; 
+            --text-light: #F5F5F5; 
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
+        ::selection { background: var(--accent); color: #fff; }
+        
+        body { 
+            background-color: var(--bg-base); 
+            color: var(--text-main); 
+            font-family: 'Rajdhani', sans-serif; 
+            overflow-x: hidden; 
+            width: 100%; 
+            -webkit-font-smoothing: antialiased;
+        }
 
-        .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
+        /* Cinematic Studio Lighting */
+        .ambient-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 50% 0%, rgba(200, 30, 49, 0.07) 0%, transparent 70%);
+            z-index: 0; pointer-events: none;
+            animation: breathe 8s infinite alternate ease-in-out;
+        }
+        @keyframes breathe {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
 
-        .top-nav { grid-column: span 12; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 30px; padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100; width: max-content; max-width: 95%; margin: 0 auto; }
-        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
-        .top-nav a:hover { color: var(--text-light); }
+        /* Heavy Noise Grain */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
 
-        .morphic-glass { background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 40px 12px 40px 12px; padding: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transform: translateY(30px); transition: 0.6s; grid-column: span 12; width: 100%; }
-        .morphic-glass.visible { opacity: 1; transform: translateY(0); }
-        .box-title { padding: 20px; text-align: left; background: transparent; border: none; align-items: flex-start; }
+        /* Layout Grid */
+        .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 40px 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
 
-        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
-        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 5vw, 4rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); line-height: 1.1; }
+        /* Navigation */
+        .top-nav { 
+            grid-column: span 12; display: flex; justify-content: center; gap: 40px; 
+            padding: 20px 40px; background: rgba(3, 0, 0, 0.8); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; 
+        }
+        .top-nav a { 
+            color: var(--text-main); text-decoration: none; font-weight: 700; 
+            letter-spacing: 3px; text-transform: uppercase; font-size: 0.85rem; 
+            transition: color 0.3s; position: relative;
+        }
+        .top-nav a:hover, .top-nav a.active { color: var(--text-light); }
+        .top-nav a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px;
+            background: var(--accent); transition: width 0.3s ease;
+        }
+        .top-nav a:hover::after, .top-nav a.active::after { width: 100%; }
+
+        /* Panels */
+        .struct-panel { 
+            background: rgba(5, 5, 5, 0.6); 
+            border: 1px solid var(--border); 
+            padding: 50px 60px; 
+            grid-column: span 12; 
+            width: 100%; 
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Typography */
+        .specs { font-family: 'Rajdhani', sans-serif; color: var(--text-main); font-size: 0.8rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: -1px; line-height: 1.1;}
+        .hero-sub { font-size: clamp(1rem, 2vw, 1.1rem); max-width: 600px; margin: 20px 0 0 0; color: var(--text-main); letter-spacing: 1px; line-height: 1.6; }
 
         /* Hardware Grid */
-        .hardware-grid { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; width: 100%; margin-top: 20px; }
-        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; transition: 0.4s; }
-        .product-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(200, 30, 49, 0.1); }
+        .hardware-grid { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; width: 100%; }
         
-        .product-image { width: 100%; height: 280px; background: #0a0a0a; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .product-image img { width: 80%; height: 80%; object-fit: contain; transition: 0.5s; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
+        .product-card { 
+            background: #050505; 
+            border: 1px solid var(--border); 
+            display: flex; flex-direction: column; 
+            transition: border-color 0.2s ease, background 0.2s ease; 
+        }
+        
+        /* Heavy Hover - No floating */
+        .product-card:hover { 
+            border-color: var(--accent); 
+            background: #080303; 
+        }
+        
+        .product-image { width: 100%; height: 280px; background: #080808; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border); }
+        .product-image img { width: 80%; height: 80%; object-fit: contain; transition: 0.3s ease; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5)); }
         .product-card:hover .product-image img { transform: scale(1.05); }
         
-        .badge { position: absolute; top: 20px; right: 20px; background: var(--accent); color: white; padding: 5px 12px; border-radius: 20px; font-family: 'Rajdhani'; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; }
+        .badge { position: absolute; top: 20px; right: 20px; background: var(--accent); color: white; padding: 6px 14px; font-family: 'Rajdhani'; font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; }
 
         .product-info { padding: 30px; display: flex; flex-direction: column; flex-grow: 1; }
-        .product-title { font-family: 'Oswald'; font-size: 1.8rem; color: var(--text-light); margin-bottom: 10px; text-transform: uppercase; }
-        .product-desc { color: #888; font-size: 1rem; line-height: 1.5; margin-bottom: 25px; flex-grow: 1; }
+        .product-title { font-family: 'Oswald'; font-size: 1.6rem; color: var(--text-light); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .product-desc { color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 25px; flex-grow: 1; }
         
-        .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-top: 1px solid var(--glass-border); padding-top: 20px; }
-        .price { font-family: 'Oswald'; font-size: 2rem; color: var(--text-light); }
+        .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
+        .price { font-family: 'Oswald'; font-size: 1.8rem; color: var(--text-light); }
         
-        .buy-btn { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border-radius: 8px; cursor: pointer; transition: 0.3s; text-decoration: none; text-align: center;}
-        .buy-btn:hover { background: #e62239; box-shadow: 0 0 20px rgba(200, 30, 49, 0.4); }
+        .buy-btn { 
+            width: 100%; padding: 16px; background: var(--border); color: var(--text-light); 
+            border: 1px solid transparent; font-family: 'Rajdhani'; font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 3px; cursor: pointer; 
+            transition: 0.2s ease; text-decoration: none; text-align: center;
+            display: block;
+        }
+        .product-card:hover .buy-btn { background: var(--accent); }
+        .buy-btn:hover { background: #ff0f1f !important; }
 
         @media (max-width: 900px) { 
             .wrapper { padding: 20px 10px; } 
-            .top-nav { padding: 12px 15px; width: 100%; flex-wrap: wrap; }
-            .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
+            .top-nav { padding: 15px; width: 100%; flex-wrap: wrap; gap: 15px; }
+            .top-nav a { font-size: 0.75rem; letter-spacing: 1px; }
+            .struct-panel { padding: 40px 20px; }
         }
 
-        /* --- ANTI-THEFT ARMOR --- */
-        img, video, canvas {
-            -webkit-user-drag: none; 
-            -khtml-user-drag: none; 
-            -moz-user-drag: none; 
-            -o-user-drag: none; 
-            user-select: none; 
-            -webkit-user-select: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none;
-        }
+        img, video, canvas { -webkit-user-drag: none; user-select: none; }
     </style>
 </head>
 <body>
+    
+    <div class="ambient-glow"></div>
+    <div class="noise-overlay"></div>
+
     <div class="wrapper">
         
         <div class="top-nav">
-            <a href="/">← BACK TO HUB</a>
-            <a href="/web/">WEB & INTERACTIVE</a>
-            <a href="/gallery/">VISUAL ARCHIVE</a>
-            <a href="/shop/" style="color: var(--accent);">HARDWARE</a>
+            <a href="/">HOME</a>
+            <a href="/gallery/">ARCHIVE</a>
+            <a href="/shop/" class="active">HARDWARE</a>
         </div>
 
-        <div class="morphic-glass box-title visible" style="align-items: center; text-align: center; margin-top: 20px;">
-            <span class="specs">PHYSICAL DEPLOYMENT</span>
-            <h2>RC HARDWARE & MERCH</h2>
-            <p style="color: #aaa; max-width: 600px; margin-top: 20px; font-size: 1.1rem; line-height: 1.6;">Premium physical assets engineered for networking and brand deployment. Tap into the future with our custom NFC systems.</p>
+        <div class="struct-panel" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+            <span class="specs">PHYSICAL GEAR</span>
+            <h2>HARDWARE & MERCH</h2>
+            <p class="hero-sub">Custom NFC cards, studio accessories, and brand goods. Real-world items built to last.</p>
         </div>
 
-        <div class="hardware-grid visible morphic-glass" style="padding: 10px; background: transparent; border: none;">
+        <div class="hardware-grid">
             
             <div class="product-card">
                 <div class="product-image">
@@ -93,12 +171,12 @@
                 <div class="product-info">
                     <span class="specs">NFC + QR SYSTEM</span>
                     <div class="product-title">THE SMART CARD</div>
-                    <p class="product-desc">Replace paper business cards forever. Custom designed PVC card with embedded NFC chip and QR code. Instantly transfer your contact info, portfolio, or landing page with a single tap.</p>
+                    <p class="product-desc">Drop the paper business cards. A custom PVC card with a built-in NFC chip and QR code. Tap to instantly share your portfolio, contact details, or site.</p>
                     <div class="price-row">
                         <div class="price">RM 160</div>
-                        <span style="color: #666; font-size: 0.9rem;">Custom Design Included</span>
+                        <span style="color: #666; font-size: 0.9rem;">Design Included</span>
                     </div>
-                    <a href="/checkout/?item=Smart%20NFC%20Card&price=160" class="buy-btn">SECURE HARDWARE</a>
+                    <a href="/checkout/?item=Smart%20NFC%20Card&price=160" class="buy-btn">GET IT</a>
                 </div>
             </div>
 
@@ -109,12 +187,12 @@
                 <div class="product-info">
                     <span class="specs">OFFICE ESSENTIALS</span>
                     <div class="product-title">STUDIO MUG</div>
-                    <p class="product-desc">Matte black ceramic studio mug featuring the Rebelivious Creative legacy logo. Built for late-night render sessions and endless coffee loops.</p>
+                    <p class="product-desc">Matte black ceramic mug with the Rebelivious logo. An absolute essential for late-night render sessions.</p>
                     <div class="price-row">
                         <div class="price">RM 85</div>
                         <span style="color: #666; font-size: 0.9rem;">+ RM 10 Shipping</span>
                     </div>
-                    <a href="/checkout/?item=Studio%20Mug&price=85" class="buy-btn">SECURE HARDWARE</a>
+                    <a href="/checkout/?item=Studio%20Mug&price=85" class="buy-btn">GET IT</a>
                 </div>
             </div>
 
@@ -125,12 +203,12 @@
                 <div class="product-info">
                     <span class="specs">ACCESSORIES</span>
                     <div class="product-title">ACRYLIC KEYCHAIN</div>
-                    <p class="product-desc">Heavy-duty laser cut acrylic keychain. Precision printed with your custom branding or automotive team logo. Scratch-resistant finish.</p>
+                    <p class="product-desc">Laser-cut acrylic keychains. Custom printed with your personal brand or automotive team logo. Scratch-resistant.</p>
                     <div class="price-row">
                         <div class="price">RM 45</div>
                         <span style="color: #666; font-size: 0.9rem;">Min. Order: 5 units</span>
                     </div>
-                    <a href="/checkout/?item=Acrylic%20Keychain%20Bundle&price=45" class="buy-btn">SECURE HARDWARE</a>
+                    <a href="/checkout/?item=Acrylic%20Keychain%20Bundle&price=45" class="buy-btn">GET IT</a>
                 </div>
             </div>
 
@@ -138,30 +216,13 @@
     </div>
 
     <script>
-        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
-        document.querySelectorAll('.morphic-glass, .hardware-grid').forEach(el => observer.observe(el));
-
-        // --- ANTI-THEFT JAVASCRIPT ---
-        
-        // 1. Disable Right-Click
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        // 2. Disable Keyboard Shortcuts (Save, Inspect, Source)
-        document.addEventListener('keydown', function(e) {
-            // Block F12 (Inspect Element)
-            if (e.key === 'F12') {
-                e.preventDefault();
-            }
-            // Block Ctrl+S (Save), Ctrl+U (View Source), Ctrl+C (Copy)
-            if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'c')) {
-                e.preventDefault();
-            }
-            // Block Ctrl+Shift+I / Ctrl+Shift+J (Open Developer Tools)
-            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) {
-                e.preventDefault();
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener("contextmenu", e => e.preventDefault());
+            document.addEventListener("keydown", e => {
+                if(e.key === "F12" || (e.ctrlKey && ["s","u","c"].includes(e.key.toLowerCase())) || (e.ctrlKey && e.shiftKey && ["i","j"].includes(e.key.toLowerCase()))) {
+                    e.preventDefault();
+                }
+            });
         });
     </script>
 </body>
