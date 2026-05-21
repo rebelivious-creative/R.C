@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>R.C. | REBELIVIOUS CREATIVE</title>
     
-    <meta name="author" content="Azhari, Rebelivious Creative">
-    <meta name="generator" content="Handcrafted in Johor Bahru">
     <link rel="canonical" href="https://rebeliviouscreative.com">
     <link rel="icon" type="image/png" href="/assets/images/logo.png?v=2">
     
@@ -14,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* AGENCY ARCHITECTURE - BRUTALIST LUXURY */
+        /* Base Variables */
         :root { 
             --bg-base: #030000; 
             --accent: #E50914; 
@@ -35,7 +33,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* CINEMATIC STUDIO LIGHTING */
+        /* Background Effects */
         .ambient-glow {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -43,12 +41,12 @@
             z-index: 0; pointer-events: none;
             animation: breathe 8s infinite alternate ease-in-out;
         }
+        
         @keyframes breathe {
             0% { opacity: 0.5; transform: scale(1); }
             100% { opacity: 1; transform: scale(1.05); }
         }
 
-        /* HEAVY NOISE GRAIN */
         .noise-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -58,10 +56,10 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* STRUCTURAL LAYOUT */
+        /* Layout Grid */
         .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 40px 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
         
-        /* Nav: Sharp, Minimalist */
+        /* Navigation */
         .top-nav { 
             grid-column: span 12; display: flex; justify-content: center; gap: 40px; 
             padding: 20px 40px; background: rgba(3, 0, 0, 0.8); backdrop-filter: blur(10px);
@@ -75,11 +73,11 @@
         .top-nav a:hover, .top-nav a.active { color: var(--text-light); }
         .top-nav a::after {
             content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px;
-            background: var(--accent); transition: width 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+            background: var(--accent); transition: width 0.3s ease;
         }
         .top-nav a:hover::after { width: 100%; }
 
-        /* Structural Cards */
+        /* Panels */
         .struct-panel { 
             background: rgba(5, 5, 5, 0.6); 
             border: 1px solid var(--border); 
@@ -101,12 +99,12 @@
         h3 { font-family: 'Oswald'; font-size: 1.5rem; font-weight: 400; color: var(--text-light); margin-bottom: 15px; letter-spacing: 1px;}
         .hero-sub { font-size: clamp(1rem, 2vw, 1.1rem); max-width: 500px; margin: 30px auto; color: var(--text-main); letter-spacing: 1px; line-height: 1.6; }
         
-        /* Agency Button */
+        /* Buttons */
         .btn { 
             padding: 18px 40px; background: transparent; border: 1px solid var(--border); 
             color: var(--text-light); text-decoration: none; font-weight: 700; 
             font-size: 0.9rem; letter-spacing: 4px; display: inline-block; 
-            transition: all 0.4s ease; text-transform: uppercase; position: relative;
+            transition: all 0.3s ease; text-transform: uppercase; position: relative;
             overflow: hidden;
         }
         .btn:hover { background: var(--text-light); color: var(--bg-base); border-color: var(--text-light); }
@@ -115,29 +113,42 @@
         .client-marquee { padding: 40px 0; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; align-items: center; width: 100%; margin: 40px 0;}
         .client-track { display: flex; width: max-content; gap: 80px; animation: rc-scroll 25s linear infinite; padding-left: 80px; align-items: center; }
         @keyframes rc-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .partner-logo { height: 45px; width: auto; max-width: 160px; object-fit: contain; filter: grayscale(100%) brightness(0.4); transition: 0.4s ease; }
+        .partner-logo { height: 45px; width: auto; max-width: 160px; object-fit: contain; filter: grayscale(100%) brightness(0.4); transition: 0.3s ease; }
         .partner-logo:hover { filter: grayscale(0%) brightness(1); }
 
-        /* Services Grid */
+        /* Services Grid - Hover Fix */
         .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; width: 100%; }
+        
         .service-card { 
-            background: #050505; border: 1px solid var(--border); padding: 50px 40px; 
-            text-align: left; transition: 0.4s ease; display: flex; flex-direction: column; 
-            position: relative;
+            background: #050505; 
+            border: 1px solid var(--border); 
+            padding: 50px 40px; 
+            text-align: left; 
+            transition: border-color 0.2s ease, background 0.2s ease; 
+            display: flex; flex-direction: column; 
         }
-        .service-card:hover { border-color: #333; background: #080808; transform: translateY(-5px);}
-        .service-icon { font-size: 2rem; color: var(--text-light); margin-bottom: 30px; opacity: 0.5; transition: 0.4s; }
+        
+        /* Box stays perfectly still, border turns red, slight background shift */
+        .service-card:hover { 
+            border-color: var(--accent); 
+            background: #080303; 
+        }
+        
+        .service-icon { font-size: 2rem; color: var(--text-light); margin-bottom: 30px; opacity: 0.5; transition: 0.2s; }
         .service-card:hover .service-icon { color: var(--accent); opacity: 1; }
+        
         .service-desc { color: #666; font-size: 0.95rem; margin-bottom: 40px; line-height: 1.7; flex-grow: 1; }
+        
         .action-link { 
             color: var(--text-light); font-weight: 700; text-transform: uppercase; 
             letter-spacing: 2px; text-decoration: none; font-size: 0.85rem; 
-            display: flex; align-items: center; gap: 10px; transition: 0.3s;
+            display: flex; align-items: center; gap: 10px; transition: 0.2s;
         }
-        .action-link i { font-size: 0.7rem; transition: transform 0.3s; }
+        .action-link i { font-size: 0.7rem; transition: transform 0.2s; }
         .service-card:hover .action-link { color: var(--accent); }
         .service-card:hover .action-link i { transform: translateX(5px); }
 
+        /* Mobile Adjustments */
         @media (max-width: 768px) { 
             .wrapper { padding: 20px 10px; } 
             .top-nav { gap: 15px; padding: 15px; } 
@@ -147,8 +158,8 @@
             .grid-3 { grid-template-columns: 1fr; }
         }
 
-        /* Sys Sec */
-        img, video, canvas { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+        /* Prevent image/text drag */
+        img, video, canvas { -webkit-user-drag: none; user-select: none; }
     </style>
 </head>
 <body>
@@ -231,31 +242,28 @@
     </div>
 
     <script>
-        class RebeliviousArchitecture {
-            constructor() {
-                this.deploySecurity();
-                this.deployObservers();
-                this.studioSignature();
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            // Protect code
+            document.addEventListener("contextmenu", e => e.preventDefault());
+            document.addEventListener("keydown", e => {
+                if(e.key === "F12" || (e.ctrlKey && ["s","u","c"].includes(e.key.toLowerCase())) || (e.ctrlKey && e.shiftKey && ["i","j"].includes(e.key.toLowerCase()))) {
+                    e.preventDefault();
+                }
+            });
+
+            // Fade in elements when scrolling
+            const observer = new IntersectionObserver((entries) => { 
+                entries.forEach(e => { 
+                    if (e.isIntersecting) { 
+                        e.target.style.opacity = 1;
+                        e.target.style.transform = 'translateY(0)';
+                        observer.unobserve(e.target); 
+                    } 
+                }); 
+            }, { threshold: 0.15 });
             
-            deploySecurity() {
-                !function(){document.addEventListener("contextmenu",(e=>e.preventDefault())),document.addEventListener("keydown",(e=>{("F12"===e.key||e.ctrlKey&&["s","u","c"].includes(e.key.toLowerCase())||e.ctrlKey&&e.shiftKey&&["i","j"].includes(e.key.toLowerCase()))&&e.preventDefault()}))}();
-            }
-
-            deployObservers() {
-                const observer = new IntersectionObserver((entries) => { 
-                    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('rc-visible'); observer.unobserve(e.target); } }); 
-                }, { threshold: 0.15 });
-                document.querySelectorAll('.struct-panel').forEach(el => observer.observe(el));
-            }
-
-            studioSignature() {
-                console.log("%c STUDIO // REBELIVIOUS CREATIVE ", "color: #020202; background: #E50914; font-size: 13px; font-weight: 700; padding: 6px; border-radius: 2px; letter-spacing: 1px;");
-                console.log("%c Handcrafted in Johor Bahru. ", "color: #555; font-size: 11px; font-family: monospace;");
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => new RebeliviousArchitecture());
+            document.querySelectorAll('.struct-panel').forEach(el => observer.observe(el));
+        });
     </script>
 
     <script>function a(){const u=['updateLiveChatClientId','100%','bottom','type','696929EighNj','8635662xoHZlO','name','setLiveChatCookie','294zqiMUm','right','postMessage','getLiveChatCookie','indexOf','38536SogpmG','5LFtuQS','border','mantagoChat-iframe','isFull','117PCbNgm','isOpened','cookie','14iWGoiz','trim','style','toUTCString','contentWindow','width','5166584afxLRM','fixed','src',';\x20path=/','iframe','value','4AgvEgC','20px','height','addEventListener','transparent','calc(100vw\x20-\x2040px)','position','mnatagoLiveChat-clientId-y5eVmBvdE','length','removeLiveChatCookie','setFullYear','0px','createElement','split','26149604YXaZCf','data','9999','29472JipdcR','mantagoChat','body','3531KjHqiN','=;\x20expires=Thu,\x2001\x20Jan\x201970\x2000:00:00\x20UTC;\x20path=/;','background','appendChild','335990cOtUcE'];a=function(){return u;};return a();}function b(c,d){const e=a();return b=function(f,g){f=f-0x167;let h=e[f];return h;},b(c,d);}(function(c,d){const q=b,e=c();while(!![]){try{const f=-parseInt(q(0x199))/0x1*(parseInt(q(0x17c))/0x2)+-parseInt(q(0x19d))/0x3*(parseInt(q(0x168))/0x4)+-parseInt(q(0x169))/0x5*(parseInt(q(0x19a))/0x6)+parseInt(q(0x170))/0x7*(parseInt(q(0x176))/0x8)+-parseInt(q(0x16d))/0x9*(-parseInt(q(0x194))/0xa)+-parseInt(q(0x190))/0xb*(-parseInt(q(0x18d))/0xc)+parseInt(q(0x18a))/0xd;if(f===d)break;else e['push'](e['shift']());}catch(g){e['push'](e['shift']());}}}(a,0xb75ca),(function(){const r=b;var c=document['createElement']('div');c['setAttribute']('id',r(0x18e)),c[r(0x172)][r(0x182)]=r(0x177),c[r(0x172)][r(0x19e)]=r(0x17d),c['style']['bottom']=r(0x187),c[r(0x172)]['zIndex']=r(0x18c),c[r(0x172)]['maxWidth']=r(0x181);var d=document[r(0x188)](r(0x17a));d['setAttribute']('id',r(0x16b)),d['setAttribute'](r(0x178),'https://livechat.mantago.cc?botId=y5eVmBvdE'),d[r(0x172)]['width']=r(0x196),d[r(0x172)]['height']=r(0x196),d[r(0x172)][r(0x192)]=r(0x180),d[r(0x172)][r(0x16a)]='none',c['appendChild'](d),document[r(0x18f)][r(0x193)](c),window[r(0x17f)]('message',e=>{const s=r;if(e['origin']==='https://livechat.mantago.cc'){if(e[s(0x18b)][s(0x198)]==='position'){const f=document['getElementById'](s(0x18e));f['style'][s(0x175)]=e['data'][s(0x175)],f['style']['height']=e[s(0x18b)][s(0x17e)],c[s(0x172)][s(0x19e)]=e[s(0x18b)]['isFull']&&e[s(0x18b)]['isOpened']?s(0x17d):s(0x17d),c[s(0x172)][s(0x197)]=e[s(0x18b)][s(0x16c)]&&e[s(0x18b)][s(0x16e)]?s(0x17d):s(0x187);}else{if(e[s(0x18b)][s(0x198)]===s(0x19c)){const g=new Date();g[s(0x186)](g['getFullYear']()+0xa);const h=';\x20expires='+g[s(0x173)]();document[s(0x16f)]=e[s(0x18b)][s(0x19b)]+'='+encodeURIComponent(e[s(0x18b)][s(0x17b)])+h+s(0x179);}else{if(e['data'][s(0x198)]===s(0x1a0)){const i=l=>{const t=s,m=l+'=',n=document[t(0x16f)][t(0x189)](';');for(let o=0x0;o<n[t(0x184)];o++){let p=n[o][t(0x171)]();if(p[t(0x167)](m)===0x0)return decodeURIComponent(p['substring'](m[t(0x184)]));}return null;},j=i(s(0x183)),k={'type':s(0x195),'value':j};d[s(0x174)][s(0x19f)](k,'*');}else e['data']['type']===s(0x185)&&(document[s(0x16f)]='mnatagoLiveChat-clientId-y5eVmBvdE'+s(0x191));}}}});}()));</script>
