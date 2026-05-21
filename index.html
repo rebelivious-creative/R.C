@@ -37,7 +37,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 1. CINEMATIC NOISE GRAIN (Kills the "Flat Web" Vibe) */
+        /* CINEMATIC NOISE GRAIN */
         .noise-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -49,7 +49,7 @@
 
         #webgl-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
         
-        /* 2. STRUCTURAL LAYOUT */
+        /* STRUCTURAL LAYOUT */
         .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 40px 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
         
         /* Nav: Sharp, Minimalist */
@@ -70,20 +70,17 @@
         }
         .top-nav a:hover::after { width: 100%; }
 
-        /* Structural Cards (No more soft glass) */
+        /* Structural Cards (100% Opaque by default now) */
         .struct-panel { 
             background: rgba(5, 5, 5, 0.6); 
             border: 1px solid var(--border); 
             padding: 60px; 
             grid-column: span 12; 
             width: 100%; 
-            opacity: 0; 
-            transform: translateY(20px); 
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
+            opacity: 1; /* Fixed invisibility bug */
         }
-        .struct-panel.rc-visible { opacity: 1; transform: translateY(0); }
         
         .box-hero { text-align: center; padding: 120px 20px; background: transparent; border: none; }
         
@@ -148,7 +145,6 @@
 <body>
     
     <div class="noise-overlay"></div>
-    
     <canvas id="webgl-canvas"></canvas>
     
     <div class="wrapper">
@@ -158,7 +154,7 @@
             <a href="/shop/">HARDWARE</a>
         </div>
         
-        <div class="struct-panel box-hero rc-visible">
+        <div class="struct-panel box-hero">
             <span class="specs">DIGITAL ARCHITECTURE STUDIO</span>
             <h1>REBELIVIOUS<br><span>CREATIVE</span></h1>
             <p class="hero-sub">Specializing in high-performance Interactive Web Design, 3D Identity Systems, and Custom Deployment Hardware.</p>
@@ -178,4 +174,149 @@
                 <img src="/assets/images/zoyatie@300x.webp" class="partner-logo" alt="Zoyatie Publication">
                 <img src="/assets/images/chubbymuffin@300x.webp" class="partner-logo" alt="Chubby Muffin">
                 <img src="/assets/images/nsunderground@300x.webp" class="partner-logo" alt="NS Underground">
-                <img src="/assets/images/cb@300x.webp"
+                <img src="/assets/images/cb@300x.webp" class="partner-logo" alt="Civilian Brands">
+                <img src="/assets/images/YWNJ.png" class="partner-logo" alt="Yayasan Warisan Negeri Johor">
+                <img src="/assets/images/LOGO-VJ-26.png" class="partner-logo" alt="Visit Johor 2026">
+            </div>
+            <div class="client-track">
+                <img src="/assets/images/crossfield@300x.webp" class="partner-logo" alt="Crossfield">
+                <img src="/assets/images/eadproperty@300x.webp" class="partner-logo" alt="EAD Property">
+                <img src="/assets/images/chyconstruction@300x.webp" class="partner-logo" alt="CYH Construction">
+                <img src="/assets/images/kolong-logo-07.webp" class="partner-logo" alt="The Kolong">
+                <img src="/assets/images/zoyatie@300x.webp" class="partner-logo" alt="Zoyatie Publication">
+                <img src="/assets/images/chubbymuffin@300x.webp" class="partner-logo" alt="Chubby Muffin">
+                <img src="/assets/images/nsunderground@300x.webp" class="partner-logo" alt="NS Underground">
+                <img src="/assets/images/cb@300x.webp" class="partner-logo" alt="Civilian Brands">
+                <img src="/assets/images/YWNJ.png" class="partner-logo" alt="Yayasan Warisan Negeri Johor">
+                <img src="/assets/images/LOGO-VJ-26.png" class="partner-logo" alt="Visit Johor 2026">
+            </div>
+        </div>
+        
+        <div class="struct-panel" style="padding: 40px; border-bottom: none;">
+            <span class="specs">CORE COMPETENCIES</span>
+            <h2>AGENCY SERVICES</h2>
+        </div>
+        
+        <div class="grid-3 struct-panel" style="background: transparent; border: none; padding: 0;">
+            <div class="service-card">
+                <i class="fas fa-code service-icon"></i>
+                <h3>WEB & INTERACTIVE</h3>
+                <p class="service-desc">High-performance landing pages, WebGL environments, and engineered funnels designed to convert traffic into structured revenue.</p>
+                <a href="/web/" class="action-link">VIEW ARCHITECTURE <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="service-card">
+                <i class="fas fa-cube service-icon"></i>
+                <h3>3D & ANIMATION</h3>
+                <p class="service-desc">Custom spatial modeling, environment rendering, and high-fidelity product animations built for campaigns and AR integration.</p>
+                <a href="/3d-services/" class="action-link">VIEW RENDERS <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="service-card">
+                <i class="fas fa-layer-group service-icon"></i>
+                <h3>BRAND & APPAREL</h3>
+                <p class="service-desc">Complete corporate identity systems, precision typography, automotive wraps, and premium streetwear capsule collections.</p>
+                <a href="/graphic-design/" class="action-link">VIEW PORTFOLIO <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const RCEngine_WebGL = (() => {
+            const canvas = document.querySelector('#webgl-canvas');
+            if(!canvas) return;
+            
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x020202, 0.03); 
+            
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 10, 25); 
+            camera.lookAt(0, 0, 0);
+
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const geometry = new THREE.PlaneGeometry(100, 100, 60, 60);
+            geometry.rotateX(-Math.PI / 2); 
+
+            const position = geometry.attributes.position;
+            const originalY = new Float32Array(position.count);
+            for(let i = 0; i < position.count; i++) {
+                originalY[i] = position.getY(i);
+            }
+
+            const material = new THREE.PointsMaterial({ 
+                size: 0.08, 
+                color: 0x444444, 
+                transparent: true, 
+                opacity: 0.6 
+            });
+            const grid = new THREE.Points(geometry, material);
+            scene.add(grid);
+
+            let mouseX = 0, mouseY = 0, windowHalfX = window.innerWidth / 2, windowHalfY = window.innerHeight / 2;
+            
+            document.addEventListener('mousemove', (e) => { 
+                mouseX = (e.clientX - windowHalfX) * 0.05; 
+                mouseY = (e.clientY - windowHalfY) * 0.05; 
+            });
+
+            window.addEventListener('resize', () => {
+                windowHalfX = window.innerWidth / 2; windowHalfY = window.innerHeight / 2;
+                camera.aspect = window.innerWidth / window.innerHeight; 
+                camera.updateProjectionMatrix(); 
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            const clock = new THREE.Clock();
+
+            function renderCore() {
+                requestAnimationFrame(renderCore);
+                const time = clock.getElapsedTime();
+
+                const positions = grid.geometry.attributes.position;
+                for (let i = 0; i < positions.count; i++) {
+                    const x = positions.getX(i);
+                    const z = positions.getZ(i);
+                    const waveX = Math.sin(x * 0.2 + time) * 1.5;
+                    const waveZ = Math.cos(z * 0.2 + time * 0.8) * 1.5;
+                    const waveComplex = Math.sin((x * z) * 0.02 + time * 0.5) * 0.5;
+                    
+                    positions.setY(i, originalY[i] + waveX + waveZ + waveComplex);
+                }
+                positions.needsUpdate = true;
+
+                camera.position.x += (mouseX - camera.position.x) * 0.02;
+                camera.position.y += (-mouseY + 10 - camera.position.y) * 0.02;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            }
+            renderCore();
+        })();
+    </script>
+
+    <script>
+        class RebeliviousArchitecture {
+            constructor() {
+                this.deploySecurity();
+                this.studioSignature();
+            }
+            
+            deploySecurity() {
+                !function(){document.addEventListener("contextmenu",(e=>e.preventDefault())),document.addEventListener("keydown",(e=>{("F12"===e.key||e.ctrlKey&&["s","u","c"].includes(e.key.toLowerCase())||e.ctrlKey&&e.shiftKey&&["i","j"].includes(e.key.toLowerCase()))&&e.preventDefault()}))}();
+            }
+
+            studioSignature() {
+                console.log("%c SYSTEM // REBELIVIOUS ARCHITECTURE ACTIVE ", "color: #020202; background: #E50914; font-size: 13px; font-weight: 700; padding: 6px; border-radius: 2px; letter-spacing: 1px;");
+                console.log("%c Engineered in Johor Bahru. ", "color: #555; font-size: 11px; font-family: monospace;");
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => new RebeliviousArchitecture());
+    </script>
+
+    <script>function a(){const u=['updateLiveChatClientId','100%','bottom','type','696929EighNj','8635662xoHZlO','name','setLiveChatCookie','294zqiMUm','right','postMessage','getLiveChatCookie','indexOf','38536SogpmG','5LFtuQS','border','mantagoChat-iframe','isFull','117PCbNgm','isOpened','cookie','14iWGoiz','trim','style','toUTCString','contentWindow','width','5166584afxLRM','fixed','src',';\x20path=/','iframe','value','4AgvEgC','20px','height','addEventListener','transparent','calc(100vw\x20-\x2040px)','position','mnatagoLiveChat-clientId-y5eVmBvdE','length','removeLiveChatCookie','setFullYear','0px','createElement','split','26149604YXaZCf','data','9999','29472JipdcR','mantagoChat','body','3531KjHqiN','=;\x20expires=Thu,\x2001\x20Jan\x201970\x2000:00:00\x20UTC;\x20path=/;','background','appendChild','335990cOtUcE'];a=function(){return u;};return a();}function b(c,d){const e=a();return b=function(f,g){f=f-0x167;let h=e[f];return h;},b(c,d);}(function(c,d){const q=b,e=c();while(!![]){try{const f=-parseInt(q(0x199))/0x1*(parseInt(q(0x17c))/0x2)+-parseInt(q(0x19d))/0x3*(parseInt(q(0x168))/0x4)+-parseInt(q(0x169))/0x5*(parseInt(q(0x19a))/0x6)+parseInt(q(0x170))/0x7*(parseInt(q(0x176))/0x8)+-parseInt(q(0x16d))/0x9*(-parseInt(q(0x194))/0xa)+-parseInt(q(0x190))/0xb*(-parseInt(q(0x18d))/0xc)+parseInt(q(0x18a))/0xd;if(f===d)break;else e['push'](e['shift']());}catch(g){e['push'](e['shift']());}}}(a,0xb75ca),(function(){const r=b;var c=document['createElement']('div');c['setAttribute']('id',r(0x18e)),c[r(0x172)][r(0x182)]=r(0x177),c[r(0x172)][r(0x19e)]=r(0x17d),c['style']['bottom']=r(0x187),c[r(0x172)]['zIndex']=r(0x18c),c[r(0x172)]['maxWidth']=r(0x181);var d=document[r(0x188)](r(0x17a));d['setAttribute']('id',r(0x16b)),d['setAttribute'](r(0x178),'https://livechat.mantago.cc?botId=y5eVmBvdE'),d[r(0x172)]['width']=r(0x196),d[r(0x172)]['height']=r(0x196),d[r(0x172)][r(0x192)]=r(0x180),d[r(0x172)][r(0x16a)]='none',c['appendChild'](d),document[r(0x18f)][r(0x193)](c),window[r(0x17f)]('message',e=>{const s=r;if(e['origin']==='https://livechat.mantago.cc'){if(e[s(0x18b)][s(0x198)]==='position'){const f=document['getElementById'](s(0x18e));f['style'][s(0x175)]=e['data'][s(0x175)],f['style']['height']=e[s(0x18b)][s(0x17e)],c[s(0x172)][s(0x19e)]=e[s(0x18b)]['isFull']&&e[s(0x18b)]['isOpened']?s(0x17d):s(0x17d),c[s(0x172)][s(0x197)]=e[s(0x18b)][s(0x16c)]&&e[s(0x18b)][s(0x16e)]?s(0x17d):s(0x187);}else{if(e[s(0x18b)][s(0x198)]===s(0x19c)){const g=new Date();g[s(0x186)](g['getFullYear']()+0xa);const h=';\x20expires='+g[s(0x173)]();document[s(0x16f)]=e[s(0x18b)][s(0x19b)]+'='+encodeURIComponent(e[s(0x18b)][s(0x17b)])+h+s(0x179);}else{if(e['data'][s(0x198)]===s(0x1a0)){const i=l=>{const t=s,m=l+'=',n=document[t(0x16f)][t(0x189)](';');for(let o=0x0;o<n[t(0x184)];o++){let p=n[o][t(0x171)]();if(p[t(0x167)](m)===0x0)return decodeURIComponent(p['substring'](m[t(0x184)]));}return null;},j=i(s(0x183)),k={'type':s(0x195),'value':j};d[s(0x174)][s(0x19f)](k,'*');}else e['data']['type']===s(0x185)&&(document[s(0x16f)]='mnatagoLiveChat-clientId-y5eVmBvdE'+s(0x191));}}}});}()));</script>
+</body>
+</html>
