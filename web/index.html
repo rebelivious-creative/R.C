@@ -3,65 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Experiences | R.C.</title>
+    <title>Web Design | R.C.</title>
+    
     <link rel="canonical" href="https://rebeliviouscreative.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="/assets/images/logo.png?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
     <style>
-        :root { --bg-base: #110405; --accent: #C81E31; --accent-glow: rgba(200, 30, 49, 0.15); --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
+        :root { 
+            --bg-base: #030000; 
+            --accent: #E50914; 
+            --border: #1a1a1a; 
+            --text-main: #888888; 
+            --text-light: #F5F5F5; 
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; }
-        #interactive-glow { position: fixed; top: 0; left: 0; width: 60vw; height: 60vw; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(40px); will-change: transform; }
-        .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 30px; }
-        .top-nav { grid-column: span 12; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 30px; padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100; width: max-content; max-width: 95%; margin: 0 auto; }
-        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
-        .top-nav a:hover { color: var(--text-light); }
-        .morphic-glass { background: var(--glass-bg); backdrop-filter: blur(30px); border: 1px solid var(--glass-border); border-radius: 40px 12px 40px 12px; padding: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transform: translateY(30px); transition: 0.6s; grid-column: span 12; width: 100%; }
-        .morphic-glass.visible { opacity: 1; transform: translateY(0); }
-        .box-title { padding: 20px; text-align: left; background: transparent; border: none; align-items: flex-start; }
-        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
-        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 5vw, 4rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: 1px; line-height: 1.1; }
-        h3 { font-family: 'Oswald'; font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 400; color: var(--text-light); }
+        ::selection { background: var(--accent); color: #fff; }
+        
+        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased; }
+
+        .ambient-glow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 50% 0%, rgba(200, 30, 49, 0.07) 0%, transparent 70%); z-index: 0; pointer-events: none; animation: breathe 8s infinite alternate ease-in-out; }
+        @keyframes breathe { 0% { opacity: 0.5; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }
+        .noise-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+
+        .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 40px 20px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+
+        .top-nav { grid-column: span 12; display: flex; justify-content: center; gap: 40px; padding: 20px 40px; background: rgba(3, 0, 0, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; font-size: 0.85rem; transition: color 0.3s; position: relative; }
+        .top-nav a:hover, .top-nav a.active { color: var(--text-light); }
+        .top-nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px; background: var(--accent); transition: width 0.3s ease; }
+        .top-nav a:hover::after, .top-nav a.active::after { width: 100%; }
+
+        .struct-panel { background: rgba(5, 5, 5, 0.6); border: 1px solid var(--border); padding: 50px 60px; grid-column: span 12; width: 100%; position: relative; overflow: hidden; opacity: 1; }
+        
+        .specs { font-family: 'Rajdhani', sans-serif; color: var(--text-main); font-size: 0.8rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); letter-spacing: -1px; line-height: 1.1;}
+        h3 { font-family: 'Oswald'; font-size: 1.5rem; font-weight: 400; color: var(--text-light); }
+        .hero-sub { font-size: clamp(1rem, 2vw, 1.1rem); max-width: 600px; margin: 20px 0 0 0; color: var(--text-main); letter-spacing: 1px; line-height: 1.6; }
+
+        /* The Stack Interaction */
         .stack-container { position: relative; width: 100%; height: 600px; display: flex; justify-content: center; align-items: center; margin-top: 20px; }
-        .stack-card { position: absolute; width: 380px; height: 500px; background: #0a0a0a; border: 1px solid var(--glass-border); border-radius: 12px; transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 20px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column; overflow: hidden; }
-        .browser-bar { height: 30px; background: #1a1a1a; display: flex; align-items: center; padding: 0 15px; gap: 6px; border-bottom: 1px solid #333; flex-shrink: 0; }
+        .stack-card { position: absolute; width: 380px; height: 500px; background: #050505; border: 1px solid var(--border); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); display: flex; flex-direction: column; overflow: hidden; }
+        .browser-bar { height: 30px; background: #0a0a0a; display: flex; align-items: center; padding: 0 15px; gap: 6px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
         .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
+        .dot.red { background: #333; } .dot.yellow { background: #444; } .dot.green { background: #555; }
         .scroll-frame { width: 100%; height: 100%; overflow-y: auto; overflow-x: hidden; pointer-events: none; }
-        .scroll-frame img { width: 100%; height: auto; display: block; filter: grayscale(50%) brightness(0.6); transition: 0.4s; }
+        .scroll-frame img { width: 100%; height: auto; display: block; filter: grayscale(100%) brightness(0.5); transition: 0.3s; }
         .scroll-frame::-webkit-scrollbar { width: 4px; }
         .scroll-frame::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+        
         .stack-card:nth-child(1) { transform: translateX(-120px) rotate(-5deg) scale(0.9); z-index: 1; opacity: 0.5; }
         .stack-card:nth-child(2) { transform: translateX(120px) rotate(5deg) scale(0.9); z-index: 2; opacity: 0.5; }
         .stack-card:nth-child(3) { transform: translateX(0) rotate(0deg) scale(1); z-index: 3; border-color: var(--accent); }
         .stack-card:nth-child(3) img { filter: grayscale(0%) brightness(1); }
+        
         .stack-container:hover .stack-card:nth-child(1) { transform: translateX(-260px) rotate(-8deg) scale(0.95); opacity: 0.8; }
         .stack-container:hover .stack-card:nth-child(2) { transform: translateX(260px) rotate(8deg) scale(0.95); opacity: 0.8; }
-        .stack-card:hover { z-index: 10 !important; opacity: 1 !important; transform: scale(1.05) !important; border-color: var(--accent); }
+        .stack-card:hover { z-index: 10 !important; opacity: 1 !important; transform: scale(1.05) rotate(0deg) !important; border-color: var(--accent); background: #080303; }
         .stack-card:hover .scroll-frame { pointer-events: auto; } 
         .stack-card:hover img { filter: grayscale(0%) brightness(1); }
-        .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; width: 100%; margin-top: 20px; }
-        .pricing-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px 10px 30px 10px; padding: 40px; display: flex; flex-direction: column; }
-        .pricing-card.premium { border-color: var(--accent); background: linear-gradient(135deg, rgba(200,30,49,0.05), transparent); position: relative; overflow: hidden; }
-        .price-tag { font-family: 'Oswald'; font-size: 2.5rem; color: var(--text-light); margin: 15px 0; border-bottom: 1px solid var(--glass-border); padding-bottom: 20px; }
+        .stack-card:hover .dot.red { background: #ff5f56; } .stack-card:hover .dot.yellow { background: #ffbd2e; } .stack-card:hover .dot.green { background: #27c93f; }
+
+        /* Pricing Grid */
+        .grid-3 { grid-column: span 12; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; margin-top: 10px; }
+        .pricing-card { background: #050505; border: 1px solid var(--border); padding: 40px; display: flex; flex-direction: column; transition: all 0.2s ease-in-out; }
+        .pricing-card.premium { border-color: #333; position: relative; }
+        .pricing-card:hover { border-color: var(--accent); background: #080303; }
+        
+        .price-tag { font-family: 'Oswald'; font-size: 2.5rem; color: var(--text-light); margin: 15px 0; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
         .pricing-features { list-style: none; margin: 20px 0; flex-grow: 1; }
-        .pricing-features li { color: #aaa; margin-bottom: 15px; font-size: 1.05rem; display: flex; align-items: center; }
+        .pricing-features li { color: #888; margin-bottom: 15px; font-size: 1.05rem; display: flex; align-items: center; }
         .pricing-features li i { color: var(--accent); margin-right: 12px; width: 15px; text-align: center; }
-        .table-responsive { width: 100%; overflow-x: auto; border-radius: 12px; }
+        
+        .buy-btn { width: 100%; padding: 18px; background: var(--border); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border: none; cursor: pointer; transition: 0.2s; margin-top: auto; display: block; text-align: center; text-decoration: none; }
+        .pricing-card:hover .buy-btn { background: var(--accent); color: white; }
+        .buy-btn:hover { background: #ff0f1f !important; }
+        .premium-btn { background: #222; color: white; }
+
+        /* Table */
+        .table-responsive { width: 100%; overflow-x: auto; }
         .compare-table { width: 100%; min-width: 600px; border-collapse: collapse; text-align: center; }
-        .compare-table th, .compare-table td { padding: 20px; border-bottom: 1px solid var(--glass-border); color: #aaa; }
-        .compare-table th { font-family: 'Oswald'; color: var(--text-light); text-transform: uppercase; border-bottom: 2px solid rgba(200,30,49,0.5); font-weight: 400; letter-spacing: 1px;}
+        .compare-table th, .compare-table td { padding: 20px; border-bottom: 1px solid var(--border); color: #888; }
+        .compare-table th { font-family: 'Oswald'; color: var(--text-light); text-transform: uppercase; border-bottom: 2px solid var(--border); font-weight: 400; letter-spacing: 1px;}
         .compare-table td:first-child { text-align: left; font-family: 'Rajdhani'; font-weight: 700; color: var(--text-light); }
-        .check { color: var(--accent); } .cross { color: #555; }
-        .buy-btn { width: 100%; padding: 14px; background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-light); font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 8px; transition: 0.3s; margin-top: auto;}
-        .buy-btn:hover { background: var(--text-light); color: var(--bg-base); }
-        .premium-btn { background: var(--accent); border-color: var(--accent); color: white; }
+        .check { color: var(--accent); } .cross { color: #444; }
+
         @media (max-width: 900px) { 
             .wrapper { padding: 20px 10px; display: flex; flex-direction: column; } 
-            .morphic-glass { padding: 30px 15px; border-radius: 20px; } 
-            .top-nav { padding: 12px 15px; width: 100%; flex-wrap: wrap; }
-            .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
+            .struct-panel { padding: 30px 20px; } 
+            .top-nav { padding: 15px; width: 100%; flex-wrap: wrap; gap: 15px;}
+            .top-nav a { font-size: 0.75rem; letter-spacing: 1px; }
             .stack-container { height: 450px; margin-top: 10px; }
             .stack-card { width: 280px; height: 400px; }
             .stack-card:nth-child(1) { transform: translateX(-40px) rotate(-4deg) scale(0.9); }
@@ -69,27 +102,31 @@
             .stack-container:hover .stack-card:nth-child(1) { transform: translateX(-80px) rotate(-6deg) scale(0.95); }
             .stack-container:hover .stack-card:nth-child(2) { transform: translateX(80px) rotate(6deg) scale(0.95); }
         }
+
+        img, video, canvas { -webkit-user-drag: none; user-select: none; }
     </style>
 </head>
 <body>
     
-    <div id="interactive-glow"></div>
+    <div class="ambient-glow"></div>
+    <div class="noise-overlay"></div>
     
     <div class="wrapper">
         
         <div class="top-nav">
-            <a href="/">← BACK TO HUB</a>
-            <a href="/web/" style="color: var(--accent);">WEB & INTERACTIVE</a>
-            <a href="/shop/">HARDWARE</a>
+            <a href="/">HOME</a>
+            <a href="/web/" class="active">WEB & DIGITAL</a>
+            <a href="/3d-services/">3D & MOTION</a>
+            <a href="/graphic-design/">BRAND & MERCH</a>
         </div>
 
-        <div class="morphic-glass box-title visible" style="align-items: center; text-align: center; margin-top: 20px;">
-            <span class="specs">DIGITAL ARCHITECTURE</span>
-            <h2>INTERACTIVE WEB DESIGN</h2>
-            <p style="color: #aaa; max-width: 600px; margin-top: 20px; font-size: 1.1rem; line-height: 1.6;">High-performance sites tailored to convert. Hover over our recent case studies below and scroll to view the builds.</p>
+        <div class="struct-panel" style="align-items: center; text-align: center;">
+            <span class="specs">WEB & DIGITAL</span>
+            <h2>CUSTOM WEBSITES</h2>
+            <p class="hero-sub" style="margin: 20px auto 0 auto;">No basic templates. Fast, interactive, and built to make your brand look untouchable. Hover to expand the stacks and scroll.</p>
         </div>
 
-        <div class="morphic-glass visible" style="padding: 20px 0; overflow: visible;">
+        <div class="struct-panel" style="padding: 20px 0; overflow: visible;">
             <div class="stack-container">
                 <div class="stack-card">
                     <div class="browser-bar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
@@ -115,22 +152,22 @@
             <span class="specs" style="margin-top: 20px; text-align: center; width: 100%;">HOVER TO EXPAND & SCROLL</span>
         </div>
 
-        <div class="morphic-glass box-title visible">
-            <span class="specs">INVESTMENT</span>
-            <h3>CHOOSE YOUR ARCHITECTURE</h3>
+        <div class="struct-panel" style="margin-top: 20px;">
+            <span class="specs">SERVICES</span>
+            <h2>WEB PACKAGES</h2>
         </div>
 
-        <div class="grid-3 visible">
+        <div class="grid-3">
             <div class="pricing-card">
                 <h3>BASIC</h3>
                 <div class="price-tag">RM 389</div>
                 <ul class="pricing-features">
                     <li><i class="fas fa-check"></i> 3 Core Pages Setup</li>
                     <li><i class="fas fa-check"></i> Self-Serve CMS Editor</li>
-                    <li><i class="fas fa-check"></i> WhatsApp Lead Funnel</li>
-                    <li><i class="fas fa-check"></i> High-Speed Mobile Layout</li>
+                    <li><i class="fas fa-check"></i> WhatsApp Link Setup</li>
+                    <li><i class="fas fa-check"></i> Mobile Optimized Layout</li>
                 </ul>
-                <a href="/checkout/?item=Basic%20Web%20Architecture&price=389" class="buy-btn basic-btn" style="text-decoration: none; display: block; text-align: center;">SELECT BASIC</a>
+                <a href="/checkout/?item=Basic%20Web%20Architecture&price=389" class="buy-btn">LET'S BUILD</a>
             </div>
 
             <div class="pricing-card">
@@ -138,32 +175,32 @@
                 <div class="price-tag">RM 1,399</div>
                 <ul class="pricing-features">
                     <li><i class="fas fa-check"></i> Up to 6 Custom Pages</li>
-                    <li><i class="fas fa-check"></i> Technical SEO Setup</li>
-                    <li><i class="fas fa-check"></i> Standard Web Animations</li>
+                    <li><i class="fas fa-check"></i> SEO Setup</li>
+                    <li><i class="fas fa-check"></i> Standard Animations</li>
                     <li><i class="fas fa-check"></i> Custom Domain Linking</li>
                 </ul>
-                <a href="/checkout/?item=Medium%20Web%20Architecture&price=1399" class="buy-btn medium-btn" style="text-decoration: none; display: block; text-align: center;">SELECT MEDIUM</a>
+                <a href="/checkout/?item=Medium%20Web%20Architecture&price=1399" class="buy-btn">LET'S BUILD</a>
             </div>
 
             <div class="pricing-card premium">
                 <h3>PREMIUM</h3>
                 <div class="price-tag">RM 1,599</div>
                 <ul class="pricing-features">
-                    <li><i class="fas fa-star" style="color:white;"></i> Unlimited Pages & Scaling</li>
+                    <li><i class="fas fa-star" style="color:var(--text-main);"></i> Unlimited Pages</li>
                     <li><i class="fas fa-check"></i> Interactive 3D Integration</li>
-                    <li><i class="fas fa-check"></i> Advanced Scroll Parallax</li>
+                    <li><i class="fas fa-check"></i> Advanced Parallax Effects</li>
                     <li><i class="fas fa-check"></i> + 1 Free Smart NFC Card</li>
                 </ul>
-                <a href="/checkout/?item=Premium%20Web%20Architecture&price=1599" class="buy-btn premium-btn" style="text-decoration: none; display: block; text-align: center;">SELECT PREMIUM</a>
+                <a href="/checkout/?item=Premium%20Web%20Architecture&price=1599" class="buy-btn premium-btn">GO ALL IN</a>
             </div>
         </div>
 
-        <div class="morphic-glass visible" style="padding: 30px; width: 100%;">
+        <div class="struct-panel" style="padding: 30px;">
             <div class="table-responsive">
                 <table class="compare-table">
                     <thead>
                         <tr>
-                            <th>Architecture Features</th>
+                            <th>Features</th>
                             <th>Basic</th>
                             <th>Medium</th>
                             <th style="color: var(--accent);">Premium</th>
@@ -172,33 +209,27 @@
                     <tbody>
                         <tr>
                             <td>Content Management</td>
-                            <td>Basic CMS Access</td>
-                            <td>Advanced CMS Access</td>
+                            <td>Basic CMS</td>
+                            <td>Advanced CMS</td>
                             <td>Full Admin Control</td>
                         </tr>
                         <tr>
-                            <td>Cloudflare SSL Security</td>
+                            <td>SSL Security</td>
                             <td><i class="fas fa-check check"></i></td>
                             <td><i class="fas fa-check check"></i></td>
                             <td><i class="fas fa-check check"></i></td>
                         </tr>
                         <tr>
-                            <td>Interactive WebGL & 3D</td>
+                            <td>3D Integration</td>
                             <td><i class="fas fa-times cross"></i></td>
                             <td><i class="fas fa-times cross"></i></td>
                             <td><i class="fas fa-check check"></i></td>
                         </tr>
                         <tr>
-                            <td>Domain Hosting</td>
-                            <td>Subdomain included</td>
-                            <td>Custom Domain (.com)</td>
-                            <td>Custom Domain (.com)</td>
-                        </tr>
-                        <tr>
-                            <td>Post-Launch Support</td>
-                            <td>Community Guide</td>
-                            <td>1 Month Priority</td>
-                            <td>3 Months Priority</td>
+                            <td>Hosting</td>
+                            <td>Subdomain</td>
+                            <td>Custom Domain</td>
+                            <td>Custom Domain</td>
                         </tr>
                     </tbody>
                 </table>
@@ -208,12 +239,12 @@
     </div>
 
     <script>
-        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
-        document.querySelectorAll('.morphic-glass').forEach(el => observer.observe(el));
-        
-        const glow = document.getElementById('interactive-glow');
-        document.addEventListener('mousemove', (e) => { glow.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`; });
-        document.addEventListener('touchmove', (e) => { glow.style.transform = `translate(calc(${e.touches[0].clientX}px - 50%), calc(${e.touches[0].clientY}px - 50%))`; });
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if(e.key === "F12" || (e.ctrlKey && ["s","u","c"].includes(e.key.toLowerCase())) || (e.ctrlKey && e.shiftKey && ["i","j"].includes(e.key.toLowerCase()))) {
+                e.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
