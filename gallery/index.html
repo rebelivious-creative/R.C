@@ -4,138 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Visual Archive | R.C.</title>
+    
+    <link rel="canonical" href="https://rebeliviouscreative.com">
     <link rel="icon" type="image/png" href="/assets/images/logo.png?v=2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --bg-base: #110405; --accent: #C81E31; --glass-bg: rgba(255, 255, 255, 0.02); --glass-border: rgba(255, 255, 255, 0.06); --text-main: #C0C0C0; --text-light: #F5F5F5; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; min-height: 100vh; }
-
-        .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 40px 20px; display: flex; flex-direction: column; gap: 30px; }
-
-        .top-nav { display: flex; justify-content: center; align-items: center; gap: 30px; padding: 15px 40px; border-radius: 50px; background: rgba(15, 5, 6, 0.8); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); position: sticky; top: 20px; z-index: 100; width: max-content; max-width: 95%; margin: 0 auto; }
-        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; font-size: 0.9rem; white-space: nowrap; }
-        .top-nav a:hover { color: var(--text-light); }
-
-        .morphic-glass { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 40px 12px 40px 12px; padding: 50px; display: flex; flex-direction: column; opacity: 0; transform: translateY(30px); transition: 0.6s; width: 100%; }
-        .morphic-glass.visible { opacity: 1; transform: translateY(0); }
-        .box-title { padding: 20px 40px; text-align: center; align-items: center; }
-
-        .specs { font-family: 'Rajdhani', sans-serif; color: var(--accent); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
-        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 6vw, 4rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); line-height: 1.1; }
+        :root { 
+            --bg-base: #030000; 
+            --accent: #E50914; 
+            --border: #1a1a1a; 
+            --text-main: #888888; 
+            --text-light: #F5F5F5; 
+        }
         
-        .filter-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
-        .filter-btn { background: transparent; border: 1px solid var(--glass-border); color: var(--text-main); padding: 10px 20px; border-radius: 30px; font-family: 'Rajdhani'; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: 0.3s; font-size: 0.85rem;}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::selection { background: var(--accent); color: #fff; }
+        
+        body { background-color: var(--bg-base); color: var(--text-main); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; width: 100%; min-height: 100vh; -webkit-font-smoothing: antialiased;}
+
+        .ambient-glow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: radial-gradient(circle at 50% 0%, rgba(200, 30, 49, 0.07) 0%, transparent 70%); z-index: 0; pointer-events: none; animation: breathe 8s infinite alternate ease-in-out; }
+        @keyframes breathe { 0% { opacity: 0.5; transform: scale(1); } 100% { opacity: 1; transform: scale(1.05); } }
+        .noise-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+
+        .wrapper { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 40px 20px; display: flex; flex-direction: column; gap: 20px; }
+
+        .top-nav { display: flex; justify-content: center; align-items: center; gap: 40px; padding: 20px 40px; background: rgba(3, 0, 0, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; width: 100%; }
+        .top-nav a { color: var(--text-main); text-decoration: none; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; font-size: 0.85rem; transition: color 0.3s; position: relative;}
+        .top-nav a:hover, .top-nav a.active { color: var(--text-light); }
+        .top-nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 1px; background: var(--accent); transition: width 0.3s ease; }
+        .top-nav a:hover::after, .top-nav a.active::after { width: 100%; }
+
+        .struct-panel { background: rgba(5, 5, 5, 0.6); border: 1px solid var(--border); padding: 50px; display: flex; flex-direction: column; width: 100%; }
+        .box-title { padding: 40px; text-align: center; }
+
+        .specs { font-family: 'Rajdhani', sans-serif; color: var(--text-main); font-size: 0.8rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 700; margin-bottom: 10px; display: block; }
+        h2 { font-family: 'Oswald'; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 700; text-transform: uppercase; margin: 0; color: var(--text-light); line-height: 1.1; }
+        
+        .filter-container { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 30px; }
+        .filter-btn { background: #050505; border: 1px solid var(--border); color: var(--text-main); padding: 12px 25px; font-family: 'Rajdhani'; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.2s; font-size: 0.85rem; }
         .filter-btn.active, .filter-btn:hover { background: var(--accent); border-color: var(--accent); color: white; }
 
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; margin-top: 20px; width: 100%; }
-        .portfolio-item { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); height: 300px; transition: 0.4s; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; width: 100%; margin-top: 20px; }
+        .portfolio-item { position: relative; border: 1px solid var(--border); height: 300px; transition: all 0.2s ease-in-out; overflow: hidden; background: #080808; }
         .portfolio-item.hide { display: none; }
         
-        /* Updated to target both images and videos */
-        .portfolio-item img, .portfolio-item video { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; filter: grayscale(50%) brightness(0.7); }
-        .portfolio-item:hover img, .portfolio-item:hover video { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
+        .portfolio-item img, .portfolio-item video { width: 100%; height: 100%; object-fit: cover; transition: 0.3s ease; filter: grayscale(100%) brightness(0.5); }
         
-        .item-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px 20px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); display: flex; flex-direction: column; }
+        /* Grounded Hover */
+        .portfolio-item:hover { border-color: var(--accent); background: #080303; }
+        .portfolio-item:hover img, .portfolio-item:hover video { filter: grayscale(0%) brightness(1); transform: scale(1.03); }
         
-        .item-category { color: var(--accent); font-weight: 700; font-size: 0.8rem; letter-spacing: 2px; }
-        .item-title { font-family: 'Oswald'; color: var(--text-light); font-size: 1.3rem; font-weight: 400; letter-spacing: 1px; }
+        .item-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px 20px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); display: flex; flex-direction: column; pointer-events: none;}
+        .item-category { color: var(--accent); font-weight: 700; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;}
+        .item-title { font-family: 'Oswald'; color: var(--text-light); font-size: 1.2rem; font-weight: 400; letter-spacing: 1px; text-transform: uppercase;}
 
-        /* ULTIMATE MOBILE RESPONSIVENESS */
         @media (max-width: 768px) { 
             .wrapper { padding: 20px 15px; } 
-            .top-nav { padding: 12px 15px; gap: 10px; flex-wrap: wrap; width: 100%; border-radius: 15px; } 
-            .top-nav a { font-size: 0.8rem; letter-spacing: 1px; }
-            .portfolio-grid { grid-template-columns: 1fr; gap: 20px; }
-            .portfolio-item { height: 260px; }
-            .morphic-glass { padding: 30px 15px; border-radius: 20px; }
+            .top-nav { padding: 15px; gap: 15px; flex-wrap: wrap;}
+            .top-nav a { font-size: 0.75rem; letter-spacing: 1px; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .struct-panel { padding: 30px 20px; }
         }
         
-        /* --- ANTI-THEFT ARMOR --- */
-        img, video, canvas {
-            -webkit-user-drag: none; 
-            -khtml-user-drag: none; 
-            -moz-user-drag: none; 
-            -o-user-drag: none; 
-            user-select: none; 
-            -webkit-user-select: none; 
-            -moz-user-select: none; 
-            -ms-user-select: none;
-        }
+        img, video, canvas { -webkit-user-drag: none; user-select: none; }
     </style>
 </head>
 <body>
+    <div class="ambient-glow"></div>
+    <div class="noise-overlay"></div>
+
     <div class="wrapper">
         <div class="top-nav">
             <a href="/">HOME</a>
-            <a href="/gallery/" style="color: var(--accent);">VISUAL ARCHIVE</a>
+            <a href="/gallery/" class="active">ARCHIVE</a>
             <a href="/shop/">HARDWARE</a>
         </div>
 
-        <div class="morphic-glass box-title visible">
-            <span class="specs">THE VAULT</span>
-            <h2>VISUAL ARCHIVE</h2>
+        <div class="struct-panel box-title">
+            <span class="specs">THE ARCHIVE</span>
+            <h2>OUR WORK</h2>
             <div class="filter-container">
-                <button class="filter-btn active" data-filter="all">All Work</button>
-                <button class="filter-btn" data-filter="web">Web & Interactive</button>
-                <button class="filter-btn" data-filter="3d">3D Architecture</button>
-                <button class="filter-btn" data-filter="brand">Brand & Apparel</button>
+                <button class="filter-btn active" data-filter="all">Everything</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+                <button class="filter-btn" data-filter="3d">3D</button>
+                <button class="filter-btn" data-filter="brand">Brand</button>
             </div>
         </div>
 
-        <div class="portfolio-grid visible morphic-glass" style="padding: 10px; background: transparent; border: none;">
+        <div class="portfolio-grid struct-panel" style="padding: 10px; background: transparent; border: none;">
             
             <div class="portfolio-item" data-category="web">
-                <img src="/assets/images/cf-showcase.jpg" alt="Crossfield Collective">
-                <div class="item-overlay"><span class="item-category">WEB & INTERACTIVE</span><span class="item-title">CROSSFIELD SHOWCASE</span></div>
+                <img src="/assets/images/cf-showcase.jpg" alt="Crossfield">
+                <div class="item-overlay"><span class="item-category">WEB</span><span class="item-title">CROSSFIELD SITE</span></div>
             </div>
             <div class="portfolio-item" data-category="web">
                 <img src="/assets/images/cf1.png" alt="Crossfield UI">
-                <div class="item-overlay"><span class="item-category">WEB & INTERACTIVE</span><span class="item-title">CROSSFIELD UI 01</span></div>
-            </div>
-            <div class="portfolio-item" data-category="web">
-                <img src="/assets/images/cf2.png" alt="Crossfield UI">
-                <div class="item-overlay"><span class="item-category">WEB & INTERACTIVE</span><span class="item-title">CROSSFIELD UI 02</span></div>
+                <div class="item-overlay"><span class="item-category">WEB</span><span class="item-title">UI CONCEPT</span></div>
             </div>
             
             <div class="portfolio-item" data-category="3d">
-                <img src="/assets/images/event-lauching.png" alt="Yayasan Warisan Negeri Johor">
-                <div class="item-overlay"><span class="item-category">3D ARCHITECTURE</span><span class="item-title">EVENT LAUNCHING</span></div>
+                <img src="/assets/images/event-lauching.png" alt="Event Render">
+                <div class="item-overlay"><span class="item-category">3D</span><span class="item-title">EVENT LAUNCH</span></div>
             </div>
             <div class="portfolio-item" data-category="3d">
-                <img src="/assets/images/3dcupingrender.png" alt="Yayasan Warisan Negeri Johor">
-                <div class="item-overlay"><span class="item-category">3D ARCHITECTURE</span><span class="item-title">ROYAL CUPING RENDER</span></div>
+                <img src="/assets/images/3dcupingrender.png" alt="Royal Cuping">
+                <div class="item-overlay"><span class="item-category">3D</span><span class="item-title">CUPING RENDER</span></div>
             </div>
+            
             <div class="portfolio-item" data-category="3d">
-                <img src="/assets/images/digitalpaint.png" alt="Yayasan Warisan Negeri Johor">
-                <div class="item-overlay"><span class="item-category">3D ARCHITECTURE</span><span class="item-title">DIGITAL PAINT STUDY</span></div>
-            </div>
-
-            <div class="portfolio-item" data-category="3d">
-                <a href="https://www.instagram.com/reel/DS8_LAjkkAD/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" style="text-decoration: none; color: inherit; display: block; height: 100%;">
+                <a href="https://www.instagram.com/reel/DS8_LAjkkAD/" target="_blank" style="display:block; height:100%;">
                     <video autoplay loop muted playsinline>
                         <source src="/assets/video/Final.mp4" type="video/mp4">
                     </video>
-                    <div class="item-overlay">
-                        <span class="item-category"><i class="fab fa-instagram" style="margin-right: 5px;"></i>INSTAGRAM Reel</span>
-                        <span class="item-title">CINEMATIC SHOWCASE</span>
-                    </div>
+                    <div class="item-overlay"><span class="item-category">3D</span><span class="item-title">MOTION STUDY</span></div>
                 </a>
             </div>
 
             <div class="portfolio-item" data-category="brand">
-                <img src="/assets/images/cb@300x.webp" alt="Civilian Brand"> <div class="item-overlay"><span class="item-category">BRAND & APPAREL</span><span class="item-title">CIVILIAN BRAND CAPSULE</span></div>
+                <img src="/assets/images/cb@300x.webp" alt="Civilian Brand"> 
+                <div class="item-overlay"><span class="item-category">BRAND</span><span class="item-title">CIVILIAN CAPSULE</span></div>
             </div>
-
         </div>
     </div>
 
     <script>
-        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } }); }, { threshold: 0.1 });
-        document.querySelectorAll('.morphic-glass').forEach(el => observer.observe(el));
-        
         const filterBtns = document.querySelectorAll('.filter-btn');
         const portfolioItems = document.querySelectorAll('.portfolio-item');
         
@@ -151,25 +145,9 @@
             });
         });
 
-        // --- ANTI-THEFT JAVASCRIPT ---
-        
-        // 1. Disable Right-Click
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
-
-        // 2. Disable Keyboard Shortcuts (Save, Inspect, Source)
-        document.addEventListener('keydown', function(e) {
-            // Block F12 (Inspect Element)
-            if (e.key === 'F12') {
-                e.preventDefault();
-            }
-            // Block Ctrl+S (Save), Ctrl+U (View Source), Ctrl+C (Copy)
-            if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'c')) {
-                e.preventDefault();
-            }
-            // Block Ctrl+Shift+I / Ctrl+Shift+J (Open Developer Tools)
-            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'i' || e.key === 'j')) {
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if(e.key === "F12" || (e.ctrlKey && ["s","u","c"].includes(e.key.toLowerCase())) || (e.ctrlKey && e.shiftKey && ["i","j"].includes(e.key.toLowerCase()))) {
                 e.preventDefault();
             }
         });
