@@ -166,29 +166,36 @@
             }
         });
 
-        // 5. THE ENGINE: Submit to Cloudflare Worker
+// 5. THE ENGINE: Submit to Cloudflare Worker
         payBtn.addEventListener('click', async function() {
-            // Grab all the typed info
             const name = document.getElementById('clientName').value;
-            const email = document.getElementById('primaryEmail').value;
+            const primaryEmail = document.getElementById('primaryEmail').value;
             const deliveryEmail = document.getElementById('deliveryEmail').value;
             const phone = document.getElementById('clientPhone').value;
+            
+            // USE THIS LOGIC: If deliveryEmail is empty, use primaryEmail
+            const finalEmail = deliveryEmail.trim() !== "" ? deliveryEmail : primaryEmail;
+
             const remarks = document.getElementById('clientRemarks').value;
             const tipValue = parseFloat(tipInput.value) || 0;
             const finalTotal = basePrice + tipValue;
 
-            // Make sure they filled it out
-            if (!name || !email || !phone) {
-                alert("Please complete all required fields.");
+            // Basic validation
+            if (!name || !primaryEmail || !phone) {
+                alert("Please fill in Name, Primary Email, and WhatsApp number.");
                 return;
             }
 
-            // Visual feedback so they know it's loading
-            payBtn.innerText = "LINKING TO SECURE GATEWAY...";
+            // Simple email format check
+            if (!finalEmail.includes('@') || !finalEmail.includes('.')) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            payBtn.innerText = "LINKING...";
             payBtn.style.pointerEvents = "none";
 
             try {
-                // Send the data to your specific Cloudflare Worker
                 const response = await fetch('https://rc-delivery-engine.rebeliviouscreative.workers.dev', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -196,7 +203,7 @@
                         itemName: itemName,
                         price: finalTotal, 
                         clientName: name,
-                        clientEmail: deliveryEmail || email,
+                        clientEmail: finalEmail, // Now guaranteed to be a valid-looking string
                         clientPhone: phone,
                         clientRemarks: remarks,
                         tip: tipValue
@@ -205,17 +212,16 @@
 
                 const result = await response.json();
 
-                // If ToyyibPay says YES, teleport them!
                 if (result.success && result.paymentUrl) {
-                    payBtn.innerText = "REDIRECTING TO BANK...";
                     window.location.href = result.paymentUrl; 
                 } else {
-                    payBtn.innerText = "GATEWAY ERROR";
-                    payBtn.style.background = "#ff5f56";
+                    // This will now show the REAL error
+                    payBtn.innerText = "ERROR: " + (result.error || "Check details");
+                    payBtn.style.background = "#C81E31";
                 }
             } catch(e) {
                 payBtn.innerText = "SYSTEM ERROR";
-                payBtn.style.background = "#ff5f56";
+                payBtn.style.background = "#C81E31";
             }
         });
     </script>
